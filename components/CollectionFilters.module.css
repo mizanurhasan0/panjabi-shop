@@ -1,0 +1,390 @@
+.filters {
+  margin: 0 15px;
+  color: #333;
+}
+.toolbar {
+  height: 88px;
+  padding-top: 30px;
+  padding-bottom: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  border-bottom: 1px solid #e1e1e1;
+}
+.desktopFilters {
+  display: flex;
+  gap: 10px;
+}
+.dropdown {
+  position: relative;
+}
+.dropdownTrigger {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  border: 1px solid #ddd;
+  padding: 7px 20px;
+  background: #fff;
+  font-size: 14px;
+  line-height: 18px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.dropdownTrigger svg {
+  width: 10px;
+  height: 10px;
+}
+.dropdownTrigger[aria-expanded="true"] svg {
+  transform: rotate(180deg);
+}
+.dropdownContent {
+  position: absolute;
+  top: calc(100% + 5px);
+  left: 0;
+  z-index: 30;
+  width: 350px;
+  background: #fff;
+  border: 1px solid #ddd;
+}
+.optionList {
+  padding: 15px;
+}
+.optionSearch {
+  display: flex;
+  height: 32px;
+  align-items: center;
+  gap: 7px;
+  border: 1px solid #ddd;
+  padding: 5px 7px;
+  margin-bottom: 9px;
+}
+.optionSearch svg {
+  width: 13px;
+  height: 13px;
+  flex-shrink: 0;
+}
+.optionSearch input {
+  width: 100%;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  font:
+    12px Arial,
+    sans-serif;
+}
+.options {
+  max-height: 250px;
+  overflow-y: auto;
+}
+.option {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  min-height: 29px;
+  font-size: 14px;
+  cursor: pointer;
+}
+.option input {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  accent-color: #555;
+}
+.count {
+  color: #666;
+}
+.noOptions {
+  padding: 10px 0;
+  font-size: 13px;
+}
+.sortDropdown {
+  margin: 5px 5px 0 auto;
+}
+.sortDropdown .dropdownTrigger {
+  min-height: 40px;
+  padding: 10px;
+  font:
+    14px / 18px Arial,
+    sans-serif;
+  text-transform: none;
+  gap: 0;
+}
+.sortDropdown .dropdownTrigger svg {
+  margin-left: 8px;
+  width: 12px;
+  height: 12px;
+}
+.sortDropdown .dropdownContent {
+  left: auto;
+  right: 0;
+  width: 220px;
+  border-radius: 3px;
+}
+.sortOptions {
+  padding: 9px 0;
+}
+.sortOptions button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  font-size: 14px;
+  line-height: 21px;
+  padding: 5px 15px;
+}
+.sortOptions button:hover,
+.sortOptions button:focus-visible {
+  background: #f4f4f4;
+}
+.priceFilter {
+  padding: 15px 15px 31px;
+}
+.priceInputs {
+  display: flex;
+  gap: 17px;
+  align-items: center;
+  font:
+    13px Arial,
+    sans-serif;
+}
+.priceInputs input {
+  width: 0;
+  flex: 1;
+  min-width: 0;
+  height: 30px;
+  border: 1px solid #ddd;
+  padding: 5px 7px;
+  appearance: textfield;
+}
+.priceInputs input::-webkit-inner-spin-button {
+  appearance: none;
+}
+.rangeInputs {
+  position: relative;
+  height: 26px;
+  margin-top: 10px;
+}
+.rangeInputs::before {
+  content: "";
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  height: 8px;
+  border-radius: 8px;
+  top: 10px;
+  background: #d8d8d8;
+}
+.rangeInputs input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 26px;
+  margin: 0;
+  appearance: none;
+  background: transparent;
+  pointer-events: none;
+}
+.rangeInputs input::-webkit-slider-thumb {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  background: #666;
+  border-radius: 50%;
+  pointer-events: auto;
+  cursor: grab;
+}
+.rangeInputs input::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border: 0;
+  background: #666;
+  border-radius: 50%;
+  pointer-events: auto;
+  cursor: grab;
+}
+.priceLabels {
+  display: flex;
+  justify-content: space-between;
+  color: #999;
+  font-size: 13px;
+  line-height: 18px;
+  margin-top: 5px;
+}
+.activeFilters {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 15px 0 0;
+}
+.activeFilters button {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border: 1px solid #ddd;
+  padding: 4px 8px;
+  font-size: 12px;
+}
+.activeFilters button svg {
+  width: 12px;
+  height: 12px;
+}
+.activeFilters .clearAll {
+  border: 0;
+  padding-left: 0;
+  text-decoration: underline;
+}
+.mobileTrigger {
+  display: none;
+}
+.drawer {
+  width: 80%;
+  max-width: 400px;
+  height: 100dvh;
+  font-size: 14px;
+  transform: translateX(-100%);
+  transition: transform 200ms ease-in-out;
+}
+.drawer.drawer[open] {
+  animation: none;
+}
+.drawer[data-state="open"] {
+  transform: translateX(0);
+}
+.drawer[data-state="closing"] {
+  transform: translateX(-100%);
+}
+.drawer::backdrop {
+  background: rgb(0 0 0 / 50%);
+}
+.drawerHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 49px;
+  padding: 0 15px;
+  border-bottom: 1px solid #dce0e4;
+}
+.drawerHeader h2 {
+  font-size: 16px;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+.drawerHeader button svg {
+  width: 20px;
+  height: 20px;
+}
+.drawerContents {
+  height: calc(100% - 119px);
+  overflow-y: auto;
+}
+.drawerContents .activeFilters {
+  padding: 15px;
+}
+.accordion {
+  border-bottom: 1px solid #ddd;
+}
+.accordion summary {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 17px 15px;
+  min-height: 55px;
+  list-style: none;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 700;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.accordion summary::-webkit-details-marker {
+  display: none;
+}
+.accordion summary svg {
+  width: 9px;
+  height: 9px;
+}
+.accordion[open] summary svg {
+  transform: rotate(180deg);
+}
+.accordion .optionList,
+.accordion .priceFilter {
+  padding-top: 0;
+}
+.drawerFooter {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 70px;
+  padding: 15px;
+  border-top: 1px solid #dce0e4;
+  background: #fff;
+}
+.drawerFooter button {
+  width: 100%;
+  height: 40px;
+  border: 1px solid #111;
+  border-radius: 2px;
+  text-transform: uppercase;
+  font-size: 14px;
+  font-weight: 700;
+  color: #000;
+}
+@media (max-width: 767px) {
+  .filters {
+    margin: 0 10px;
+  }
+  .toolbar {
+    height: 65px;
+    padding: 25px 0 0;
+    border: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    align-items: stretch;
+  }
+  .desktopFilters,
+  .sortPrefix {
+    display: none;
+  }
+  .mobileTrigger {
+    display: flex;
+    flex: 1;
+    min-width: 0;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 5px;
+    height: 40px;
+    padding: 10px;
+    border: 1px solid #bbb;
+    border-radius: 1px;
+    font:
+      14px Arial,
+      sans-serif;
+  }
+  .mobileTrigger svg {
+    width: 14px;
+    height: 14px;
+  }
+  .sortDropdown {
+    margin: 0;
+    flex: 1;
+    min-width: 0;
+  }
+  .sortDropdown .dropdownTrigger {
+    width: 100%;
+    justify-content: space-between;
+    background: #f7f7f7;
+    border-color: #bbb;
+    border-radius: 1px;
+    white-space: nowrap;
+  }
+  .sortDropdown .dropdownContent {
+    width: min(220px, calc(100vw - 20px));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .drawer {
+    transition: none;
+  }
+}

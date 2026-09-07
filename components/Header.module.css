@@ -1,0 +1,325 @@
+.topbar {
+  display: grid;
+  grid-template-areas: "brand search actions";
+  grid-template-columns: 190px minmax(240px, 1fr) auto;
+  align-items: center;
+  gap: clamp(24px, 3vw, 56px);
+  max-width: 1600px;
+  min-height: 104px;
+  margin: 0 auto;
+  padding: 18px 32px;
+  color: #222;
+}
+.brand {
+  grid-area: brand;
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  border-radius: 4px;
+}
+.logo {
+  display: block;
+  width: 190px;
+  height: auto;
+}
+.search {
+  grid-area: search;
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  height: 50px;
+  padding: 4px;
+  border: 1px solid #e4e4e4;
+  border-radius: 10px;
+  background: #f7f7f6;
+  transition:
+    border-color 150ms ease,
+    box-shadow 150ms ease;
+}
+.search:focus-within {
+  border-color: #8a8a83;
+  box-shadow: 0 0 0 3px rgb(35 35 35 / 7%);
+  background: #fff;
+}
+.search input {
+  min-width: 0;
+  width: 100%;
+  flex: 1;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  padding: 0 8px 0 3px;
+  color: #222;
+  font-size: 13px;
+  line-height: 20px;
+}
+.search input::placeholder {
+  color: #757571;
+  opacity: 1;
+}
+.search input::-webkit-search-cancel-button {
+  appearance: none;
+}
+.suggestionsButton,
+.clearSearch {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #61615d;
+}
+.suggestionsButton svg {
+  width: 19px;
+  height: 19px;
+}
+.clearSearch {
+  width: 32px;
+  font-size: 23px;
+  font-weight: 300;
+}
+.searchSubmit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  flex-shrink: 0;
+  height: 40px;
+  padding: 0 16px;
+  border-radius: 7px;
+  background: #232323;
+  color: white;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 150ms ease;
+}
+.searchSubmit svg {
+  width: 17px;
+  height: 17px;
+}
+.actions {
+  grid-area: actions;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 14px;
+}
+.action {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  min-width: 44px;
+  min-height: 46px;
+  padding: 8px 5px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background 150ms ease;
+}
+.action svg {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+}
+.actionLabel {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  line-height: 19px;
+}
+.actionHint {
+  font-size: 10px;
+  font-weight: 400;
+  color: #777;
+  line-height: 16px;
+}
+.iconWrap {
+  position: relative;
+  display: flex;
+}
+.cart {
+  background: #232323;
+  color: #fff;
+  padding: 10px 13px;
+  gap: 8px;
+}
+.cartBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 21px;
+  height: 21px;
+  padding: 0 4px;
+  border-radius: 50%;
+  background: #ead080;
+  color: #28251d;
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1;
+}
+.wishlistBadge {
+  position: absolute;
+  top: -8px;
+  right: -9px;
+  display: grid;
+  place-items: center;
+  min-width: 17px;
+  height: 17px;
+  padding: 0 3px;
+  border: 2px solid #fff;
+  border-radius: 10px;
+  background: #232323;
+  color: #fff;
+  font-size: 8px;
+  line-height: 1;
+}
+.menuButton {
+  display: none;
+}
+.topbar a:focus-visible,
+.topbar button:focus-visible {
+  outline: 2px solid #8b722b;
+  outline-offset: 3px;
+}
+@media (hover: hover) {
+  .action:not(.cart):hover,
+  .suggestionsButton:hover,
+  .clearSearch:hover {
+    background: #f1f1ef;
+  }
+  .cart:hover,
+  .searchSubmit:hover {
+    background: #41413c;
+  }
+}
+@media (min-width: 1024px) and (max-width: 1199px) {
+  .topbar {
+    grid-template-columns: 160px minmax(240px, 1fr) auto;
+    gap: 22px;
+    padding-inline: 24px;
+  }
+  .logo {
+    width: 160px;
+  }
+  .actions {
+    gap: 8px;
+  }
+  .action {
+    gap: 6px;
+  }
+  .searchSubmit {
+    width: 40px;
+    padding: 0;
+  }
+  .searchSubmit span {
+    display: none;
+  }
+}
+@media (max-width: 1023px) {
+  .topbar {
+    grid-template-areas: "menu brand actions" "search search search";
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    gap: 9px 12px;
+    min-height: 0;
+    padding: 10px 20px 14px;
+  }
+  .brand {
+    justify-self: center;
+  }
+  .logo {
+    width: 150px;
+  }
+  .menuButton {
+    grid-area: menu;
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 48px;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  .menuButton svg {
+    width: 24px;
+    height: 24px;
+  }
+  .actions {
+    gap: 4px;
+  }
+  .action {
+    width: 44px;
+    min-height: 44px;
+    padding: 0;
+  }
+  .actionLabel {
+    display: none;
+  }
+  .cart {
+    color: #232323;
+    background: transparent;
+  }
+  .cartBadge {
+    position: absolute;
+    top: -1px;
+    right: -1px;
+    min-width: 18px;
+    height: 18px;
+    border: 2px solid white;
+    font-size: 9px;
+  }
+  .cart:hover {
+    background: #f1f1ef;
+  }
+  .search {
+    height: 48px;
+  }
+  .search input {
+    font-size: 16px;
+  }
+  .searchSubmit {
+    height: 38px;
+  }
+}
+@media (max-width: 639px) {
+  .topbar {
+    padding-inline: 14px;
+    gap: 8px;
+  }
+  .account {
+    display: none;
+  }
+  .logo {
+    width: clamp(112px, 36vw, 140px);
+  }
+  .search input {
+    font-size: 16px;
+  }
+  .searchSubmit {
+    width: 40px;
+    padding: 0;
+  }
+  .searchSubmit span {
+    display: none;
+  }
+  .suggestionsButton {
+    width: 34px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .search,
+  .action,
+  .searchSubmit {
+    transition: none;
+  }
+}
+@media (max-width: 359px) {
+  .logo {
+    width: 104px;
+  }
+}

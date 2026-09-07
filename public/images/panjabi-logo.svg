@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="280" height="72" viewBox="0 0 280 72" fill="none">
+  <title>Panjabi</title>
+  <g stroke="#A18149" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="m22 13-12 7-7 20 10 4 5-13v30h31V31l5 13 10-4-7-20-12-7"/>
+    <path d="m22 13 11.5 7L45 13M22 13l4 12 7.5-5L41 25l4-12M33.5 20v24"/>
+    <path d="M43 35h-5v8h5M18 55h31" opacity=".65"/>
+    <circle cx="36.5" cy="29" r=".7" fill="#A18149" stroke="none"/>
+    <circle cx="36.5" cy="36" r=".7" fill="#A18149" stroke="none"/>
+  </g>
+  <text x="78" y="48" fill="#24231F" font-family="Georgia, 'Times New Roman', serif" font-size="40" letter-spacing="1.2">PANJABI</text>
+</svg>

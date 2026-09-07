@@ -1,0 +1,108 @@
+.card {
+  min-width: 0;
+  padding-bottom: 15px;
+  color: #333;
+  text-align: center;
+}
+.media {
+  position: relative;
+}
+.imageLink {
+  position: relative;
+  display: block;
+  aspect-ratio: 1 / 1.4;
+  overflow: hidden;
+}
+.imageLink img {
+  object-fit: contain;
+  transition: opacity 500ms ease;
+}
+.secondaryImage {
+  opacity: 0;
+}
+.card:hover .secondaryImage {
+  opacity: 1;
+}
+.addButton {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 38px;
+  background: #333;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 38px;
+  letter-spacing: 0.3px;
+  opacity: 0;
+  transform: translateY(100%);
+  transition:
+    transform 200ms ease,
+    opacity 200ms ease;
+  cursor: pointer;
+  z-index: 1;
+}
+.card:hover .addButton,
+.card:focus-within .addButton {
+  opacity: 1;
+  transform: translateY(0);
+}
+.addButton:disabled {
+  cursor: default;
+}
+.info {
+  position: relative;
+  background: #fff;
+  padding-top: 10px;
+}
+.title {
+  margin: 0;
+  font-size: 15px;
+  line-height: 25px;
+  font-weight: 400;
+  letter-spacing: 0.75px;
+}
+.price {
+  margin: 0;
+  font-size: 12px;
+  line-height: 18px;
+  font-weight: 400;
+  color: #141414;
+}
+.price del {
+  margin-left: 8px;
+  color: #969696;
+}
+.soldOut {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  padding: 4px 7px;
+  background: #fff;
+  font-size: 11px;
+}
+@media (max-width: 767px) {
+  .addButton {
+    position: static;
+    display: block;
+    opacity: 1;
+    transform: none;
+    font-weight: 400;
+  }
+  .title {
+    font-size: 12px;
+    line-height: 25px;
+    letter-spacing: 0.75px;
+    font-weight: 500;
+  }
+  .price {
+    font-weight: 500;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .imageLink img,
+  .addButton {
+    transition: none;
+  }
+}

@@ -1,0 +1,498 @@
+{
+  "source": "https://www.panjabishop.com",
+  "banners": [
+    {
+      "file": "/images/panjabishop/banners/new-collection.webp",
+      "url": "https://panjabishop.com/public/storage/images/slider/Yy9deDz4WpvPP1VYtrv2puAzW3Xg5uwItLj2h1ZV.jpg",
+      "width": 1750
+    },
+    {
+      "file": "/images/panjabishop/banners/waistcoat-offer.webp",
+      "url": "https://panjabishop.com/public/storage/images/slider/T7sunh6JVfWlfagXfcAJvgFLqpnQlkDOmUA5x4Mh.jpg",
+      "width": 1750
+    },
+    {
+      "file": "/images/panjabishop/banners/panjabi-collection.webp",
+      "url": "https://panjabishop.com/public/storage/images/slider/wh3mFDoqEPUfs47MKh8O4yzLaVuBaWZFuEbL9D4W.png",
+      "width": 1750
+    }
+  ],
+  "categories": [
+    {
+      "file": "/images/panjabishop/categories/premium-panjabi.webp",
+      "url": "https://panjabishop.com/public/storage/images/subCategory/dOyO7Mj43Vxsem2EChj7apmxvPVBoCKWZK3o4SxG.png",
+      "width": 1200
+    },
+    {
+      "file": "/images/panjabishop/categories/watches.webp",
+      "url": "https://panjabishop.com/public/storage/images/subCategory/rPQTSDYgWOYAM7uke7S95VEFGf7NjsxgqNaFBWJ4.jpg",
+      "width": 1200
+    },
+    {
+      "file": "/images/panjabishop/categories/waistcoat.webp",
+      "url": "https://panjabishop.com/public/storage/images/subCategory/N7Z2ffrylxPFVBOhMu55BXNuRuM9MVBtitNri3uJ.png",
+      "width": 1200
+    },
+    {
+      "file": "/images/panjabishop/categories/signature-panjabi.webp",
+      "url": "https://panjabishop.com/public/storage/images/subCategory/7DdjYeUZyJTTsRPGeItPHv36ElsNkmmZBmXNxegO.jpg",
+      "width": 1200
+    },
+    {
+      "file": "/images/panjabishop/categories/printed-panjabi.webp",
+      "url": "https://panjabishop.com/public/storage/images/subCategory/NUkZhUA0fUmHXaFkrsZD1RtPEWhOXxxqULpkWMxW.png",
+      "width": 1200
+    },
+    {
+      "file": "/images/panjabishop/categories/luxury-panjabi.webp",
+      "url": "https://panjabishop.com/public/storage/images/subCategory/NhzuMR94ZHlupKrQxFLBRdSc3uIhKyGpIiQLbylu.png",
+      "width": 1200
+    },
+    {
+      "file": "/images/panjabishop/categories/sequence-panjabi.webp",
+      "url": "https://panjabishop.com/public/storage/images/subCategory/M3ds5dmHjTzktwIWGy71Bt2ECvXEJomxWMKZmmC2.png",
+      "width": 1200
+    },
+    {
+      "file": "/images/panjabishop/categories/premium-trousers.webp",
+      "url": "https://panjabishop.com/public/storage/images/subCategory/qBf2AQutFPFfrlSAeEbBJqQCQzAZexX2IGczslOa.jpg",
+      "width": 1200
+    }
+  ],
+  "products": [
+    {
+      "handle": "ps-jacquard-panjabi-white-2624",
+      "sourcePage": "https://www.panjabishop.com/product/show/jacquard-panjabi-white-2624",
+      "images": [
+        {
+          "file": "/images/panjabishop/products/jacquard-panjabi-white-2624-168f6c3054.webp",
+          "url": "https://panjabishop.com/public/storage/images/product/product_1788450444_7862.jpg"
+        },
+        {
+          "file": "/images/panjabishop/products/jacquard-panjabi-white-2624-c105b09a87.webp",
+          "url": "https://panjabishop.com/public/storage/images/product_main_image/main_image_1788450176_9220.jpg"
+        }
+      ]
+    },
+    {
+      "handle": "ps-jacquard-panjabi-black-2625",
+      "sourcePage": "https://www.panjabishop.com/product/show/jacquard-panjabi-black-2625",
+      "images": [
+        {
+          "file": "/images/panjabishop/products/jacquard-panjabi-black-2625-77cbbb627e.webp",
+          "url": "https://panjabishop.com/public/storage/images/product/product_1788450221_3301.jpg"
+        }
+      ]
+    },
+    {
+      "handle": "ps-embroydery-panjabi-camel-brown-2614",
+      "sourcePage": "https://www.panjabishop.com/product/show/embroydery-panjabi-camel-brown-2614",
+      "images": [
+        {
+          "file": "/images/panjabishop/products/embroydery-panjabi-camel-brown-2614-c6e1a72026.webp",
+          "url": "https://panjabishop.com/public/storage/images/product/product_1788583577_4521.jpg"
+        },
+        {
+          "file": "/images/panjabishop/products/embroydery-panjabi-camel-brown-2614-69085bb520.webp",
+          "url": "https://panjabishop.com/public/storage/images/product_main_image/main_image_1777725340_1972.jpg"
+        }
+      ]
+    },
+    {
+      "handle": "ps-embroydery-panjabi-brown-2613",
+      "sourcePage": "https://www.panjabishop.com/product/show/embroydery-panjabi-brown-2613",
+      "images": [
+        {
+          "file": "/images/panjabishop/products/embroydery-panjabi-brown-2613-8834c73035.webp",
+          "url": "https://panjabishop.com/public/storage/images/product/product_1788585729_1286.jpg"
+        },
+        {
+          "file": "/images/panjabishop/products/embroydery-panjabi-brown-2613-20b730adf7.webp",
+          "url": "https://panjabishop.com/public/storage/images/product_main_image/main_image_1777725184_7550.jpg"
+        }
+      ]
+    },
+    {
+      "handle": "ps-embroydery-panjabi-green-2612",
+      "sourcePage": "https://www.panjabishop.com/product/show/embroydery-panjabi-green-2612",
+      "images": [
+        {
+          "file": "/images/panjabishop/products/embroydery-panjabi-green-2612-a8185e0074.webp",
+          "url": "https://panjabishop.com/public/storage/images/product/product_1788585043_5260.jpg"
+        },
+        {
+          "file": "/images/panjabishop/products/embroydery-panjabi-green-2612-48d2c16d7d.webp",
+          "url": "https://panjabishop.com/public/storage/images/product_main_image/main_image_1777724386_5866.jpg"
+        }
+      ]
+    },
+    {
+      "handle": "ps-embroydery-panjabi-light-olive-2610",
+      "sourcePage": "https://www.panjabishop.com/product/show/embroydery-panjabi-light-olive-2610",
+      "images": [
+        {
+          "file": "/images/panjabishop/products/embroydery-panjabi-light-olive-2610-ed6a9e615c.webp",
+          "url": "https://panjabishop.com/public/storage/images/product/product_1788585043_1461.jpg"
+        },
+        {
+          "file": "/images/panjabishop/products/embroydery-panjabi-light-olive-2610-4596b4e83c.webp",
+          "url": "https://panjabishop.com/public/storage/images/product_main_image/main_image_1777724071_4869.jpg"
+        }
+      ]
+    },
+    {
+      "handle": "ps-embroydery-panjabi-light-plum-2611",
+      "sourcePage": "https://www.panjabishop.com/product/show/embroydery-panjabi-light-plum-2611",
+      "images": [
+        {
+          "file": "/images/panjabishop/products/embroydery-panjabi-light-plum-2611-2.webp",
+          "url": "https://panjabishop.com/public/storage/images/product/product_1788585169_3665.jpg"
+        },
+        {
+          "file": "/images/panjabishop/products/embroydery-panjabi-light-plum-2611-1.webp",
+          "url": "https://panjabishop.com/public/storage/images/product_main_image/main_image_1777724071_4222.jpg"
+        }
+      ]
+    },
+    {
+      "handle": "ps-embroydery-panjabi-pink-2608",
+      "sourcePage": "https://www.panjabishop.com/product/show/embroydery-panjabi-pink-2608",
+      "images": [
+        {
+          "file": "/images/panjabishop/products/embroydery-panjabi-pink-2608-62b4066ed7.webp",
+          "url": "https://panjabishop.com/public/storage/images/product/product_1788585044_7425.jpg"
+        },
+        {
+          "file": "/images/panjabishop/products/embroydery-panjabi-pink-2608-f357943f82.webp",
+          "url": "https://panjabishop.com/public/storage/images/product_main_image/main_image_1777472090_1365.jpg"
+        }
+      ]
+    },
+    {
+      "handle": "ps-embroydery-panjabi-creamy-beige-2609",
+      "sourcePage": "https://www.panjabishop.com/product/show/embroydery-panjabi-creamy-beige-2609",
+      "images": [
+        {
+          "file": "/images/panjabishop/products/embroydery-panjabi-creamy-beige-2609-3.webp",
+          "url": "https://panjabishop.com/public/storage/images/product/product_1788585044_4233.jpg"
+        },
+        {
+          "file": "/images/panjabishop/products/embroydery-panjabi-creamy-beige-2609-1.webp",
+          "url": "https://panjabishop.com/public/storage/images/product_main_image/main_image_1777472090_6821.jpg"
+        },
+        {
+          "file": "/images/panjabishop/products/embroydery-panjabi-creamy-beige-2609-2.webp",
+          "url": "https://panjabishop.com/public/storage/images/product/product_1778133261_7290.jpg"
+        }
+      ]
+    },
+    {
+      "handle": "ps-embroydery-panjabi-badami-colour-2607",
+      "sourcePage": "https://www.panjabishop.com/product/show/embroydery-panjabi-badami-colour-2607",
+      "images": [
+        {
+          "file": "/images/panjabishop/products/embroydery-panjabi-badami-colour-2607-a35dfabc02.webp",
+          "url": "https://panjabishop.com/public/storage/images/product/product_1788585044_1388.jpg"
+        }
+      ]
+    },
+    {
+      "handle": "ps-embroydery-panjabi-cream-colour-panjabi-2606",
+      "sourcePage": "https://www.panjabishop.com/product/show/embroydery-panjabi-cream-colour-panjabi-2606",
+      "images": [
+        {
+          "file": "/images/panjabishop/products/embroydery-panjabi-cream-colour-panjabi-2606-bd842e53dd.webp",
+          "url": "https://panjabishop.com/public/storage/images/product/product_1788585044_5963.jpg"
+        },
+        {
+          "file": "/images/panjabishop/products/embroydery-panjabi-cream-colour-panjabi-2606-b86241f448.webp",
+          "url": "https://panjabishop.com/public/storage/images/product_main_image/main_image_1777470616_4326.jpg"
+        }
+      ]
+    },
+    {
+      "handle": "ps-embroydery-panjabi-lemon-2605",
+      "sourcePage": "https://www.panjabishop.com/product/show/embroydery-panjabi-lemon-2605",
+      "images": [
+        {
+          "file": "/images/panjabishop/products/embroydery-panjabi-lemon-2605-dab0af0d84.webp",
+          "url": "https://panjabishop.com/public/storage/images/product/product_1788585044_9497.jpg"
+        },
+        {
+          "file": "/images/panjabishop/products/embroydery-panjabi-lemon-2605-8ed110ae2b.webp",
+          "url": "https://panjabishop.com/public/storage/images/product_main_image/main_image_1777470616_3032.jpg"
+        },
+        {
+          "file": "/images/panjabishop/products/embroydery-panjabi-lemon-2605-2fd858c72b.webp",
+          "url": "https://panjabishop.com/public/storage/images/product/product_1778133218_5878.jpg"
+        }
+      ]
+    },
+    {
+      "handle": "ps-embroydery-panjabi-mint-green-2604",
+      "sourcePage": "https://www.panjabishop.com/product/show/embroydery-panjabi-mint-green-2604",
+      "images": [
+        {
+          "file": "/images/panjabishop/products/embroydery-panjabi-mint-green-2604-7d02f11b76.webp",
+          "url": "https://panjabishop.com/public/storage/images/product/product_1788585614_3303.jpg"
+        },
+        {
+          "file": "/images/panjabishop/products/embroydery-panjabi-mint-green-2604-6c5aa8e5cf.webp",
+          "url": "https://panjabishop.com/public/storage/images/product_main_image/main_image_1777469424_9728.jpg"
+        },
+        {
+          "file": "/images/panjabishop/products/embroydery-panjabi-mint-green-2604-773d3d8a44.webp",
+          "url": "https://panjabishop.com/public/storage/images/product/product_1778133218_6877.jpg"
+        }
+      ]
+    },
+    {
+      "handle": "ps-embroydery-panjabi-orange-2603",
+      "sourcePage": "https://www.panjabishop.com/product/show/embroydery-panjabi-orange-2603",
+      "images": [
+        {
+          "file": "/images/panjabishop/products/embroydery-panjabi-orange-2603-4861e6d04d.webp",
+          "url": "https://panjabishop.com/public/storage/images/product/product_1788585045_7641.jpg"
+        },
+        {
+          "file": "/images/panjabishop/products/embroydery-panjabi-orange-2603-033da5ed92.webp",
+          "url": "https://panjabishop.com/public/storage/images/product_main_image/main_image_1777469424_4238.jpg"
+        },
+        {
+          "file": "/images/panjabishop/products/embroydery-panjabi-orange-2603-1189f1f082.webp",
+          "url": "https://panjabishop.com/public/storage/images/product/product_1778133218_1564.jpg"
+        }
+      ]
+    },
+    {
+      "handle": "ps-embroydery-panjabi-yellow-2602",
+      "sourcePage": "https://www.panjabishop.com/product/show/embroydery-panjabi-yellow-2602",
+      "images": [
+        {
+          "file": "/images/panjabishop/products/embroydery-panjabi-yellow-2602-3.webp",
+          "url": "https://panjabishop.com/public/storage/images/product/product_1788585045_6321.jpg"
+        },
+        {
+          "file": "/images/panjabishop/products/embroydery-panjabi-yellow-2602-1.webp",
+          "url": "https://panjabishop.com/public/storage/images/product_main_image/main_image_1777469424_4383.jpg"
+        },
+        {
+          "file": "/images/panjabishop/products/embroydery-panjabi-yellow-2602-2.webp",
+          "url": "https://panjabishop.com/public/storage/images/product/product_1778133218_5873.jpg"
+        }
+      ]
+    },
+    {
+      "handle": "ps-embroydery-panjabi-sky-blue-2601",
+      "sourcePage": "https://www.panjabishop.com/product/show/embroydery-panjabi-sky-blue-2601",
+      "images": [
+        {
+          "file": "/images/panjabishop/products/embroydery-panjabi-sky-blue-2601-3.webp",
+          "url": "https://panjabishop.com/public/storage/images/product/product_1788585045_7909.jpg"
+        },
+        {
+          "file": "/images/panjabishop/products/embroydery-panjabi-sky-blue-2601-1.webp",
+          "url": "https://panjabishop.com/public/storage/images/product_main_image/main_image_1777465574_6937.jpg"
+        },
+        {
+          "file": "/images/panjabishop/products/embroydery-panjabi-sky-blue-2601-2.webp",
+          "url": "https://panjabishop.com/public/storage/images/product/product_1778133218_8958.jpg"
+        }
+      ]
+    },
+    {
+      "handle": "ps-embroydery-panjabi-olive-colour-2600",
+      "sourcePage": "https://www.panjabishop.com/product/show/embroydery-panjabi-olive-colour-2600",
+      "images": [
+        {
+          "file": "/images/panjabishop/products/embroydery-panjabi-olive-colour-2600-3e7a7e7b6d.webp",
+          "url": "https://panjabishop.com/public/storage/images/product/product_1788585376_2607.jpg"
+        },
+        {
+          "file": "/images/panjabishop/products/embroydery-panjabi-olive-colour-2600-f74005264a.webp",
+          "url": "https://panjabishop.com/public/storage/images/product_main_image/main_image_1777465574_1697.jpg"
+        }
+      ]
+    },
+    {
+      "handle": "ps-embroydery-panjabi-mate-brown-2599",
+      "sourcePage": "https://www.panjabishop.com/product/show/embroydery-panjabi-mate-brown-2599",
+      "images": [
+        {
+          "file": "/images/panjabishop/products/embroydery-panjabi-mate-brown-2599-574e008bf9.webp",
+          "url": "https://panjabishop.com/public/storage/images/product/product_1788586086_4456.jpg"
+        }
+      ]
+    },
+    {
+      "handle": "ps-embroydery-panjabi-white-colour-2596",
+      "sourcePage": "https://www.panjabishop.com/product/show/embroydery-panjabi-white-colour-2596",
+      "images": [
+        {
+          "file": "/images/panjabishop/products/embroydery-panjabi-white-colour-2596-2.webp",
+          "url": "https://panjabishop.com/public/storage/images/product/product_1788585836_1127.jpg"
+        },
+        {
+          "file": "/images/panjabishop/products/embroydery-panjabi-white-colour-2596-1.webp",
+          "url": "https://panjabishop.com/public/storage/images/product_main_image/main_image_1777447293_2686.jpg"
+        }
+      ]
+    },
+    {
+      "handle": "ps-premium-panjabi-purple-1332",
+      "sourcePage": "https://www.panjabishop.com/product/show/premium-panjabi-purple-1332",
+      "images": [
+        {
+          "file": "/images/panjabishop/products/premium-panjabi-purple-1332-1.webp",
+          "url": "https://panjabishop.com/public/storage/images/product_main_image/main_image_1762861817_2874.jpg"
+        },
+        {
+          "file": "/images/panjabishop/products/premium-panjabi-purple-1332-2.webp",
+          "url": "https://panjabishop.com/public/storage/images/product/product_1762861817_2522.jpg"
+        },
+        {
+          "file": "/images/panjabishop/products/premium-panjabi-purple-1332-3.webp",
+          "url": "https://panjabishop.com/public/storage/images/product/product_1762861817_5421.jpg"
+        }
+      ]
+    },
+    {
+      "handle": "ps-party-panjabi-marron-1402",
+      "sourcePage": "https://www.panjabishop.com/product/show/party-panjabi-marron-1402",
+      "images": [
+        {
+          "file": "/images/panjabishop/products/party-panjabi-marron-1402-a202383dc4.webp",
+          "url": "https://panjabishop.com/public/storage/images/product/product_1762935083_2287.jpg"
+        },
+        {
+          "file": "/images/panjabishop/products/party-panjabi-marron-1402-fb36b46056.webp",
+          "url": "https://panjabishop.com/public/storage/images/product_main_image/main_image_1762935083_5925.jpg"
+        },
+        {
+          "file": "/images/panjabishop/products/party-panjabi-marron-1402-0d9df96cc4.webp",
+          "url": "https://panjabishop.com/public/storage/images/product/product_1762935083_3143.jpg"
+        }
+      ]
+    },
+    {
+      "handle": "ps-party-panjabi-naby-blue-1401",
+      "sourcePage": "https://www.panjabishop.com/product/show/party-panjabi-naby-blue-1401",
+      "images": [
+        {
+          "file": "/images/panjabishop/products/party-panjabi-naby-blue-1401-163d9b22bd.webp",
+          "url": "https://panjabishop.com/public/storage/images/product/product_1762934135_9267.jpg"
+        },
+        {
+          "file": "/images/panjabishop/products/party-panjabi-naby-blue-1401-c067e84517.webp",
+          "url": "https://panjabishop.com/public/storage/images/product_main_image/main_image_1762934134_7993.jpg"
+        },
+        {
+          "file": "/images/panjabishop/products/party-panjabi-naby-blue-1401-a361e07126.webp",
+          "url": "https://panjabishop.com/public/storage/images/product/product_1762934135_8805.jpg"
+        }
+      ]
+    },
+    {
+      "handle": "ps-party-panjabi-green-1399",
+      "sourcePage": "https://www.panjabishop.com/product/show/party-panjabi-green-1399",
+      "images": [
+        {
+          "file": "/images/panjabishop/products/party-panjabi-green-1399-0d96ee7518.webp",
+          "url": "https://panjabishop.com/public/storage/images/product/product_1762875112_4505.jpg"
+        },
+        {
+          "file": "/images/panjabishop/products/party-panjabi-green-1399-bb1ad854aa.webp",
+          "url": "https://panjabishop.com/public/storage/images/product_main_image/main_image_1762875112_2867.jpg"
+        }
+      ]
+    },
+    {
+      "handle": "ps-signature-panjabi-creamy-beige-2547",
+      "sourcePage": "https://www.panjabishop.com/product/show/signature-panjabi-creamy-beige-2547",
+      "images": [
+        {
+          "file": "/images/panjabishop/products/signature-panjabi-creamy-beige-2547-e146113bdc.webp",
+          "url": "https://panjabishop.com/public/storage/images/product_main_image/main_image_1772723210_2837.jpg"
+        }
+      ]
+    },
+    {
+      "handle": "ps-signature-panjabi-gray-colour-2546",
+      "sourcePage": "https://www.panjabishop.com/product/show/signature-panjabi-gray-colour-2546",
+      "images": [
+        {
+          "file": "/images/panjabishop/products/signature-panjabi-gray-colour-2546-3edfda7280.webp",
+          "url": "https://panjabishop.com/public/storage/images/product_main_image/main_image_1772723211_9875.jpg"
+        }
+      ]
+    },
+    {
+      "handle": "ps-signature-panjabi-light-ash-grey-2545",
+      "sourcePage": "https://www.panjabishop.com/product/show/signature-panjabi-light-ash-grey-2545",
+      "images": [
+        {
+          "file": "/images/panjabishop/products/signature-panjabi-light-ash-grey-2545-68c7ae7dff.webp",
+          "url": "https://panjabishop.com/public/storage/images/product_main_image/main_image_1772723211_9492.jpg"
+        }
+      ]
+    },
+    {
+      "handle": "ps-waistcoat-65-off-mint-green-2527",
+      "sourcePage": "https://www.panjabishop.com/product/show/waistcoat-65-off-mint-green-2527",
+      "images": [
+        {
+          "file": "/images/panjabishop/products/waistcoat-65-off-mint-green-2527-a04a8b07c0.webp",
+          "url": "https://panjabishop.com/public/storage/images/product_main_image/main_image_1772438814_8391.jpg"
+        }
+      ]
+    },
+    {
+      "handle": "ps-waistcoat-65-off-cream-2526",
+      "sourcePage": "https://www.panjabishop.com/product/show/waistcoat-65-off-cream-2526",
+      "images": [
+        {
+          "file": "/images/panjabishop/products/waistcoat-65-off-cream-2526-53b0d3f7b2.webp",
+          "url": "https://panjabishop.com/public/storage/images/product_main_image/main_image_1772438814_4394.jpg"
+        }
+      ]
+    },
+    {
+      "handle": "ps-waistcoat-65-off-blue-2517",
+      "sourcePage": "https://www.panjabishop.com/product/show/waistcoat-65-off-blue-2517",
+      "images": [
+        {
+          "file": "/images/panjabishop/products/waistcoat-65-off-blue-2517-e4dc62d60c.webp",
+          "url": "https://panjabishop.com/public/storage/images/product/product_1771740891_9468.jpg"
+        },
+        {
+          "file": "/images/panjabishop/products/waistcoat-65-off-blue-2517-01f5355c41.webp",
+          "url": "https://panjabishop.com/public/storage/images/product_main_image/main_image_1771740891_8800.jpg"
+        },
+        {
+          "file": "/images/panjabishop/products/waistcoat-65-off-blue-2517-3e95080805.webp",
+          "url": "https://panjabishop.com/public/storage/images/product/product_1771740891_4168.jpg"
+        }
+      ]
+    },
+    {
+      "handle": "ps-mens-premium-pajama-white-black-2621",
+      "sourcePage": "https://www.panjabishop.com/product/show/mens-premium-pajama-white-black-2621",
+      "images": [
+        {
+          "file": "/images/panjabishop/products/mens-premium-pajama-white-black-2621-45fc4925cf.webp",
+          "url": "https://panjabishop.com/public/storage/images/product/product_1788588108_6266.jpg"
+        }
+      ]
+    },
+    {
+      "handle": "ps-mens-premium-pajama-white-black-colour-2580",
+      "sourcePage": "https://www.panjabishop.com/product/show/mens-premium-pajama-white-black-colour-2580",
+      "images": [
+        {
+          "file": "/images/panjabishop/products/mens-premium-pajama-white-black-colour-2580-4c2948d1bd.webp",
+          "url": "https://panjabishop.com/public/storage/images/product/product_1788588108_8794.jpg"
+        }
+      ]
+    }
+  ]
+}

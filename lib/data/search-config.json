@@ -1,0 +1,37 @@
+{
+  "popularTerms": ["panjabi"],
+  "mobileTrendingTerms": [
+    "Panjabi",
+    "Jacquard",
+    "Premium",
+    "Signature",
+    "Printed",
+    "Luxury",
+    "Sequence",
+    "Waistcoat",
+    "Trousers",
+    "Watch"
+  ],
+  "featuredProducts": [
+    {
+      "handle": "ps-jacquard-panjabi-white-2624",
+      "collectionHandle": "fall-2026",
+      "mobileBadge": null
+    },
+    {
+      "handle": "ps-jacquard-panjabi-black-2625",
+      "collectionHandle": "fall-2026",
+      "mobileBadge": null
+    },
+    {
+      "handle": "ps-embroydery-panjabi-camel-brown-2614",
+      "collectionHandle": "fall-2026",
+      "mobileBadge": null
+    },
+    {
+      "handle": "ps-embroydery-panjabi-brown-2613",
+      "collectionHandle": "fall-2026",
+      "mobileBadge": null
+    }
+  ]
+}

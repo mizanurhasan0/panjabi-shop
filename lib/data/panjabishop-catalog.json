@@ -1,0 +1,2444 @@
+{
+  "source": "https://www.panjabishop.com",
+  "fetchedAt": "2026-09-07T06:13:42.526Z",
+  "stockSource": "Public getVariant inline JSON: variants[].stock and status; product availability meta tag is inconsistent.",
+  "products": [
+    {
+      "id": "625",
+      "parentId": "127",
+      "sourceCategoryId": "3",
+      "sourceSubcategoryId": "6",
+      "sourceSubsubcategoryId": "2",
+      "handle": "jacquard-panjabi-white-2624",
+      "code": "2624",
+      "title": "Jacquard Panjabi",
+      "color": "White",
+      "colorHex": "#FFFFFF",
+      "price": 2490,
+      "compareAtPrice": null,
+      "displayedPrice": "TK 2490",
+      "currency": "BDT",
+      "variants": [
+        {
+          "id": "2217",
+          "size": "L",
+          "sourceSizeId": "33",
+          "stock": 11,
+          "available": true,
+          "price": 2490,
+          "compareAtPrice": null
+        },
+        {
+          "id": "2216",
+          "size": "M",
+          "sourceSizeId": "32",
+          "stock": 7,
+          "available": true,
+          "price": 2490,
+          "compareAtPrice": null
+        },
+        {
+          "id": "2218",
+          "size": "XL",
+          "sourceSizeId": "34",
+          "stock": 8,
+          "available": true,
+          "price": 2490,
+          "compareAtPrice": null
+        },
+        {
+          "id": "2219",
+          "size": "XXL",
+          "sourceSizeId": "35",
+          "stock": 3,
+          "available": true,
+          "price": 2490,
+          "compareAtPrice": null
+        }
+      ],
+      "sizes": [
+        "L",
+        "M",
+        "XL",
+        "XXL"
+      ],
+      "available": true,
+      "stock": 29,
+      "createdAt": "2026-05-16T12:01:42.000000Z",
+      "images": [
+        "https://panjabishop.com/public/storage/images/product/product_1788450444_7862.jpg",
+        "https://panjabishop.com/public/storage/images/product_main_image/main_image_1788450176_9220.jpg",
+        "https://panjabishop.com/public/storage/images/product/product_1788450221_8879.jpg"
+      ],
+      "sourceUrl": "https://www.panjabishop.com/product/show/jacquard-panjabi-white-2624",
+      "categoryHandles": [
+        "men-s-panjabi",
+        "premium-panjabi"
+      ],
+      "tags": [
+        "White",
+        "Panjabi",
+        "Premium Panjabi"
+      ],
+      "preferredCardImage": "https://panjabishop.com/public/storage/images/product/product_1788450444_7862.jpg"
+    },
+    {
+      "id": "626",
+      "parentId": "127",
+      "sourceCategoryId": "3",
+      "sourceSubcategoryId": "6",
+      "sourceSubsubcategoryId": "2",
+      "handle": "jacquard-panjabi-black-2625",
+      "code": "2625",
+      "title": "Jacquard Panjabi",
+      "color": "Black",
+      "colorHex": "#000000",
+      "price": 2490,
+      "compareAtPrice": null,
+      "displayedPrice": "TK 2490",
+      "currency": "BDT",
+      "variants": [
+        {
+          "id": "2221",
+          "size": "L",
+          "sourceSizeId": "33",
+          "stock": 14,
+          "available": true,
+          "price": 2490,
+          "compareAtPrice": null
+        },
+        {
+          "id": "2220",
+          "size": "M",
+          "sourceSizeId": "32",
+          "stock": 9,
+          "available": true,
+          "price": 2490,
+          "compareAtPrice": null
+        },
+        {
+          "id": "2222",
+          "size": "XL",
+          "sourceSizeId": "34",
+          "stock": 9,
+          "available": true,
+          "price": 2490,
+          "compareAtPrice": null
+        },
+        {
+          "id": "2223",
+          "size": "XXL",
+          "sourceSizeId": "35",
+          "stock": 2,
+          "available": true,
+          "price": 2490,
+          "compareAtPrice": null
+        }
+      ],
+      "sizes": [
+        "L",
+        "M",
+        "XL",
+        "XXL"
+      ],
+      "available": true,
+      "stock": 34,
+      "createdAt": "2026-05-16T12:01:42.000000Z",
+      "images": [
+        "https://panjabishop.com/public/storage/images/product/product_1788450221_3301.jpg",
+        "https://panjabishop.com/public/storage/images/product_main_image/main_image_1788450176_4856.jpg"
+      ],
+      "sourceUrl": "https://www.panjabishop.com/product/show/jacquard-panjabi-black-2625",
+      "categoryHandles": [
+        "men-s-panjabi",
+        "premium-panjabi"
+      ],
+      "tags": [
+        "Black",
+        "Panjabi",
+        "Premium Panjabi"
+      ],
+      "preferredCardImage": "https://panjabishop.com/public/storage/images/product/product_1788450221_3301.jpg",
+      "photoNote": "Two source URLs appear to show the same pose. Import may deduplicate exact pixels."
+    },
+    {
+      "id": "615",
+      "parentId": "124",
+      "sourceCategoryId": "3",
+      "sourceSubcategoryId": "6",
+      "sourceSubsubcategoryId": "12",
+      "handle": "embroydery-panjabi-camel-brown-2614",
+      "code": "2614",
+      "title": "Embroydery panjabi",
+      "color": "Camel Brown",
+      "colorHex": null,
+      "price": 960,
+      "compareAtPrice": 2150,
+      "displayedPrice": "TK 960",
+      "currency": "BDT",
+      "variants": [
+        {
+          "id": "2177",
+          "size": "L",
+          "sourceSizeId": "33",
+          "stock": 9,
+          "available": true,
+          "price": 960,
+          "compareAtPrice": 2150
+        },
+        {
+          "id": "2176",
+          "size": "M",
+          "sourceSizeId": "32",
+          "stock": 6,
+          "available": true,
+          "price": 960,
+          "compareAtPrice": 2150
+        },
+        {
+          "id": "2178",
+          "size": "XL",
+          "sourceSizeId": "34",
+          "stock": 11,
+          "available": true,
+          "price": 960,
+          "compareAtPrice": 2150
+        },
+        {
+          "id": "2179",
+          "size": "XXL",
+          "sourceSizeId": "35",
+          "stock": 5,
+          "available": true,
+          "price": 960,
+          "compareAtPrice": 2150
+        }
+      ],
+      "sizes": [
+        "L",
+        "M",
+        "XL",
+        "XXL"
+      ],
+      "available": true,
+      "stock": 31,
+      "createdAt": "2026-05-02T12:35:40.000000Z",
+      "images": [
+        "https://panjabishop.com/public/storage/images/product/product_1788583577_4521.jpg",
+        "https://panjabishop.com/public/storage/images/product_main_image/main_image_1777725340_1972.jpg"
+      ],
+      "sourceUrl": "https://www.panjabishop.com/product/show/embroydery-panjabi-camel-brown-2614",
+      "categoryHandles": [
+        "men-s-panjabi",
+        "premium-panjabi"
+      ],
+      "tags": [
+        "Camel Brown",
+        "Panjabi",
+        "Premium Panjabi"
+      ],
+      "preferredCardImage": "https://panjabishop.com/public/storage/images/product/product_1788583577_4521.jpg"
+    },
+    {
+      "id": "614",
+      "parentId": "124",
+      "sourceCategoryId": "3",
+      "sourceSubcategoryId": "6",
+      "sourceSubsubcategoryId": "12",
+      "handle": "embroydery-panjabi-brown-2613",
+      "code": "2613",
+      "title": "Embroydery panjabi",
+      "color": "Brown",
+      "colorHex": "#964B00",
+      "price": 960,
+      "compareAtPrice": 2150,
+      "displayedPrice": "TK 960",
+      "currency": "BDT",
+      "variants": [
+        {
+          "id": "2173",
+          "size": "L",
+          "sourceSizeId": "33",
+          "stock": 13,
+          "available": true,
+          "price": 960,
+          "compareAtPrice": 2150
+        },
+        {
+          "id": "2172",
+          "size": "M",
+          "sourceSizeId": "32",
+          "stock": 6,
+          "available": true,
+          "price": 960,
+          "compareAtPrice": 2150
+        },
+        {
+          "id": "2174",
+          "size": "XL",
+          "sourceSizeId": "34",
+          "stock": 11,
+          "available": true,
+          "price": 960,
+          "compareAtPrice": 2150
+        },
+        {
+          "id": "2175",
+          "size": "XXL",
+          "sourceSizeId": "35",
+          "stock": 5,
+          "available": true,
+          "price": 960,
+          "compareAtPrice": 2150
+        }
+      ],
+      "sizes": [
+        "L",
+        "M",
+        "XL",
+        "XXL"
+      ],
+      "available": true,
+      "stock": 35,
+      "createdAt": "2026-05-02T12:33:04.000000Z",
+      "images": [
+        "https://panjabishop.com/public/storage/images/product/product_1788585729_1286.jpg",
+        "https://panjabishop.com/public/storage/images/product_main_image/main_image_1777725184_7550.jpg"
+      ],
+      "sourceUrl": "https://www.panjabishop.com/product/show/embroydery-panjabi-brown-2613",
+      "categoryHandles": [
+        "men-s-panjabi",
+        "premium-panjabi"
+      ],
+      "tags": [
+        "Brown",
+        "Panjabi",
+        "Premium Panjabi"
+      ],
+      "preferredCardImage": "https://panjabishop.com/public/storage/images/product/product_1788585729_1286.jpg"
+    },
+    {
+      "id": "613",
+      "parentId": "124",
+      "sourceCategoryId": "3",
+      "sourceSubcategoryId": "6",
+      "sourceSubsubcategoryId": "12",
+      "handle": "embroydery-panjabi-green-2612",
+      "code": "2612",
+      "title": "Embroydery panjabi",
+      "color": "Green",
+      "colorHex": "#008000",
+      "price": 960,
+      "compareAtPrice": 2150,
+      "displayedPrice": "TK 960",
+      "currency": "BDT",
+      "variants": [
+        {
+          "id": "2169",
+          "size": "L",
+          "sourceSizeId": "33",
+          "stock": 12,
+          "available": true,
+          "price": 960,
+          "compareAtPrice": 2150
+        },
+        {
+          "id": "2168",
+          "size": "M",
+          "sourceSizeId": "32",
+          "stock": 6,
+          "available": true,
+          "price": 960,
+          "compareAtPrice": 2150
+        },
+        {
+          "id": "2170",
+          "size": "XL",
+          "sourceSizeId": "34",
+          "stock": 10,
+          "available": true,
+          "price": 960,
+          "compareAtPrice": 2150
+        },
+        {
+          "id": "2171",
+          "size": "XXL",
+          "sourceSizeId": "35",
+          "stock": 5,
+          "available": true,
+          "price": 960,
+          "compareAtPrice": 2150
+        }
+      ],
+      "sizes": [
+        "L",
+        "M",
+        "XL",
+        "XXL"
+      ],
+      "available": true,
+      "stock": 33,
+      "createdAt": "2026-05-02T12:19:46.000000Z",
+      "images": [
+        "https://panjabishop.com/public/storage/images/product/product_1788585043_5260.jpg",
+        "https://panjabishop.com/public/storage/images/product_main_image/main_image_1777724386_5866.jpg"
+      ],
+      "sourceUrl": "https://www.panjabishop.com/product/show/embroydery-panjabi-green-2612",
+      "categoryHandles": [
+        "men-s-panjabi",
+        "premium-panjabi"
+      ],
+      "tags": [
+        "Green",
+        "Panjabi",
+        "Premium Panjabi"
+      ],
+      "preferredCardImage": "https://panjabishop.com/public/storage/images/product/product_1788585043_5260.jpg"
+    },
+    {
+      "id": "611",
+      "parentId": "124",
+      "sourceCategoryId": "3",
+      "sourceSubcategoryId": "6",
+      "sourceSubsubcategoryId": "12",
+      "handle": "embroydery-panjabi-light-olive-2610",
+      "code": "2610",
+      "title": "Embroydery panjabi",
+      "color": "Light Olive",
+      "colorHex": null,
+      "price": 960,
+      "compareAtPrice": 2150,
+      "displayedPrice": "TK 960",
+      "currency": "BDT",
+      "variants": [
+        {
+          "id": "2161",
+          "size": "L",
+          "sourceSizeId": "33",
+          "stock": 12,
+          "available": true,
+          "price": 960,
+          "compareAtPrice": 2150
+        },
+        {
+          "id": "2160",
+          "size": "M",
+          "sourceSizeId": "32",
+          "stock": 5,
+          "available": true,
+          "price": 960,
+          "compareAtPrice": 2150
+        },
+        {
+          "id": "2162",
+          "size": "XL",
+          "sourceSizeId": "34",
+          "stock": 11,
+          "available": true,
+          "price": 960,
+          "compareAtPrice": 2150
+        },
+        {
+          "id": "2163",
+          "size": "XXL",
+          "sourceSizeId": "35",
+          "stock": 5,
+          "available": true,
+          "price": 960,
+          "compareAtPrice": 2150
+        }
+      ],
+      "sizes": [
+        "L",
+        "M",
+        "XL",
+        "XXL"
+      ],
+      "available": true,
+      "stock": 33,
+      "createdAt": "2026-05-02T12:14:31.000000Z",
+      "images": [
+        "https://panjabishop.com/public/storage/images/product/product_1788585043_1461.jpg",
+        "https://panjabishop.com/public/storage/images/product_main_image/main_image_1777724071_4869.jpg"
+      ],
+      "sourceUrl": "https://www.panjabishop.com/product/show/embroydery-panjabi-light-olive-2610",
+      "categoryHandles": [
+        "men-s-panjabi",
+        "premium-panjabi"
+      ],
+      "tags": [
+        "Light Olive",
+        "Panjabi",
+        "Premium Panjabi"
+      ],
+      "preferredCardImage": "https://panjabishop.com/public/storage/images/product/product_1788585043_1461.jpg"
+    },
+    {
+      "id": "612",
+      "parentId": "124",
+      "sourceCategoryId": "3",
+      "sourceSubcategoryId": "6",
+      "sourceSubsubcategoryId": "12",
+      "handle": "embroydery-panjabi-light-plum-2611",
+      "code": "2611",
+      "title": "Embroydery panjabi",
+      "color": "Light Plum",
+      "colorHex": null,
+      "price": 960,
+      "compareAtPrice": 2150,
+      "displayedPrice": "TK 960",
+      "currency": "BDT",
+      "variants": [
+        {
+          "id": "2165",
+          "size": "L",
+          "sourceSizeId": "33",
+          "stock": 9,
+          "available": true,
+          "price": 960,
+          "compareAtPrice": 2150
+        },
+        {
+          "id": "2164",
+          "size": "M",
+          "sourceSizeId": "32",
+          "stock": 5,
+          "available": true,
+          "price": 960,
+          "compareAtPrice": 2150
+        },
+        {
+          "id": "2166",
+          "size": "XL",
+          "sourceSizeId": "34",
+          "stock": 9,
+          "available": true,
+          "price": 960,
+          "compareAtPrice": 2150
+        },
+        {
+          "id": "2167",
+          "size": "XXL",
+          "sourceSizeId": "35",
+          "stock": 4,
+          "available": true,
+          "price": 960,
+          "compareAtPrice": 2150
+        }
+      ],
+      "sizes": [
+        "L",
+        "M",
+        "XL",
+        "XXL"
+      ],
+      "available": true,
+      "stock": 27,
+      "createdAt": "2026-05-02T12:14:31.000000Z",
+      "images": [
+        "https://panjabishop.com/public/storage/images/product/product_1788585169_3665.jpg",
+        "https://panjabishop.com/public/storage/images/product_main_image/main_image_1777724071_4222.jpg"
+      ],
+      "sourceUrl": "https://www.panjabishop.com/product/show/embroydery-panjabi-light-plum-2611",
+      "categoryHandles": [
+        "men-s-panjabi",
+        "premium-panjabi"
+      ],
+      "tags": [
+        "Light Plum",
+        "Panjabi",
+        "Premium Panjabi"
+      ],
+      "preferredCardImage": "https://panjabishop.com/public/storage/images/product/product_1788585169_3665.jpg"
+    },
+    {
+      "id": "609",
+      "parentId": "124",
+      "sourceCategoryId": "3",
+      "sourceSubcategoryId": "6",
+      "sourceSubsubcategoryId": "12",
+      "handle": "embroydery-panjabi-pink-2608",
+      "code": "2608",
+      "title": "Embroydery panjabi",
+      "color": "Pink",
+      "colorHex": "#FFC0CB",
+      "price": 960,
+      "compareAtPrice": 2150,
+      "displayedPrice": "TK 960",
+      "currency": "BDT",
+      "variants": [
+        {
+          "id": "2153",
+          "size": "L",
+          "sourceSizeId": "33",
+          "stock": 10,
+          "available": true,
+          "price": 960,
+          "compareAtPrice": 2150
+        },
+        {
+          "id": "2152",
+          "size": "M",
+          "sourceSizeId": "32",
+          "stock": 5,
+          "available": true,
+          "price": 960,
+          "compareAtPrice": 2150
+        },
+        {
+          "id": "2154",
+          "size": "XL",
+          "sourceSizeId": "34",
+          "stock": 8,
+          "available": true,
+          "price": 960,
+          "compareAtPrice": 2150
+        },
+        {
+          "id": "2155",
+          "size": "XXL",
+          "sourceSizeId": "35",
+          "stock": 4,
+          "available": true,
+          "price": 960,
+          "compareAtPrice": 2150
+        }
+      ],
+      "sizes": [
+        "L",
+        "M",
+        "XL",
+        "XXL"
+      ],
+      "available": true,
+      "stock": 27,
+      "createdAt": "2026-04-29T14:14:50.000000Z",
+      "images": [
+        "https://panjabishop.com/public/storage/images/product/product_1788585044_7425.jpg",
+        "https://panjabishop.com/public/storage/images/product_main_image/main_image_1777472090_1365.jpg"
+      ],
+      "sourceUrl": "https://www.panjabishop.com/product/show/embroydery-panjabi-pink-2608",
+      "categoryHandles": [
+        "men-s-panjabi",
+        "premium-panjabi"
+      ],
+      "tags": [
+        "Pink",
+        "Panjabi",
+        "Premium Panjabi"
+      ],
+      "preferredCardImage": "https://panjabishop.com/public/storage/images/product/product_1788585044_7425.jpg"
+    },
+    {
+      "id": "610",
+      "parentId": "124",
+      "sourceCategoryId": "3",
+      "sourceSubcategoryId": "6",
+      "sourceSubsubcategoryId": "12",
+      "handle": "embroydery-panjabi-creamy-beige-2609",
+      "code": "2609",
+      "title": "Embroydery panjabi",
+      "color": "Creamy Beige",
+      "colorHex": null,
+      "price": 960,
+      "compareAtPrice": 2150,
+      "displayedPrice": "TK 960",
+      "currency": "BDT",
+      "variants": [
+        {
+          "id": "2157",
+          "size": "L",
+          "sourceSizeId": "33",
+          "stock": 6,
+          "available": true,
+          "price": 960,
+          "compareAtPrice": 2150
+        },
+        {
+          "id": "2156",
+          "size": "M",
+          "sourceSizeId": "32",
+          "stock": 8,
+          "available": true,
+          "price": 960,
+          "compareAtPrice": 2150
+        },
+        {
+          "id": "2158",
+          "size": "XL",
+          "sourceSizeId": "34",
+          "stock": 10,
+          "available": true,
+          "price": 960,
+          "compareAtPrice": 2150
+        },
+        {
+          "id": "2159",
+          "size": "XXL",
+          "sourceSizeId": "35",
+          "stock": 4,
+          "available": true,
+          "price": 960,
+          "compareAtPrice": 2150
+        }
+      ],
+      "sizes": [
+        "L",
+        "M",
+        "XL",
+        "XXL"
+      ],
+      "available": true,
+      "stock": 28,
+      "createdAt": "2026-04-29T14:14:50.000000Z",
+      "images": [
+        "https://panjabishop.com/public/storage/images/product/product_1788585044_4233.jpg",
+        "https://panjabishop.com/public/storage/images/product_main_image/main_image_1777472090_6821.jpg",
+        "https://panjabishop.com/public/storage/images/product/product_1778133261_7290.jpg"
+      ],
+      "sourceUrl": "https://www.panjabishop.com/product/show/embroydery-panjabi-creamy-beige-2609",
+      "categoryHandles": [
+        "men-s-panjabi",
+        "premium-panjabi"
+      ],
+      "tags": [
+        "Creamy Beige",
+        "Panjabi",
+        "Premium Panjabi"
+      ],
+      "preferredCardImage": "https://panjabishop.com/public/storage/images/product/product_1788585044_4233.jpg"
+    },
+    {
+      "id": "608",
+      "parentId": "124",
+      "sourceCategoryId": "3",
+      "sourceSubcategoryId": "6",
+      "sourceSubsubcategoryId": "12",
+      "handle": "embroydery-panjabi-badami-colour-2607",
+      "code": "2607",
+      "title": "Embroydery panjabi",
+      "color": "Badami Colour",
+      "colorHex": null,
+      "price": 960,
+      "compareAtPrice": 2150,
+      "displayedPrice": "TK 960",
+      "currency": "BDT",
+      "variants": [
+        {
+          "id": "2149",
+          "size": "L",
+          "sourceSizeId": "33",
+          "stock": 11,
+          "available": true,
+          "price": 960,
+          "compareAtPrice": 2150
+        },
+        {
+          "id": "2148",
+          "size": "M",
+          "sourceSizeId": "32",
+          "stock": 5,
+          "available": true,
+          "price": 960,
+          "compareAtPrice": 2150
+        },
+        {
+          "id": "2150",
+          "size": "XL",
+          "sourceSizeId": "34",
+          "stock": 6,
+          "available": true,
+          "price": 960,
+          "compareAtPrice": 2150
+        },
+        {
+          "id": "2151",
+          "size": "XXL",
+          "sourceSizeId": "35",
+          "stock": 4,
+          "available": true,
+          "price": 960,
+          "compareAtPrice": 2150
+        }
+      ],
+      "sizes": [
+        "L",
+        "M",
+        "XL",
+        "XXL"
+      ],
+      "available": true,
+      "stock": 26,
+      "createdAt": "2026-04-29T14:04:25.000000Z",
+      "images": [
+        "https://panjabishop.com/public/storage/images/product/product_1788585044_1388.jpg",
+        "https://panjabishop.com/public/storage/images/product_main_image/main_image_1788585044_5985.jpg"
+      ],
+      "sourceUrl": "https://www.panjabishop.com/product/show/embroydery-panjabi-badami-colour-2607",
+      "categoryHandles": [
+        "men-s-panjabi",
+        "premium-panjabi"
+      ],
+      "tags": [
+        "Badami Colour",
+        "Panjabi",
+        "Premium Panjabi"
+      ],
+      "preferredCardImage": "https://panjabishop.com/public/storage/images/product/product_1788585044_1388.jpg"
+    },
+    {
+      "id": "607",
+      "parentId": "124",
+      "sourceCategoryId": "3",
+      "sourceSubcategoryId": "6",
+      "sourceSubsubcategoryId": "12",
+      "handle": "embroydery-panjabi-cream-colour-panjabi-2606",
+      "code": "2606",
+      "title": "Embroydery panjabi",
+      "color": "Cream Colour Panjabi",
+      "colorHex": null,
+      "price": 960,
+      "compareAtPrice": 2150,
+      "displayedPrice": "TK 960",
+      "currency": "BDT",
+      "variants": [
+        {
+          "id": "2145",
+          "size": "L",
+          "sourceSizeId": "33",
+          "stock": 17,
+          "available": true,
+          "price": 960,
+          "compareAtPrice": 2150
+        },
+        {
+          "id": "2144",
+          "size": "M",
+          "sourceSizeId": "32",
+          "stock": 7,
+          "available": true,
+          "price": 960,
+          "compareAtPrice": 2150
+        },
+        {
+          "id": "2146",
+          "size": "XL",
+          "sourceSizeId": "34",
+          "stock": 14,
+          "available": true,
+          "price": 960,
+          "compareAtPrice": 2150
+        },
+        {
+          "id": "2147",
+          "size": "XXL",
+          "sourceSizeId": "35",
+          "stock": 5,
+          "available": true,
+          "price": 960,
+          "compareAtPrice": 2150
+        }
+      ],
+      "sizes": [
+        "L",
+        "M",
+        "XL",
+        "XXL"
+      ],
+      "available": true,
+      "stock": 43,
+      "createdAt": "2026-04-29T13:50:17.000000Z",
+      "images": [
+        "https://panjabishop.com/public/storage/images/product/product_1788585044_5963.jpg",
+        "https://panjabishop.com/public/storage/images/product_main_image/main_image_1777470616_4326.jpg"
+      ],
+      "sourceUrl": "https://www.panjabishop.com/product/show/embroydery-panjabi-cream-colour-panjabi-2606",
+      "categoryHandles": [
+        "men-s-panjabi",
+        "premium-panjabi"
+      ],
+      "tags": [
+        "Cream Colour Panjabi",
+        "Panjabi",
+        "Premium Panjabi"
+      ],
+      "preferredCardImage": "https://panjabishop.com/public/storage/images/product/product_1788585044_5963.jpg"
+    },
+    {
+      "id": "606",
+      "parentId": "124",
+      "sourceCategoryId": "3",
+      "sourceSubcategoryId": "6",
+      "sourceSubsubcategoryId": "12",
+      "handle": "embroydery-panjabi-lemon-2605",
+      "code": "2605",
+      "title": "Embroydery panjabi",
+      "color": "Lemon",
+      "colorHex": "#6aff00",
+      "price": 960,
+      "compareAtPrice": 2150,
+      "displayedPrice": "TK 960",
+      "currency": "BDT",
+      "variants": [
+        {
+          "id": "2141",
+          "size": "L",
+          "sourceSizeId": "33",
+          "stock": 28,
+          "available": true,
+          "price": 960,
+          "compareAtPrice": 2150
+        },
+        {
+          "id": "2140",
+          "size": "M",
+          "sourceSizeId": "32",
+          "stock": 13,
+          "available": true,
+          "price": 960,
+          "compareAtPrice": 2150
+        },
+        {
+          "id": "2142",
+          "size": "XL",
+          "sourceSizeId": "34",
+          "stock": 30,
+          "available": true,
+          "price": 960,
+          "compareAtPrice": 2150
+        },
+        {
+          "id": "2143",
+          "size": "XXL",
+          "sourceSizeId": "35",
+          "stock": 14,
+          "available": true,
+          "price": 960,
+          "compareAtPrice": 2150
+        }
+      ],
+      "sizes": [
+        "L",
+        "M",
+        "XL",
+        "XXL"
+      ],
+      "available": true,
+      "stock": 85,
+      "createdAt": "2026-04-29T13:50:16.000000Z",
+      "images": [
+        "https://panjabishop.com/public/storage/images/product/product_1788585044_9497.jpg",
+        "https://panjabishop.com/public/storage/images/product_main_image/main_image_1777470616_3032.jpg",
+        "https://panjabishop.com/public/storage/images/product/product_1778133218_5878.jpg"
+      ],
+      "sourceUrl": "https://www.panjabishop.com/product/show/embroydery-panjabi-lemon-2605",
+      "categoryHandles": [
+        "men-s-panjabi",
+        "premium-panjabi"
+      ],
+      "tags": [
+        "Lemon",
+        "Panjabi",
+        "Premium Panjabi"
+      ],
+      "preferredCardImage": "https://panjabishop.com/public/storage/images/product/product_1788585044_9497.jpg"
+    },
+    {
+      "id": "605",
+      "parentId": "124",
+      "sourceCategoryId": "3",
+      "sourceSubcategoryId": "6",
+      "sourceSubsubcategoryId": "12",
+      "handle": "embroydery-panjabi-mint-green-2604",
+      "code": "2604",
+      "title": "Embroydery panjabi",
+      "color": "Mint Green",
+      "colorHex": null,
+      "price": 960,
+      "compareAtPrice": 2150,
+      "displayedPrice": "TK 960",
+      "currency": "BDT",
+      "variants": [
+        {
+          "id": "2137",
+          "size": "L",
+          "sourceSizeId": "33",
+          "stock": 18,
+          "available": true,
+          "price": 960,
+          "compareAtPrice": 2150
+        },
+        {
+          "id": "2136",
+          "size": "M",
+          "sourceSizeId": "32",
+          "stock": 8,
+          "available": true,
+          "price": 960,
+          "compareAtPrice": 2150
+        },
+        {
+          "id": "2138",
+          "size": "XL",
+          "sourceSizeId": "34",
+          "stock": 17,
+          "available": true,
+          "price": 960,
+          "compareAtPrice": 2150
+        },
+        {
+          "id": "2139",
+          "size": "XXL",
+          "sourceSizeId": "35",
+          "stock": 8,
+          "available": true,
+          "price": 960,
+          "compareAtPrice": 2150
+        }
+      ],
+      "sizes": [
+        "L",
+        "M",
+        "XL",
+        "XXL"
+      ],
+      "available": true,
+      "stock": 51,
+      "createdAt": "2026-04-29T13:30:24.000000Z",
+      "images": [
+        "https://panjabishop.com/public/storage/images/product/product_1788585614_3303.jpg",
+        "https://panjabishop.com/public/storage/images/product_main_image/main_image_1777469424_9728.jpg",
+        "https://panjabishop.com/public/storage/images/product/product_1778133218_6877.jpg"
+      ],
+      "sourceUrl": "https://www.panjabishop.com/product/show/embroydery-panjabi-mint-green-2604",
+      "categoryHandles": [
+        "men-s-panjabi",
+        "premium-panjabi"
+      ],
+      "tags": [
+        "Mint Green",
+        "Panjabi",
+        "Premium Panjabi"
+      ],
+      "preferredCardImage": "https://panjabishop.com/public/storage/images/product/product_1788585614_3303.jpg"
+    },
+    {
+      "id": "604",
+      "parentId": "124",
+      "sourceCategoryId": "3",
+      "sourceSubcategoryId": "6",
+      "sourceSubsubcategoryId": "12",
+      "handle": "embroydery-panjabi-orange-2603",
+      "code": "2603",
+      "title": "Embroydery panjabi",
+      "color": "Orange",
+      "colorHex": "#FFA500",
+      "price": 960,
+      "compareAtPrice": 2150,
+      "displayedPrice": "TK 960",
+      "currency": "BDT",
+      "variants": [
+        {
+          "id": "2133",
+          "size": "L",
+          "sourceSizeId": "33",
+          "stock": 18,
+          "available": true,
+          "price": 960,
+          "compareAtPrice": 2150
+        },
+        {
+          "id": "2132",
+          "size": "M",
+          "sourceSizeId": "32",
+          "stock": 10,
+          "available": true,
+          "price": 960,
+          "compareAtPrice": 2150
+        },
+        {
+          "id": "2134",
+          "size": "XL",
+          "sourceSizeId": "34",
+          "stock": 21,
+          "available": true,
+          "price": 960,
+          "compareAtPrice": 2150
+        },
+        {
+          "id": "2135",
+          "size": "XXL",
+          "sourceSizeId": "35",
+          "stock": 9,
+          "available": true,
+          "price": 960,
+          "compareAtPrice": 2150
+        }
+      ],
+      "sizes": [
+        "L",
+        "M",
+        "XL",
+        "XXL"
+      ],
+      "available": true,
+      "stock": 58,
+      "createdAt": "2026-04-29T13:30:24.000000Z",
+      "images": [
+        "https://panjabishop.com/public/storage/images/product/product_1788585045_7641.jpg",
+        "https://panjabishop.com/public/storage/images/product_main_image/main_image_1777469424_4238.jpg",
+        "https://panjabishop.com/public/storage/images/product/product_1778133218_1564.jpg"
+      ],
+      "sourceUrl": "https://www.panjabishop.com/product/show/embroydery-panjabi-orange-2603",
+      "categoryHandles": [
+        "men-s-panjabi",
+        "premium-panjabi"
+      ],
+      "tags": [
+        "Orange",
+        "Panjabi",
+        "Premium Panjabi"
+      ],
+      "preferredCardImage": "https://panjabishop.com/public/storage/images/product/product_1788585045_7641.jpg"
+    },
+    {
+      "id": "603",
+      "parentId": "124",
+      "sourceCategoryId": "3",
+      "sourceSubcategoryId": "6",
+      "sourceSubsubcategoryId": "12",
+      "handle": "embroydery-panjabi-yellow-2602",
+      "code": "2602",
+      "title": "Embroydery panjabi",
+      "color": "Yellow",
+      "colorHex": "#FFFF00",
+      "price": 960,
+      "compareAtPrice": 2150,
+      "displayedPrice": "TK 960",
+      "currency": "BDT",
+      "variants": [
+        {
+          "id": "2129",
+          "size": "L",
+          "sourceSizeId": "33",
+          "stock": 31,
+          "available": true,
+          "price": 960,
+          "compareAtPrice": 2150
+        },
+        {
+          "id": "2128",
+          "size": "M",
+          "sourceSizeId": "32",
+          "stock": 13,
+          "available": true,
+          "price": 960,
+          "compareAtPrice": 2150
+        },
+        {
+          "id": "2130",
+          "size": "XL",
+          "sourceSizeId": "34",
+          "stock": 30,
+          "available": true,
+          "price": 960,
+          "compareAtPrice": 2150
+        },
+        {
+          "id": "2131",
+          "size": "XXL",
+          "sourceSizeId": "35",
+          "stock": 6,
+          "available": true,
+          "price": 960,
+          "compareAtPrice": 2150
+        }
+      ],
+      "sizes": [
+        "L",
+        "M",
+        "XL",
+        "XXL"
+      ],
+      "available": true,
+      "stock": 80,
+      "createdAt": "2026-04-29T13:30:24.000000Z",
+      "images": [
+        "https://panjabishop.com/public/storage/images/product/product_1788585045_6321.jpg",
+        "https://panjabishop.com/public/storage/images/product_main_image/main_image_1777469424_4383.jpg",
+        "https://panjabishop.com/public/storage/images/product/product_1778133218_5873.jpg"
+      ],
+      "sourceUrl": "https://www.panjabishop.com/product/show/embroydery-panjabi-yellow-2602",
+      "categoryHandles": [
+        "men-s-panjabi",
+        "premium-panjabi"
+      ],
+      "tags": [
+        "Yellow",
+        "Panjabi",
+        "Premium Panjabi"
+      ],
+      "preferredCardImage": "https://panjabishop.com/public/storage/images/product/product_1788585045_6321.jpg"
+    },
+    {
+      "id": "602",
+      "parentId": "124",
+      "sourceCategoryId": "3",
+      "sourceSubcategoryId": "6",
+      "sourceSubsubcategoryId": "12",
+      "handle": "embroydery-panjabi-sky-blue-2601",
+      "code": "2601",
+      "title": "Embroydery panjabi",
+      "color": "Sky Blue",
+      "colorHex": "#02CCFF",
+      "price": 960,
+      "compareAtPrice": 2150,
+      "displayedPrice": "TK 960",
+      "currency": "BDT",
+      "variants": [
+        {
+          "id": "2125",
+          "size": "L",
+          "sourceSizeId": "33",
+          "stock": 20,
+          "available": true,
+          "price": 960,
+          "compareAtPrice": 2150
+        },
+        {
+          "id": "2124",
+          "size": "M",
+          "sourceSizeId": "32",
+          "stock": 9,
+          "available": true,
+          "price": 960,
+          "compareAtPrice": 2150
+        },
+        {
+          "id": "2126",
+          "size": "XL",
+          "sourceSizeId": "34",
+          "stock": 20,
+          "available": true,
+          "price": 960,
+          "compareAtPrice": 2150
+        },
+        {
+          "id": "2127",
+          "size": "XXL",
+          "sourceSizeId": "35",
+          "stock": 9,
+          "available": true,
+          "price": 960,
+          "compareAtPrice": 2150
+        }
+      ],
+      "sizes": [
+        "L",
+        "M",
+        "XL",
+        "XXL"
+      ],
+      "available": true,
+      "stock": 58,
+      "createdAt": "2026-04-29T12:26:14.000000Z",
+      "images": [
+        "https://panjabishop.com/public/storage/images/product/product_1788585045_7909.jpg",
+        "https://panjabishop.com/public/storage/images/product_main_image/main_image_1777465574_6937.jpg",
+        "https://panjabishop.com/public/storage/images/product/product_1778133218_8958.jpg"
+      ],
+      "sourceUrl": "https://www.panjabishop.com/product/show/embroydery-panjabi-sky-blue-2601",
+      "categoryHandles": [
+        "men-s-panjabi",
+        "premium-panjabi"
+      ],
+      "tags": [
+        "Sky Blue",
+        "Panjabi",
+        "Premium Panjabi"
+      ],
+      "preferredCardImage": "https://panjabishop.com/public/storage/images/product/product_1788585045_7909.jpg"
+    },
+    {
+      "id": "601",
+      "parentId": "124",
+      "sourceCategoryId": "3",
+      "sourceSubcategoryId": "6",
+      "sourceSubsubcategoryId": "12",
+      "handle": "embroydery-panjabi-olive-colour-2600",
+      "code": "2600",
+      "title": "Embroydery panjabi",
+      "color": "Olive Colour",
+      "colorHex": null,
+      "price": 960,
+      "compareAtPrice": 2150,
+      "displayedPrice": "TK 960",
+      "currency": "BDT",
+      "variants": [
+        {
+          "id": "2121",
+          "size": "L",
+          "sourceSizeId": "33",
+          "stock": 23,
+          "available": true,
+          "price": 960,
+          "compareAtPrice": 2150
+        },
+        {
+          "id": "2120",
+          "size": "M",
+          "sourceSizeId": "32",
+          "stock": 10,
+          "available": true,
+          "price": 960,
+          "compareAtPrice": 2150
+        },
+        {
+          "id": "2122",
+          "size": "XL",
+          "sourceSizeId": "34",
+          "stock": 21,
+          "available": true,
+          "price": 960,
+          "compareAtPrice": 2150
+        },
+        {
+          "id": "2123",
+          "size": "XXL",
+          "sourceSizeId": "35",
+          "stock": 9,
+          "available": true,
+          "price": 960,
+          "compareAtPrice": 2150
+        }
+      ],
+      "sizes": [
+        "L",
+        "M",
+        "XL",
+        "XXL"
+      ],
+      "available": true,
+      "stock": 63,
+      "createdAt": "2026-04-29T12:26:14.000000Z",
+      "images": [
+        "https://panjabishop.com/public/storage/images/product/product_1788585376_2607.jpg",
+        "https://panjabishop.com/public/storage/images/product_main_image/main_image_1777465574_1697.jpg"
+      ],
+      "sourceUrl": "https://www.panjabishop.com/product/show/embroydery-panjabi-olive-colour-2600",
+      "categoryHandles": [
+        "men-s-panjabi",
+        "premium-panjabi"
+      ],
+      "tags": [
+        "Olive Colour",
+        "Panjabi",
+        "Premium Panjabi"
+      ],
+      "preferredCardImage": "https://panjabishop.com/public/storage/images/product/product_1788585376_2607.jpg"
+    },
+    {
+      "id": "600",
+      "parentId": "124",
+      "sourceCategoryId": "3",
+      "sourceSubcategoryId": "6",
+      "sourceSubsubcategoryId": "12",
+      "handle": "embroydery-panjabi-mate-brown-2599",
+      "code": "2599",
+      "title": "Embroydery panjabi",
+      "color": "Mate Brown",
+      "colorHex": null,
+      "price": 960,
+      "compareAtPrice": 2150,
+      "displayedPrice": "TK 960",
+      "currency": "BDT",
+      "variants": [
+        {
+          "id": "2117",
+          "size": "L",
+          "sourceSizeId": "33",
+          "stock": 14,
+          "available": true,
+          "price": 960,
+          "compareAtPrice": 2150
+        },
+        {
+          "id": "2116",
+          "size": "M",
+          "sourceSizeId": "32",
+          "stock": 7,
+          "available": true,
+          "price": 960,
+          "compareAtPrice": 2150
+        },
+        {
+          "id": "2118",
+          "size": "XL",
+          "sourceSizeId": "34",
+          "stock": 18,
+          "available": true,
+          "price": 960,
+          "compareAtPrice": 2150
+        },
+        {
+          "id": "2119",
+          "size": "XXL",
+          "sourceSizeId": "35",
+          "stock": 0,
+          "available": false,
+          "price": 960,
+          "compareAtPrice": 2150
+        }
+      ],
+      "sizes": [
+        "L",
+        "M",
+        "XL",
+        "XXL"
+      ],
+      "available": true,
+      "stock": 39,
+      "createdAt": "2026-04-29T08:05:13.000000Z",
+      "images": [
+        "https://panjabishop.com/public/storage/images/product/product_1788586086_4456.jpg",
+        "https://panjabishop.com/public/storage/images/product_main_image/main_image_1788586086_1500.jpg"
+      ],
+      "sourceUrl": "https://www.panjabishop.com/product/show/embroydery-panjabi-mate-brown-2599",
+      "categoryHandles": [
+        "men-s-panjabi",
+        "premium-panjabi"
+      ],
+      "tags": [
+        "Mate Brown",
+        "Panjabi",
+        "Premium Panjabi"
+      ],
+      "preferredCardImage": "https://panjabishop.com/public/storage/images/product/product_1788586086_4456.jpg"
+    },
+    {
+      "id": "597",
+      "parentId": "124",
+      "sourceCategoryId": "3",
+      "sourceSubcategoryId": "6",
+      "sourceSubsubcategoryId": "12",
+      "handle": "embroydery-panjabi-white-colour-2596",
+      "code": "2596",
+      "title": "Embroydery panjabi",
+      "color": "White Colour",
+      "colorHex": null,
+      "price": 960,
+      "compareAtPrice": 2150,
+      "displayedPrice": "TK 960",
+      "currency": "BDT",
+      "variants": [
+        {
+          "id": "2105",
+          "size": "L",
+          "sourceSizeId": "33",
+          "stock": 28,
+          "available": true,
+          "price": 960,
+          "compareAtPrice": 2150
+        },
+        {
+          "id": "2104",
+          "size": "M",
+          "sourceSizeId": "32",
+          "stock": 12,
+          "available": true,
+          "price": 960,
+          "compareAtPrice": 2150
+        },
+        {
+          "id": "2106",
+          "size": "XL",
+          "sourceSizeId": "34",
+          "stock": 26,
+          "available": true,
+          "price": 960,
+          "compareAtPrice": 2150
+        },
+        {
+          "id": "2107",
+          "size": "XXL",
+          "sourceSizeId": "35",
+          "stock": 13,
+          "available": true,
+          "price": 960,
+          "compareAtPrice": 2150
+        }
+      ],
+      "sizes": [
+        "L",
+        "M",
+        "XL",
+        "XXL"
+      ],
+      "available": true,
+      "stock": 79,
+      "createdAt": "2026-04-29T07:21:33.000000Z",
+      "images": [
+        "https://panjabishop.com/public/storage/images/product/product_1788585836_1127.jpg",
+        "https://panjabishop.com/public/storage/images/product_main_image/main_image_1777447293_2686.jpg"
+      ],
+      "sourceUrl": "https://www.panjabishop.com/product/show/embroydery-panjabi-white-colour-2596",
+      "categoryHandles": [
+        "men-s-panjabi",
+        "premium-panjabi"
+      ],
+      "tags": [
+        "White Colour",
+        "Panjabi",
+        "Premium Panjabi"
+      ],
+      "preferredCardImage": "https://panjabishop.com/public/storage/images/product/product_1788585836_1127.jpg"
+    },
+    {
+      "id": "379",
+      "parentId": "78",
+      "sourceCategoryId": "3",
+      "sourceSubcategoryId": "6",
+      "sourceSubsubcategoryId": "2",
+      "handle": "premium-panjabi-purple-1332",
+      "code": "1332",
+      "title": "Premium Panjabi",
+      "color": "Purple",
+      "colorHex": "#6707a3",
+      "price": 2490,
+      "compareAtPrice": 2850,
+      "displayedPrice": "TK 2490",
+      "currency": "BDT",
+      "variants": [
+        {
+          "id": "1248",
+          "size": "L",
+          "sourceSizeId": "33",
+          "stock": 3,
+          "available": true,
+          "price": 2490,
+          "compareAtPrice": 2850
+        },
+        {
+          "id": "1247",
+          "size": "M",
+          "sourceSizeId": "32",
+          "stock": 0,
+          "available": false,
+          "price": 2490,
+          "compareAtPrice": 2850
+        },
+        {
+          "id": "1249",
+          "size": "XL",
+          "sourceSizeId": "34",
+          "stock": 5,
+          "available": true,
+          "price": 2490,
+          "compareAtPrice": 2850
+        },
+        {
+          "id": "1250",
+          "size": "XXL",
+          "sourceSizeId": "35",
+          "stock": 1,
+          "available": true,
+          "price": 2490,
+          "compareAtPrice": 2850
+        }
+      ],
+      "sizes": [
+        "L",
+        "M",
+        "XL",
+        "XXL"
+      ],
+      "available": true,
+      "stock": 9,
+      "createdAt": "2025-11-11T11:50:17.000000Z",
+      "images": [
+        "https://panjabishop.com/public/storage/images/product_main_image/main_image_1762861817_2874.jpg",
+        "https://panjabishop.com/public/storage/images/product/product_1762861817_2522.jpg",
+        "https://panjabishop.com/public/storage/images/product/product_1762861817_5421.jpg"
+      ],
+      "sourceUrl": "https://www.panjabishop.com/product/show/premium-panjabi-purple-1332",
+      "categoryHandles": [
+        "men-s-panjabi",
+        "premium-panjabi"
+      ],
+      "tags": [
+        "Purple",
+        "Panjabi",
+        "Premium Panjabi"
+      ],
+      "preferredCardImage": "https://panjabishop.com/public/storage/images/product_main_image/main_image_1762861817_2874.jpg"
+    },
+    {
+      "id": "402",
+      "parentId": "82",
+      "sourceCategoryId": "3",
+      "sourceSubcategoryId": "1",
+      "sourceSubsubcategoryId": "6",
+      "handle": "party-panjabi-marron-1402",
+      "code": "1601",
+      "title": "Party Panjabi",
+      "color": "Marron",
+      "colorHex": "#800000",
+      "price": 1395,
+      "compareAtPrice": 3990,
+      "displayedPrice": "TK 1395",
+      "currency": "BDT",
+      "variants": [
+        {
+          "id": "1323",
+          "size": "L",
+          "sourceSizeId": "33",
+          "stock": 2,
+          "available": true,
+          "price": 1395,
+          "compareAtPrice": 3990
+        },
+        {
+          "id": "1322",
+          "size": "M",
+          "sourceSizeId": "32",
+          "stock": 0,
+          "available": false,
+          "price": 1395,
+          "compareAtPrice": 3990
+        },
+        {
+          "id": "1324",
+          "size": "XL",
+          "sourceSizeId": "34",
+          "stock": 0,
+          "available": false,
+          "price": 1395,
+          "compareAtPrice": 3990
+        }
+      ],
+      "sizes": [
+        "L",
+        "M",
+        "XL"
+      ],
+      "available": true,
+      "stock": 2,
+      "createdAt": "2025-11-12T08:11:23.000000Z",
+      "images": [
+        "https://panjabishop.com/public/storage/images/product/product_1762935083_2287.jpg",
+        "https://panjabishop.com/public/storage/images/product_main_image/main_image_1762935083_5925.jpg",
+        "https://panjabishop.com/public/storage/images/product/product_1762935083_3143.jpg"
+      ],
+      "sourceUrl": "https://www.panjabishop.com/product/show/party-panjabi-marron-1402",
+      "categoryHandles": [
+        "men-s-panjabi",
+        "sequence-panjabi"
+      ],
+      "tags": [
+        "Marron",
+        "Panjabi",
+        "Sequence Panjabi"
+      ],
+      "preferredCardImage": "https://panjabishop.com/public/storage/images/product/product_1762935083_2287.jpg"
+    },
+    {
+      "id": "401",
+      "parentId": "82",
+      "sourceCategoryId": "3",
+      "sourceSubcategoryId": "1",
+      "sourceSubsubcategoryId": "6",
+      "handle": "party-panjabi-naby-blue-1401",
+      "code": "1600",
+      "title": "Party Panjabi",
+      "color": "Naby Blue",
+      "colorHex": "#0b0b52",
+      "price": 1395,
+      "compareAtPrice": 3990,
+      "displayedPrice": "TK 1395",
+      "currency": "BDT",
+      "variants": [
+        {
+          "id": "1320",
+          "size": "L",
+          "sourceSizeId": "33",
+          "stock": 6,
+          "available": true,
+          "price": 1395,
+          "compareAtPrice": 3990
+        },
+        {
+          "id": "1319",
+          "size": "M",
+          "sourceSizeId": "32",
+          "stock": 6,
+          "available": true,
+          "price": 1395,
+          "compareAtPrice": 3990
+        },
+        {
+          "id": "1321",
+          "size": "XL",
+          "sourceSizeId": "34",
+          "stock": 5,
+          "available": true,
+          "price": 1395,
+          "compareAtPrice": 3990
+        }
+      ],
+      "sizes": [
+        "L",
+        "M",
+        "XL"
+      ],
+      "available": true,
+      "stock": 17,
+      "createdAt": "2025-11-12T07:55:35.000000Z",
+      "images": [
+        "https://panjabishop.com/public/storage/images/product/product_1762934135_9267.jpg",
+        "https://panjabishop.com/public/storage/images/product_main_image/main_image_1762934134_7993.jpg",
+        "https://panjabishop.com/public/storage/images/product/product_1762934135_8805.jpg"
+      ],
+      "sourceUrl": "https://www.panjabishop.com/product/show/party-panjabi-naby-blue-1401",
+      "categoryHandles": [
+        "men-s-panjabi",
+        "sequence-panjabi"
+      ],
+      "tags": [
+        "Naby Blue",
+        "Panjabi",
+        "Sequence Panjabi"
+      ],
+      "preferredCardImage": "https://panjabishop.com/public/storage/images/product/product_1762934135_9267.jpg"
+    },
+    {
+      "id": "399",
+      "parentId": "82",
+      "sourceCategoryId": "3",
+      "sourceSubcategoryId": "1",
+      "sourceSubsubcategoryId": "6",
+      "handle": "party-panjabi-green-1399",
+      "code": "1282",
+      "title": "Party Panjabi",
+      "color": "Green",
+      "colorHex": "#008000",
+      "price": 1395,
+      "compareAtPrice": 3990,
+      "displayedPrice": "TK 1395",
+      "currency": "BDT",
+      "variants": [
+        {
+          "id": "1313",
+          "size": "L",
+          "sourceSizeId": "33",
+          "stock": 17,
+          "available": true,
+          "price": 1395,
+          "compareAtPrice": 3990
+        },
+        {
+          "id": "1312",
+          "size": "M",
+          "sourceSizeId": "32",
+          "stock": 13,
+          "available": true,
+          "price": 1395,
+          "compareAtPrice": 3990
+        },
+        {
+          "id": "1314",
+          "size": "XL",
+          "sourceSizeId": "34",
+          "stock": 13,
+          "available": true,
+          "price": 1395,
+          "compareAtPrice": 3990
+        }
+      ],
+      "sizes": [
+        "L",
+        "M",
+        "XL"
+      ],
+      "available": true,
+      "stock": 43,
+      "createdAt": "2025-11-11T15:31:52.000000Z",
+      "images": [
+        "https://panjabishop.com/public/storage/images/product/product_1762875112_4505.jpg",
+        "https://panjabishop.com/public/storage/images/product_main_image/main_image_1762875112_2867.jpg"
+      ],
+      "sourceUrl": "https://www.panjabishop.com/product/show/party-panjabi-green-1399",
+      "categoryHandles": [
+        "men-s-panjabi",
+        "sequence-panjabi"
+      ],
+      "tags": [
+        "Green",
+        "Panjabi",
+        "Sequence Panjabi"
+      ],
+      "preferredCardImage": "https://panjabishop.com/public/storage/images/product/product_1762875112_4505.jpg"
+    },
+    {
+      "id": "548",
+      "parentId": "116",
+      "sourceCategoryId": "3",
+      "sourceSubcategoryId": "8",
+      "sourceSubsubcategoryId": "null",
+      "handle": "signature-panjabi-creamy-beige-2547",
+      "code": "2547",
+      "title": "Signature panjabi",
+      "color": "Creamy Beige",
+      "colorHex": null,
+      "price": 3290,
+      "compareAtPrice": null,
+      "displayedPrice": "TK 3290",
+      "currency": "BDT",
+      "variants": [
+        {
+          "id": "1909",
+          "size": "L",
+          "sourceSizeId": "33",
+          "stock": 1,
+          "available": true,
+          "price": 3290,
+          "compareAtPrice": null
+        },
+        {
+          "id": "1908",
+          "size": "M",
+          "sourceSizeId": "32",
+          "stock": 1,
+          "available": true,
+          "price": 3290,
+          "compareAtPrice": null
+        },
+        {
+          "id": "1910",
+          "size": "XL",
+          "sourceSizeId": "34",
+          "stock": 0,
+          "available": false,
+          "price": 3290,
+          "compareAtPrice": null
+        },
+        {
+          "id": "1911",
+          "size": "XXL",
+          "sourceSizeId": "35",
+          "stock": 0,
+          "available": false,
+          "price": 3290,
+          "compareAtPrice": null
+        }
+      ],
+      "sizes": [
+        "L",
+        "M",
+        "XL",
+        "XXL"
+      ],
+      "available": true,
+      "stock": 2,
+      "createdAt": "2026-03-05T07:58:10.000000Z",
+      "images": [
+        "https://panjabishop.com/public/storage/images/product_main_image/main_image_1772723210_2837.jpg"
+      ],
+      "sourceUrl": "https://www.panjabishop.com/product/show/signature-panjabi-creamy-beige-2547",
+      "categoryHandles": [
+        "men-s-panjabi",
+        "signature-panjabi"
+      ],
+      "tags": [
+        "Creamy Beige",
+        "Panjabi",
+        "Signature Panjabi"
+      ],
+      "preferredCardImage": "https://panjabishop.com/public/storage/images/product_main_image/main_image_1772723210_2837.jpg"
+    },
+    {
+      "id": "547",
+      "parentId": "116",
+      "sourceCategoryId": "3",
+      "sourceSubcategoryId": "8",
+      "sourceSubsubcategoryId": "null",
+      "handle": "signature-panjabi-gray-colour-2546",
+      "code": "2546",
+      "title": "Signature panjabi",
+      "color": "Gray Colour",
+      "colorHex": null,
+      "price": 3290,
+      "compareAtPrice": null,
+      "displayedPrice": "TK 3290",
+      "currency": "BDT",
+      "variants": [
+        {
+          "id": "1905",
+          "size": "L",
+          "sourceSizeId": "33",
+          "stock": 1,
+          "available": true,
+          "price": 3290,
+          "compareAtPrice": null
+        },
+        {
+          "id": "1904",
+          "size": "M",
+          "sourceSizeId": "32",
+          "stock": 2,
+          "available": true,
+          "price": 3290,
+          "compareAtPrice": null
+        },
+        {
+          "id": "1906",
+          "size": "XL",
+          "sourceSizeId": "34",
+          "stock": 1,
+          "available": true,
+          "price": 3290,
+          "compareAtPrice": null
+        },
+        {
+          "id": "1907",
+          "size": "XXL",
+          "sourceSizeId": "35",
+          "stock": 1,
+          "available": true,
+          "price": 3290,
+          "compareAtPrice": null
+        }
+      ],
+      "sizes": [
+        "L",
+        "M",
+        "XL",
+        "XXL"
+      ],
+      "available": true,
+      "stock": 5,
+      "createdAt": "2026-03-05T07:58:10.000000Z",
+      "images": [
+        "https://panjabishop.com/public/storage/images/product_main_image/main_image_1772723211_9875.jpg"
+      ],
+      "sourceUrl": "https://www.panjabishop.com/product/show/signature-panjabi-gray-colour-2546",
+      "categoryHandles": [
+        "men-s-panjabi",
+        "signature-panjabi"
+      ],
+      "tags": [
+        "Gray Colour",
+        "Panjabi",
+        "Signature Panjabi"
+      ],
+      "preferredCardImage": "https://panjabishop.com/public/storage/images/product_main_image/main_image_1772723211_9875.jpg"
+    },
+    {
+      "id": "546",
+      "parentId": "116",
+      "sourceCategoryId": "3",
+      "sourceSubcategoryId": "8",
+      "sourceSubsubcategoryId": "null",
+      "handle": "signature-panjabi-light-ash-grey-2545",
+      "code": "2545",
+      "title": "Signature panjabi",
+      "color": "Light Ash Grey",
+      "colorHex": null,
+      "price": 3290,
+      "compareAtPrice": null,
+      "displayedPrice": "TK 3290",
+      "currency": "BDT",
+      "variants": [
+        {
+          "id": "1901",
+          "size": "L",
+          "sourceSizeId": "33",
+          "stock": 0,
+          "available": false,
+          "price": 3290,
+          "compareAtPrice": null
+        },
+        {
+          "id": "1900",
+          "size": "M",
+          "sourceSizeId": "32",
+          "stock": 1,
+          "available": true,
+          "price": 3290,
+          "compareAtPrice": null
+        },
+        {
+          "id": "1902",
+          "size": "XL",
+          "sourceSizeId": "34",
+          "stock": 0,
+          "available": false,
+          "price": 3290,
+          "compareAtPrice": null
+        },
+        {
+          "id": "1903",
+          "size": "XXL",
+          "sourceSizeId": "35",
+          "stock": 0,
+          "available": false,
+          "price": 3290,
+          "compareAtPrice": null
+        }
+      ],
+      "sizes": [
+        "L",
+        "M",
+        "XL",
+        "XXL"
+      ],
+      "available": true,
+      "stock": 1,
+      "createdAt": "2026-03-05T07:58:09.000000Z",
+      "images": [
+        "https://panjabishop.com/public/storage/images/product_main_image/main_image_1772723211_9492.jpg"
+      ],
+      "sourceUrl": "https://www.panjabishop.com/product/show/signature-panjabi-light-ash-grey-2545",
+      "categoryHandles": [
+        "men-s-panjabi",
+        "signature-panjabi"
+      ],
+      "tags": [
+        "Light Ash Grey",
+        "Panjabi",
+        "Signature Panjabi"
+      ],
+      "preferredCardImage": "https://panjabishop.com/public/storage/images/product_main_image/main_image_1772723211_9492.jpg"
+    },
+    {
+      "id": "528",
+      "parentId": "110",
+      "sourceCategoryId": "1",
+      "sourceSubcategoryId": "5",
+      "sourceSubsubcategoryId": "11",
+      "handle": "waistcoat-65-off-mint-green-2527",
+      "code": "2527",
+      "title": "Waistcoat 65% Off",
+      "color": "Mint Green",
+      "colorHex": null,
+      "price": 1500,
+      "compareAtPrice": 4290,
+      "displayedPrice": "TK 1500",
+      "currency": "BDT",
+      "variants": [
+        {
+          "id": "1829",
+          "size": "L",
+          "sourceSizeId": "33",
+          "stock": 6,
+          "available": true,
+          "price": 1500,
+          "compareAtPrice": 4290
+        },
+        {
+          "id": "1828",
+          "size": "M",
+          "sourceSizeId": "32",
+          "stock": 3,
+          "available": true,
+          "price": 1500,
+          "compareAtPrice": 4290
+        },
+        {
+          "id": "1830",
+          "size": "XL",
+          "sourceSizeId": "34",
+          "stock": 7,
+          "available": true,
+          "price": 1500,
+          "compareAtPrice": 4290
+        },
+        {
+          "id": "1831",
+          "size": "XXL",
+          "sourceSizeId": "35",
+          "stock": 0,
+          "available": false,
+          "price": 1500,
+          "compareAtPrice": 4290
+        }
+      ],
+      "sizes": [
+        "L",
+        "M",
+        "XL",
+        "XXL"
+      ],
+      "available": true,
+      "stock": 16,
+      "createdAt": "2026-03-02T08:06:54.000000Z",
+      "images": [
+        "https://panjabishop.com/public/storage/images/product_main_image/main_image_1772438814_8391.jpg"
+      ],
+      "sourceUrl": "https://www.panjabishop.com/product/show/waistcoat-65-off-mint-green-2527",
+      "categoryHandles": [
+        "waistcoat"
+      ],
+      "tags": [
+        "Mint Green",
+        "Waistcoats"
+      ],
+      "preferredCardImage": "https://panjabishop.com/public/storage/images/product_main_image/main_image_1772438814_8391.jpg"
+    },
+    {
+      "id": "527",
+      "parentId": "110",
+      "sourceCategoryId": "1",
+      "sourceSubcategoryId": "5",
+      "sourceSubsubcategoryId": "11",
+      "handle": "waistcoat-65-off-cream-2526",
+      "code": "2526",
+      "title": "Waistcoat 65% Off",
+      "color": "Cream",
+      "colorHex": "#FFFDD0",
+      "price": 1500,
+      "compareAtPrice": 4290,
+      "displayedPrice": "TK 1500",
+      "currency": "BDT",
+      "variants": [
+        {
+          "id": "1825",
+          "size": "L",
+          "sourceSizeId": "33",
+          "stock": 14,
+          "available": true,
+          "price": 1500,
+          "compareAtPrice": 4290
+        },
+        {
+          "id": "1824",
+          "size": "M",
+          "sourceSizeId": "32",
+          "stock": 9,
+          "available": true,
+          "price": 1500,
+          "compareAtPrice": 4290
+        },
+        {
+          "id": "1826",
+          "size": "XL",
+          "sourceSizeId": "34",
+          "stock": 14,
+          "available": true,
+          "price": 1500,
+          "compareAtPrice": 4290
+        },
+        {
+          "id": "1827",
+          "size": "XXL",
+          "sourceSizeId": "35",
+          "stock": 4,
+          "available": true,
+          "price": 1500,
+          "compareAtPrice": 4290
+        }
+      ],
+      "sizes": [
+        "L",
+        "M",
+        "XL",
+        "XXL"
+      ],
+      "available": true,
+      "stock": 41,
+      "createdAt": "2026-03-02T08:06:54.000000Z",
+      "images": [
+        "https://panjabishop.com/public/storage/images/product_main_image/main_image_1772438814_4394.jpg"
+      ],
+      "sourceUrl": "https://www.panjabishop.com/product/show/waistcoat-65-off-cream-2526",
+      "categoryHandles": [
+        "waistcoat"
+      ],
+      "tags": [
+        "Cream",
+        "Waistcoats"
+      ],
+      "preferredCardImage": "https://panjabishop.com/public/storage/images/product_main_image/main_image_1772438814_4394.jpg"
+    },
+    {
+      "id": "518",
+      "parentId": "110",
+      "sourceCategoryId": "1",
+      "sourceSubcategoryId": "5",
+      "sourceSubsubcategoryId": "11",
+      "handle": "waistcoat-65-off-blue-2517",
+      "code": "2517",
+      "title": "Waistcoat 65% Off",
+      "color": "Blue",
+      "colorHex": "#0000FF",
+      "price": 1500,
+      "compareAtPrice": 4290,
+      "displayedPrice": "TK 1500",
+      "currency": "BDT",
+      "variants": [
+        {
+          "id": "1789",
+          "size": "L",
+          "sourceSizeId": "33",
+          "stock": 7,
+          "available": true,
+          "price": 1500,
+          "compareAtPrice": 4290
+        },
+        {
+          "id": "1788",
+          "size": "M",
+          "sourceSizeId": "32",
+          "stock": 0,
+          "available": false,
+          "price": 1500,
+          "compareAtPrice": 4290
+        },
+        {
+          "id": "1790",
+          "size": "XL",
+          "sourceSizeId": "34",
+          "stock": 0,
+          "available": false,
+          "price": 1500,
+          "compareAtPrice": 4290
+        },
+        {
+          "id": "1791",
+          "size": "XXL",
+          "sourceSizeId": "35",
+          "stock": 2,
+          "available": true,
+          "price": 1500,
+          "compareAtPrice": 4290
+        }
+      ],
+      "sizes": [
+        "L",
+        "M",
+        "XL",
+        "XXL"
+      ],
+      "available": true,
+      "stock": 9,
+      "createdAt": "2026-02-22T06:14:51.000000Z",
+      "images": [
+        "https://panjabishop.com/public/storage/images/product/product_1771740891_9468.jpg",
+        "https://panjabishop.com/public/storage/images/product_main_image/main_image_1771740891_8800.jpg",
+        "https://panjabishop.com/public/storage/images/product/product_1771740891_4168.jpg"
+      ],
+      "sourceUrl": "https://www.panjabishop.com/product/show/waistcoat-65-off-blue-2517",
+      "categoryHandles": [
+        "waistcoat"
+      ],
+      "tags": [
+        "Blue",
+        "Waistcoats"
+      ],
+      "preferredCardImage": "https://panjabishop.com/public/storage/images/product/product_1771740891_9468.jpg"
+    },
+    {
+      "id": "622",
+      "parentId": "53",
+      "sourceCategoryId": "5",
+      "sourceSubcategoryId": "7",
+      "sourceSubsubcategoryId": "null",
+      "handle": "mens-premium-pajama-white-black-2621",
+      "code": "2621",
+      "title": "Mens Premium Pajama- White",
+      "color": "Black",
+      "colorHex": "#000000",
+      "price": 850,
+      "compareAtPrice": null,
+      "displayedPrice": "TK 850",
+      "currency": "BDT",
+      "variants": [
+        {
+          "id": "2204",
+          "size": "38",
+          "sourceSizeId": "12",
+          "stock": 6,
+          "available": true,
+          "price": 850,
+          "compareAtPrice": null
+        },
+        {
+          "id": "2205",
+          "size": "40",
+          "sourceSizeId": "13",
+          "stock": 16,
+          "available": true,
+          "price": 850,
+          "compareAtPrice": null
+        },
+        {
+          "id": "2206",
+          "size": "42",
+          "sourceSizeId": "14",
+          "stock": 15,
+          "available": true,
+          "price": 850,
+          "compareAtPrice": null
+        },
+        {
+          "id": "2207",
+          "size": "44",
+          "sourceSizeId": "15",
+          "stock": 7,
+          "available": true,
+          "price": 850,
+          "compareAtPrice": null
+        }
+      ],
+      "sizes": [
+        "38",
+        "40",
+        "42",
+        "44"
+      ],
+      "available": true,
+      "stock": 44,
+      "createdAt": "2026-05-07T06:46:53.000000Z",
+      "images": [
+        "https://panjabishop.com/public/storage/images/product/product_1788588108_6266.jpg",
+        "https://panjabishop.com/public/storage/images/product_main_image/main_image_1788588108_6405.jpg"
+      ],
+      "sourceUrl": "https://www.panjabishop.com/product/show/mens-premium-pajama-white-black-2621",
+      "categoryHandles": [
+        "premium-trousers"
+      ],
+      "tags": [
+        "Black",
+        "Trousers"
+      ],
+      "preferredCardImage": "https://panjabishop.com/public/storage/images/product/product_1788588108_6266.jpg"
+    },
+    {
+      "id": "581",
+      "parentId": "53",
+      "sourceCategoryId": "5",
+      "sourceSubcategoryId": "7",
+      "sourceSubsubcategoryId": "null",
+      "handle": "mens-premium-pajama-white-black-colour-2580",
+      "code": "2580",
+      "title": "Mens Premium Pajama- White",
+      "color": "Black Colour",
+      "colorHex": null,
+      "price": 850,
+      "compareAtPrice": null,
+      "displayedPrice": "TK 850",
+      "currency": "BDT",
+      "variants": [
+        {
+          "id": "2040",
+          "size": "38",
+          "sourceSizeId": "12",
+          "stock": 81,
+          "available": true,
+          "price": 850,
+          "compareAtPrice": null
+        },
+        {
+          "id": "2041",
+          "size": "40",
+          "sourceSizeId": "13",
+          "stock": 77,
+          "available": true,
+          "price": 850,
+          "compareAtPrice": null
+        },
+        {
+          "id": "2042",
+          "size": "42",
+          "sourceSizeId": "14",
+          "stock": 94,
+          "available": true,
+          "price": 850,
+          "compareAtPrice": null
+        },
+        {
+          "id": "2043",
+          "size": "44",
+          "sourceSizeId": "15",
+          "stock": 25,
+          "available": true,
+          "price": 850,
+          "compareAtPrice": null
+        }
+      ],
+      "sizes": [
+        "38",
+        "40",
+        "42",
+        "44"
+      ],
+      "available": true,
+      "stock": 277,
+      "createdAt": "2026-03-13T06:55:42.000000Z",
+      "images": [
+        "https://panjabishop.com/public/storage/images/product/product_1788588108_8794.jpg",
+        "https://panjabishop.com/public/storage/images/product_main_image/main_image_1788588108_4152.jpg"
+      ],
+      "sourceUrl": "https://www.panjabishop.com/product/show/mens-premium-pajama-white-black-colour-2580",
+      "categoryHandles": [
+        "premium-trousers"
+      ],
+      "tags": [
+        "Black Colour",
+        "Trousers"
+      ],
+      "preferredCardImage": "https://panjabishop.com/public/storage/images/product/product_1788588108_8794.jpg"
+    }
+  ],
+  "issues": [],
+  "categories": [
+    {
+      "handle": "sequence-panjabi",
+      "sourceUrl": "https://www.panjabishop.com/mens-panjabi/sequence-panjabi",
+      "observedListingCount": 21,
+      "importedCount": 3
+    },
+    {
+      "handle": "luxury-panjabi",
+      "sourceUrl": "https://www.panjabishop.com/mens-panjabi/luxury-panjabi",
+      "observedListingCount": 0,
+      "importedCount": 0
+    },
+    {
+      "handle": "printed-panjabi",
+      "sourceUrl": "https://www.panjabishop.com/mens-panjabi/printed-panjabi",
+      "observedListingCount": 0,
+      "importedCount": 0
+    },
+    {
+      "handle": "signature-panjabi",
+      "sourceUrl": "https://www.panjabishop.com/mens-panjabi/signature-panjabi",
+      "observedListingCount": 9,
+      "importedCount": 3
+    },
+    {
+      "handle": "waistcoats",
+      "sourceUrl": "https://www.panjabishop.com/waistcoats",
+      "observedListingCount": 30,
+      "importedCount": 3
+    },
+    {
+      "handle": "trousers",
+      "sourceUrl": "https://www.panjabishop.com/trousers",
+      "observedListingCount": 2,
+      "importedCount": 2
+    },
+    {
+      "handle": "watch",
+      "sourceUrl": "https://www.panjabishop.com/watch",
+      "observedListingCount": 0,
+      "importedCount": 0
+    },
+    {
+      "handle": "premium-panjabi",
+      "sourceUrl": "https://www.panjabishop.com/mens-panjabi/premium-panjabi",
+      "observedListingCount": 30,
+      "importedCount": 20
+    }
+  ],
+  "emptyCategoryVerification": "Printed Panjabi, Luxury Panjabi, and Watch parent AND leaf listings explicitly show 0 ITEMS."
+}

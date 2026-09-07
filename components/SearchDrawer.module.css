@@ -1,0 +1,34 @@
+/* Search-specific parity details stay scoped to this dialog. */
+.panel :global(.search-popular h2),
+.panel :global(.search-results-heading h2) {
+  font-weight: 700;
+}
+
+@media (max-width: 1023px) {
+  .panel :global(.search-popular h2),
+  .panel :global(.search-results-heading) {
+    padding-bottom: 8px;
+  }
+
+  .panel :global(.search-popular) {
+    margin-bottom: 23px;
+  }
+
+  .panel :global(.search-trending a),
+  .panel :global(.search-product h3) {
+    letter-spacing: 0.02em;
+  }
+
+  .panel :global(.search-product h3) {
+    margin-bottom: 10px;
+  }
+
+  .panel :global(.search-product-badge) {
+    line-height: 20px;
+  }
+
+  .vat {
+    font-size: 12px;
+    font-weight: 400;
+  }
+}

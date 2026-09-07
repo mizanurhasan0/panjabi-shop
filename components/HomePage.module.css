@@ -1,0 +1,53 @@
+.brands.brands {
+  max-width: 1200px;
+  padding-inline: 15px;
+}
+
+.brandTrack {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+@media (max-width: 767px) {
+  .campaign.campaign {
+    padding-top: 13px;
+  }
+
+  .category > span {
+    font-size: 10px;
+    font-weight: 500;
+  }
+
+  .brands.brands {
+    padding: 0 10px;
+  }
+
+  .brandTrack {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+
+  .brandTrack::-webkit-scrollbar {
+    display: none;
+  }
+
+  .brandTrack > a {
+    flex: 0 0 90%;
+    padding-right: 9px;
+    scroll-snap-align: start;
+  }
+
+  .story.story {
+    margin-top: 20px;
+    padding: 0 10px 10px;
+    border: 0;
+  }
+
+  .story.story p {
+    font-size: 10px;
+    line-height: 15px;
+    letter-spacing: 0.2px;
+  }
+}
