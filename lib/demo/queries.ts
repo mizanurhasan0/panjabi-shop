@@ -120,11 +120,16 @@ export function getDashboardStats(
   period: ReportPeriod,
   now = new Date(),
 ) {
+  let totalProducts = 0;
+  let lowStockProducts = 0;
+  for (const product of state.products) {
+    if (!product.active) continue;
+    totalProducts++;
+    if (product.stock <= product.lowStockThreshold) lowStockProducts++;
+  }
   return {
     ...summarizeOrders(state.orders, period, now),
-    totalProducts: state.products.filter((product) => product.active).length,
-    lowStockProducts: state.products.filter(
-      (product) => product.active && product.stock <= product.lowStockThreshold,
-    ).length,
+    totalProducts,
+    lowStockProducts,
   };
 }

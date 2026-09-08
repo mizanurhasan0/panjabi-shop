@@ -2,7 +2,7 @@ import { createDemoSeed } from "./seed.ts";
 import { validateDemoSnapshot } from "./validation.ts";
 import type { DemoSnapshot } from "./types.ts";
 
-export const DEMO_STORAGE_KEY = "panjabi-demo-v1";
+const DEMO_STORAGE_KEY = "panjabi-demo-v1";
 let snapshot: DemoSnapshot | null = null;
 let storageWarning: string | null = null;
 let memoryOnly = false;

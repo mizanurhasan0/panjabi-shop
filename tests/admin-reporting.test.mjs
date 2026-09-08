@@ -62,3 +62,34 @@ test("refunded deliveries do not inflate recorded sales or profit", () => {
   assert.equal(data.profit, 0);
   assert.equal(data.deliveredOrders, 1);
 });
+
+test("reports place boundary orders into the correct Bangladesh hour, day, and month", () => {
+  const cases = [
+    ["day", "2026-09-07T18:00:00.000Z", "2026-09-08T17:59:59.999Z", 24],
+    ["week", "2026-09-06T18:00:00.000Z", "2026-09-13T17:59:59.999Z", 7],
+    ["month", "2026-08-31T18:00:00.000Z", "2026-09-30T17:59:59.999Z", 30],
+    ["year", "2025-12-31T18:00:00.000Z", "2026-12-31T17:59:59.999Z", 12],
+  ];
+  for (const [period, first, last, buckets] of cases) {
+    const orders = [first, last].map((createdAt) => ({
+      createdAt,
+      stage: "delivered",
+      paymentStatus: "paid",
+      total: 0.1,
+      profit: 0.1,
+    }));
+    orders.push({ ...orders[0], total: 0.2, profit: 0.2 });
+    const result = summarizeOrders(
+      orders,
+      period,
+      new Date("2026-09-08T00:00:00Z"),
+    );
+    assert.equal(result.chart.length, buckets, period);
+    assert.equal(result.chart[0].orders, 2, period);
+    assert.equal(result.chart[0].revenue, 0.3, period);
+    assert.equal(result.chart[0].profit, 0.3, period);
+    assert.equal(result.chart.at(-1).orders, 1, period);
+    assert.equal(result.deliveredOrders, 3, period);
+    assert.equal(result.revenue, 0.4, period);
+  }
+});

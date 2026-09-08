@@ -53,11 +53,10 @@ export function summarizeOrders(
     (order) => order.createdAt >= from && order.createdAt < to,
   );
   const chart: DashboardStats["chart"] = [];
-  const starts: number[] = [];
-  let cursor = new Date(new Date(from).getTime() + offset);
+  const start = new Date(from).getTime();
+  let cursor = new Date(start + offset);
   const end = new Date(to).getTime() + offset;
   while (cursor.getTime() < end) {
-    starts.push(cursor.getTime() - offset);
     const label =
       step === "hour"
         ? `${String(cursor.getUTCHours()).padStart(2, "0")}:00`
@@ -77,15 +76,20 @@ export function summarizeOrders(
       );
   }
   let revenue = 0,
-    profit = 0;
+    profit = 0,
+    pendingOrders = 0,
+    deliveredOrders = 0;
   for (const order of selected) {
     const timestamp = new Date(order.createdAt).getTime();
-    const index = starts.findIndex(
-      (start, index) =>
-        timestamp >= start &&
-        (index === starts.length - 1 || timestamp < starts[index + 1]),
-    );
-    if (index < 0) continue;
+    // Bangladesh has a fixed UTC offset, so hour/day buckets are uniform.
+    const index =
+      step === "month"
+        ? new Date(timestamp + offset).getUTCMonth()
+        : Math.floor(
+            (timestamp - start) / (step === "hour" ? 3600000 : 86400000),
+          );
+    if (order.stage === "pending") pendingOrders++;
+    if (order.stage === "delivered") deliveredOrders++;
     chart[index].orders++;
     if (order.stage === "delivered" && order.paymentStatus !== "refunded") {
       revenue += order.total;
@@ -101,9 +105,13 @@ export function summarizeOrders(
     revenue: Math.round(revenue * 100) / 100,
     profit: Math.round(profit * 100) / 100,
     orderCount: selected.length,
-    pendingOrders: selected.filter((o) => o.stage === "pending").length,
-    deliveredOrders: selected.filter((o) => o.stage === "delivered").length,
-    chart,
+    pendingOrders,
+    deliveredOrders,
+    chart: chart.map((bucket) => ({
+      ...bucket,
+      revenue: Math.round(bucket.revenue * 100) / 100,
+      profit: Math.round(bucket.profit * 100) / 100,
+    })),
     recentOrders: [...selected]
       .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
       .slice(0, 6),

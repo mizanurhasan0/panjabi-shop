@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useAdminLanguage } from "@/lib/admin/i18n";
 import Link from "next/link";
 import { useState } from "react";
 import { AdminIcon } from "./ui";
@@ -18,12 +19,15 @@ export function AdminBrand({
   compact?: boolean;
   onNavigate?: () => void;
 }) {
+  const { t } = useAdminLanguage();
   const [failedLogo, setFailedLogo] = useState<string | null>(null);
 
   return (
     <Link
       href={href}
-      aria-label={`${name} ${href === "/" ? "home" : "dashboard"}`}
+      aria-label={t(href === "/" ? "{name} home" : "{name} dashboard", {
+        name,
+      })}
       onClick={onNavigate}
       className={`inline-flex max-w-full shrink-0 items-center rounded-md focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-admin-accent ${compact ? "h-11 w-32" : "h-12 w-44"}`}
     >

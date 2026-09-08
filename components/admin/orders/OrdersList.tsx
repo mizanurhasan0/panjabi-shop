@@ -1,5 +1,7 @@
 "use client";
 
+import { useAdminLanguage } from "@/lib/admin/i18n";
+
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, type FormEvent } from "react";
@@ -8,7 +10,6 @@ import { listOrders, type OrderFilters } from "@/lib/demo/queries";
 import { getDemoSnapshot } from "@/lib/demo/store";
 import { exportSpreadsheet } from "@/lib/demo/downloads";
 import { orderStages, type OrderStage } from "@/lib/admin/types";
-import { formatPrice } from "@/lib/utils/products";
 import { adminStyles } from "../styles";
 import { AdminTableViewport } from "../AdminTableViewport";
 import { AdminTableFilters } from "../AdminTableFilters";
@@ -23,7 +24,7 @@ import {
   Pagination,
   StatusBadge,
 } from "../ui";
-import { orderDate, OrderLoading } from "./shared";
+import { OrderLoading } from "./shared";
 
 function inputDate(value: string | null, exclusiveEnd = false): string {
   if (!value || !Number.isFinite(Date.parse(value))) return "";
@@ -36,6 +37,7 @@ function inputDate(value: string | null, exclusiveEnd = false): string {
 }
 
 export function OrdersList({ queryString }: { queryString: string }) {
+  const { t, formatCurrency, formatNumber, formatDate } = useAdminLanguage();
   const router = useRouter();
   const params = new URLSearchParams(queryString);
   const filters: OrderFilters = {
@@ -50,6 +52,7 @@ export function OrdersList({ queryString }: { queryString: string }) {
   );
   const [exporting, setExporting] = useState(false);
   const [exportError, setExportError] = useState("");
+  const [filterError, setFilterError] = useState("");
   async function download() {
     setExporting(true);
     setExportError("");
@@ -78,6 +81,11 @@ export function OrdersList({ queryString }: { queryString: string }) {
     }
     const from = String(form.get("from") ?? "");
     const to = String(form.get("to") ?? "");
+    if (from && to && to < from) {
+      setFilterError("End date must be on or after the start date.");
+      return;
+    }
+    setFilterError("");
     if (from)
       next.set("from", new Date(`${from}T00:00:00+06:00`).toISOString());
     if (to)
@@ -95,10 +103,12 @@ export function OrdersList({ queryString }: { queryString: string }) {
   return (
     <div className={adminStyles.listPage}>
       <PageHeading
-        title="Orders"
-        description="Every order, from the first hello to a happy delivery."
+        title={t("Orders")}
+        description={t(
+          "Every order, from the first hello to a happy delivery.",
+        )}
       />
-      {exportError && <Alert>{exportError}</Alert>}
+      {exportError && <Alert>{t(exportError)}</Alert>}
       <section
         className={`${adminStyles.card} ${adminStyles.listCard} max-[641px]:p-3!`}
       >
@@ -108,7 +118,7 @@ export function OrdersList({ queryString }: { queryString: string }) {
           onSubmit={filter}
         >
           <AdminActionBar
-            label="Order actions"
+            label={t("Order actions")}
             actions={
               <>
                 <Button
@@ -117,14 +127,14 @@ export function OrdersList({ queryString }: { queryString: string }) {
                   disabled={exporting || loading}
                 >
                   <AdminIcon name="download" size={16} />
-                  {exporting ? "Preparing Excel…" : "Export Excel"}
+                  {exporting ? t("Preparing Excel…") : t("Export Excel")}
                 </Button>
                 <Link
                   className={adminStyles.buttonPrimary}
                   href="/admin/orders/new"
                 >
                   <AdminIcon name="plus" size={16} />
-                  New order
+                  {t("New order")}
                 </Link>
               </>
             }
@@ -139,9 +149,9 @@ export function OrdersList({ queryString }: { queryString: string }) {
                 className={`${adminStyles.input} pl-9!`}
                 type="search"
                 name="query"
-                aria-label="Search orders"
+                aria-label={t("Search orders")}
                 defaultValue={params.get("query") ?? ""}
-                placeholder="Order, customer or phone"
+                placeholder={t("Order, customer or phone")}
                 maxLength={200}
               />
             </div>
@@ -153,21 +163,21 @@ export function OrdersList({ queryString }: { queryString: string }) {
           >
             {(close) => (
               <div className="grid min-w-0 grid-cols-[minmax(140px,1fr)_minmax(140px,1fr)_minmax(140px,1fr)_auto] items-end gap-3 max-[1001px]:grid-cols-2 max-[481px]:grid-cols-1">
-                <Field label="Order stage">
+                <Field label={t("Order stage")}>
                   <select
                     className={adminStyles.select}
                     name="stage"
                     defaultValue={params.get("stage") ?? ""}
                   >
-                    <option value="">All stages</option>
+                    <option value="">{t("All stages")}</option>
                     {orderStages.map((stage) => (
                       <option key={stage} value={stage}>
-                        {stage.charAt(0).toUpperCase() + stage.slice(1)}
+                        {t(stage.charAt(0).toUpperCase() + stage.slice(1))}
                       </option>
                     ))}
                   </select>
                 </Field>
-                <Field label="From date">
+                <Field label={t("From date")}>
                   <input
                     className={adminStyles.input}
                     type="date"
@@ -175,7 +185,7 @@ export function OrdersList({ queryString }: { queryString: string }) {
                     defaultValue={inputDate(params.get("from"))}
                   />
                 </Field>
-                <Field label="To date">
+                <Field label={t("To date")}>
                   <input
                     className={adminStyles.input}
                     type="date"
@@ -188,14 +198,14 @@ export function OrdersList({ queryString }: { queryString: string }) {
                 >
                   <Button type="submit" variant="secondary" onClick={close}>
                     <AdminIcon name="search" size={16} />
-                    Filter
+                    {t("Filter")}
                   </Button>
                   {queryString && (
                     <Link
                       href="/admin/orders"
                       className={adminStyles.textButton}
                     >
-                      Reset
+                      {t("Reset")}
                     </Link>
                   )}
                 </div>
@@ -203,41 +213,42 @@ export function OrdersList({ queryString }: { queryString: string }) {
             )}
           </AdminTableFilters>
         </form>
+        {filterError && <Alert>{t(filterError)}</Alert>}
         {error && (
           <Alert>
-            {error}{" "}
+            {t(error)}{" "}
             <Button variant="secondary" onClick={reload}>
-              Try again
+              {t("Try again")}
             </Button>
           </Alert>
         )}
         {loading && (
-          <AdminTableViewport label="Loading orders" fill>
+          <AdminTableViewport label={t("Loading orders")} fill>
             <OrderLoading />
           </AdminTableViewport>
         )}
         {data &&
           (data.items.length ? (
             <>
-              <AdminTableViewport label="Orders table" fill>
+              <AdminTableViewport label={t("Orders table")} fill>
                 <table className={adminStyles.table}>
                   <thead>
                     <tr>
-                      <th>Order</th>
-                      <th>Customer</th>
-                      <th>Date</th>
-                      <th>Stage</th>
-                      <th>Payment</th>
-                      <th>Total</th>
+                      <th>{t("Order")}</th>
+                      <th>{t("Customer")}</th>
+                      <th>{t("Date")}</th>
+                      <th>{t("Stage")}</th>
+                      <th>{t("Payment")}</th>
+                      <th>{t("Total")}</th>
                       <th>
-                        <span className="sr-only">Actions</span>
+                        <span className="sr-only">{t("Actions")}</span>
                       </th>
                     </tr>
                   </thead>
                   <tbody>
                     {data.items.map((order) => (
                       <tr key={order.id}>
-                        <td data-label="Order">
+                        <td data-label={t("Order")}>
                           <Link
                             className="text-[#7f5c27]!"
                             href={`/admin/orders/${order.id}`}
@@ -245,38 +256,44 @@ export function OrdersList({ queryString }: { queryString: string }) {
                             {order.number}
                           </Link>
                           <small>
-                            {order.items.reduce(
-                              (sum, item) => sum + item.quantity,
-                              0,
-                            )}{" "}
-                            items · {order.source}
+                            {t("{count} items · {source}", {
+                              count: formatNumber(
+                                order.items.reduce(
+                                  (sum, item) => sum + item.quantity,
+                                  0,
+                                ),
+                              ),
+                              source: t(order.source),
+                            })}
                           </small>
                         </td>
-                        <td data-label="Customer">
+                        <td data-label={t("Customer")}>
                           {order.customerName}
                           <small>{order.customerPhone}</small>
                         </td>
-                        <td data-label="Date">
+                        <td data-label={t("Date")}>
                           <time dateTime={order.createdAt}>
-                            {orderDate(order.createdAt)}
+                            {formatDate(order.createdAt)}
                           </time>
                         </td>
-                        <td data-label="Stage">
+                        <td data-label={t("Stage")}>
                           <StatusBadge stage={order.stage} />
                         </td>
-                        <td data-label="Payment">
+                        <td data-label={t("Payment")}>
                           <StatusBadge stage={order.paymentStatus} />
                         </td>
-                        <td data-label="Total">
-                          <strong>{formatPrice(order.total)}</strong>
+                        <td data-label={t("Total")}>
+                          <strong>{formatCurrency(order.total)}</strong>
                         </td>
                         <td>
                           <Link
                             href={`/admin/orders/${order.id}`}
                             className={adminStyles.buttonSecondary}
-                            aria-label={`View order ${order.number}`}
+                            aria-label={t("View order {number}", {
+                              number: order.number,
+                            })}
                           >
-                            View order
+                            {t("View order")}
                             <AdminIcon name="chevron" size={14} />
                           </Link>
                         </td>
@@ -288,24 +305,26 @@ export function OrdersList({ queryString }: { queryString: string }) {
               <Pagination {...data} onChange={changePage} />
             </>
           ) : (
-            <AdminTableViewport label="Orders results" fill>
+            <AdminTableViewport label={t("Orders results")} fill>
               <EmptyState
                 title={
                   queryString
-                    ? "No matching orders"
-                    : "Ready for your first order"
+                    ? t("No matching orders")
+                    : t("Ready for your first order")
                 }
                 description={
                   queryString
-                    ? "Try a different search or clear your filters."
-                    : "Orders from your storefront and orders you create will appear here."
+                    ? t("Try a different search or clear your filters.")
+                    : t(
+                        "Orders from your storefront and orders you create will appear here.",
+                      )
                 }
                 action={
                   <Link
                     href={queryString ? "/admin/orders" : "/admin/orders/new"}
                     className={adminStyles.buttonPrimary}
                   >
-                    {queryString ? "Clear filters" : "Create an order"}
+                    {queryString ? t("Clear filters") : t("Create an order")}
                   </Link>
                 }
               />

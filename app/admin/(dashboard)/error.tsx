@@ -17,8 +17,7 @@ export default function AdminError({
         action={<Button onClick={reset}>Try again</Button>}
       />
       <Alert tone="info">
-        If this continues, check your server connection and try refreshing the
-        page.
+        If this continues, refresh the page and try again.
       </Alert>
     </div>
   );

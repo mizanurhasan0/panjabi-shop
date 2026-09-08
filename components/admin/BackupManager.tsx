@@ -1,4 +1,5 @@
 "use client";
+import { useAdminLanguage } from "@/lib/admin/i18n";
 import { AdminTableViewport } from "./AdminTableViewport";
 import { adminStyles } from "./styles";
 import { useEffect, useRef, useState } from "react";
@@ -23,6 +24,7 @@ import {
 } from "./ui";
 
 export function BackupManager() {
+  const { t, formatDate, formatNumber } = useAdminLanguage();
   const { data, error, reload, loading } = useDemoQuery(() => getDemoBackups());
   const importInput = useRef<HTMLInputElement>(null);
   useEffect(() => {
@@ -46,6 +48,7 @@ export function BackupManager() {
     if (busy) return;
     setBusy(true);
     setFailure("");
+    setMessage("");
     try {
       createDemoBackup();
       setMessage(
@@ -61,15 +64,17 @@ export function BackupManager() {
   return (
     <div className={adminStyles.stack}>
       <PageHeading
-        title="Keep a copy of your demo"
-        description="Save your products, orders, settings, and images in a portable snapshot."
+        title={t("Keep a copy of your demo")}
+        description={t(
+          "Save your products, orders, settings, and images in a portable snapshot.",
+        )}
       />
-      {(failure || error) && <Alert>{failure || error}</Alert>}
-      {message && <Alert tone="success">{message}</Alert>}
+      {(failure || error) && <Alert>{t(failure || error)}</Alert>}
+      {message && <Alert tone="success">{t(message)}</Alert>}
       {imported && (
         <div className={adminStyles.card}>
           <AdminActionBar
-            label="Imported backup actions"
+            label={t("Imported backup actions")}
             actions={
               <Button
                 variant="secondary"
@@ -78,75 +83,96 @@ export function BackupManager() {
                   setSelected({ backup: imported, action: "restore" })
                 }
               >
-                Restore imported backup
+                {t("Restore imported backup")}
               </Button>
             }
           >
             <p className={adminStyles.muted}>
-              Imported snapshot: {imported.products} products ·{" "}
-              {imported.orders} orders
+              {t("Imported snapshot: {products} products · {orders} orders", {
+                products: formatNumber(imported.products),
+                orders: formatNumber(imported.orders),
+              })}
             </p>
           </AdminActionBar>
         </div>
       )}
       <section className={adminStyles.card}>
         <AdminActionBar
-          label="Backup actions"
+          label={t("Backup actions")}
           actions={
             <Button onClick={create} disabled={busy}>
-              {busy ? "Please wait…" : "+ Create backup"}
+              {t(busy ? "Please wait…" : "+ Create backup")}
             </Button>
           }
         >
-          <h2>Saved backups</h2>
+          <h2>{t("Saved backups")}</h2>
           <span className="text-[11px] text-admin-muted">
-            {data?.length ?? 0} / {DEMO_BACKUP_LIMIT} snapshots
+            {t("{count} / {limit} snapshots", {
+              count: formatNumber(data?.length ?? 0),
+              limit: formatNumber(DEMO_BACKUP_LIMIT),
+            })}
           </span>
         </AdminActionBar>
         <p className="mt-3 mb-4 text-[11px] text-admin-muted">
-          Keep up to {DEMO_BACKUP_LIMIT} snapshots. Download a JSON copy to keep
-          a backup outside this browser.
+          {t(
+            "Keep up to {limit} snapshots. Download a JSON copy to keep a backup outside this browser.",
+            { limit: formatNumber(DEMO_BACKUP_LIMIT) },
+          )}
         </p>
         {loading ? (
           <div className={`${adminStyles.skeleton} h-[180px]`} />
         ) : !data?.length ? (
           <EmptyState
-            title="No backups yet"
-            description="Create your first snapshot before making major changes."
+            title={t("No backups yet")}
+            description={t(
+              "Create your first snapshot before making major changes.",
+            )}
           />
         ) : (
-          <AdminTableViewport label="Saved backups table">
+          <AdminTableViewport label={t("Saved backups table")}>
             <table className={adminStyles.table}>
               <thead>
                 <tr>
-                  <th>Created</th>
-                  <th>Products</th>
-                  <th>Orders</th>
-                  <th>Size</th>
-                  <th>Actions</th>
+                  <th>{t("Created")}</th>
+                  <th>{t("Products")}</th>
+                  <th>{t("Orders")}</th>
+                  <th>{t("Size")}</th>
+                  <th>{t("Actions")}</th>
                 </tr>
               </thead>
               <tbody>
                 {data.map((backup) => (
                   <tr key={backup.id} data-backup-id={backup.id}>
-                    <td data-label="Created">
-                      {new Date(backup.createdAt).toLocaleString("en-BD", {
-                        timeZone: "Asia/Dhaka",
+                    <td data-label={t("Created")}>
+                      {formatDate(backup.createdAt, {
+                        dateStyle: "medium",
+                        timeStyle: "short",
                       })}
-                      <small>Snapshot {backup.id.slice(0, 8)}</small>
+                      <small>
+                        {t("Snapshot {id}", { id: backup.id.slice(0, 8) })}
+                      </small>
                     </td>
-                    <td data-label="Products">{backup.products}</td>
-                    <td data-label="Orders">{backup.orders}</td>
-                    <td data-label="Size">
-                      {(backup.bytes / 1024 / 1024).toFixed(2)} MB
+                    <td data-label={t("Products")}>
+                      {formatNumber(backup.products)}
                     </td>
-                    <td data-label="Actions">
+                    <td data-label={t("Orders")}>
+                      {formatNumber(backup.orders)}
+                    </td>
+                    <td data-label={t("Size")}>
+                      {t("{size} MB", {
+                        size: formatNumber(
+                          Math.round((backup.bytes / 1024 / 1024) * 100) / 100,
+                        ),
+                      })}
+                    </td>
+                    <td data-label={t("Actions")}>
                       <div className={adminStyles.actions}>
                         <Button
                           variant="secondary"
                           disabled={busy}
                           onClick={() => {
                             setFailure("");
+                            setMessage("");
                             try {
                               downloadDemoBackup(backup.id);
                             } catch (error) {
@@ -154,7 +180,7 @@ export function BackupManager() {
                             }
                           }}
                         >
-                          Download
+                          {t("Download")}
                         </Button>
                         <Button
                           variant="secondary"
@@ -163,7 +189,7 @@ export function BackupManager() {
                             setSelected({ backup, action: "restore" })
                           }
                         >
-                          Restore
+                          {t("Restore")}
                         </Button>
                         <Button
                           variant="danger"
@@ -172,7 +198,7 @@ export function BackupManager() {
                             setSelected({ backup, action: "delete" })
                           }
                         >
-                          Delete
+                          {t("Delete")}
                         </Button>
                       </div>
                     </td>
@@ -186,15 +212,16 @@ export function BackupManager() {
       <section className={adminStyles.card}>
         <div className={adminStyles.cardHeader}>
           <div>
-            <h2>Import a downloaded backup</h2>
+            <h2>{t("Import a downloaded backup")}</h2>
             <p className={adminStyles.muted}>
-              Choose a JSON snapshot, then select Restore from the list.
-              Importing does not replace current data.
+              {t(
+                "Choose a JSON snapshot, then select Restore from the list. Importing does not replace current data.",
+              )}
             </p>
           </div>
         </div>
         <label className={adminStyles.field}>
-          Backup file
+          {t("Backup file")}
           <input
             ref={importInput}
             className={adminStyles.input}
@@ -206,6 +233,7 @@ export function BackupManager() {
               if (!file) return;
               setBusy(true);
               setFailure("");
+              setMessage("");
               try {
                 setImported(await importDemoBackup(file));
                 setMessage(
@@ -224,25 +252,35 @@ export function BackupManager() {
       </section>
       <ConfirmDialog
         open={Boolean(selected)}
-        title={
+        title={t(
           selected?.action === "restore"
             ? "Restore this backup?"
-            : "Delete this backup?"
-        }
+            : "Delete this backup?",
+        )}
         description={
           selected?.action === "restore"
-            ? `Restore snapshot ${selected.backup.id.slice(0, 8)} with ${selected.backup.products} products and ${selected.backup.orders} orders? Current demo data will be replaced. Create or download a backup first if you want to keep your current changes.`
-            : "This saved snapshot will be permanently removed. Your current shop data will stay unchanged."
+            ? t(
+                "Restore snapshot {id} with {products} products and {orders} orders? Current demo data will be replaced. Create or download a backup first if you want to keep your current changes.",
+                {
+                  id: selected.backup.id.slice(0, 8),
+                  products: formatNumber(selected.backup.products),
+                  orders: formatNumber(selected.backup.orders),
+                },
+              )
+            : t(
+                "This saved snapshot will be permanently removed. Your current shop data will stay unchanged.",
+              )
         }
-        confirmLabel={
-          selected?.action === "restore" ? "Restore backup" : "Delete backup"
-        }
+        confirmLabel={t(
+          selected?.action === "restore" ? "Restore backup" : "Delete backup",
+        )}
         busy={busy}
         onClose={() => setSelected(null)}
         onConfirm={() => {
           if (!selected || busy) return;
           setBusy(true);
           setFailure("");
+          setMessage("");
           try {
             const restoring = selected.action === "restore";
             if (restoring) restoreDemoBackup(selected.backup.id);

@@ -1,11 +1,15 @@
+"use client";
+
+import { useAdminLanguage } from "@/lib/admin/i18n";
 import { adminStyles } from "@/components/admin/styles";
 
 export default function AdminLoading() {
+  const { t } = useAdminLanguage();
   return (
     <div
       className={adminStyles.stack}
       role="status"
-      aria-label="Loading workspace"
+      aria-label={t("Loading workspace")}
     >
       <div className={`${adminStyles.skeleton} mb-2 h-[42px] max-w-[300px]`} />
       <div className={adminStyles.grid4}>
@@ -14,7 +18,7 @@ export default function AdminLoading() {
         ))}
       </div>
       <div className={`${adminStyles.skeleton} h-[380px]`} />
-      <span className="sr-only">Loading your workspace…</span>
+      <span className="sr-only">{t("Loading your workspace…")}</span>
     </div>
   );
 }

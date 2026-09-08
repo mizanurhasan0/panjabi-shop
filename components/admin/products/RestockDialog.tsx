@@ -1,5 +1,7 @@
 "use client";
 
+import { useAdminLanguage } from "@/lib/admin/i18n";
+
 import { useId, useState, type FormEvent } from "react";
 import { Modal } from "@/components/Modal";
 import { errorMessage } from "@/lib/demo/client";
@@ -17,6 +19,7 @@ export function RestockDialog({
   onClose: () => void;
   onRestocked: () => void;
 }) {
+  const { t, formatNumber } = useAdminLanguage();
   const id = useId();
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
@@ -40,7 +43,7 @@ export function RestockDialog({
     <Modal
       unstyled
       id={id}
-      label="Restock product"
+      label={t("Restock product")}
       open={Boolean(product)}
       onClose={() => {
         if (!busy) {
@@ -59,17 +62,21 @@ export function RestockDialog({
           <span className="mb-[17px] flex size-[45px] items-center justify-center rounded-xl bg-[#fff6e6] text-[#a98446]">
             <AdminIcon name="products" size={25} />
           </span>
-          <h2>Restock product</h2>
+          <h2>{t("Restock product")}</h2>
           <p>{product?.title}</p>
         </div>
-        {error && <Alert>{error}</Alert>}
+        {error && <Alert>{t(error)}</Alert>}
         <div className="flex items-center justify-between gap-3 rounded-lg border border-[#eff0f3] bg-[#f7f8fa] px-3.5 py-3 [&>span]:text-[10px] [&>span]:text-[#969aa4] [&_strong]:text-xs [&_strong]:font-medium">
-          <span>Current stock</span>
-          <strong>{product?.stock ?? 0} units</strong>
+          <span>{t("Current stock")}</span>
+          <strong>
+            {t("{count} units", { count: formatNumber(product?.stock ?? 0) })}
+          </strong>
         </div>
         <Field
-          label="Quantity to add"
-          hint="Stock is tracked for the whole product, across all sizes and colors."
+          label={t("Quantity to add")}
+          hint={t(
+            "Stock is tracked for the whole product, across all sizes and colors.",
+          )}
         >
           <input
             key={product?.id}
@@ -95,13 +102,13 @@ export function RestockDialog({
             }}
             disabled={busy}
           >
-            Cancel
+            {t("Cancel")}
           </Button>
           <Button
             type="submit"
             disabled={busy || (product?.stock ?? 0) >= 1_000_000}
           >
-            {busy ? "Adding stock…" : "Add stock"}
+            {busy ? t("Adding stock…") : t("Add stock")}
           </Button>
         </div>
       </form>

@@ -10,6 +10,9 @@ export const orderStages = [
   "returned",
 ] as const;
 export type OrderStage = (typeof orderStages)[number];
+export const paymentMethods = ["cod", "bank", "mobile", "cash"] as const;
+export const paymentStatuses = ["unpaid", "paid", "refunded"] as const;
+export const orderSources = ["storefront", "admin", "custom"] as const;
 export const orderStageTransitions: Record<OrderStage, readonly OrderStage[]> =
   {
     pending: ["confirmed", "cancelled"],
@@ -54,10 +57,10 @@ export interface Order {
   customerEmail: string;
   address: string;
   notes: string;
-  source: "storefront" | "admin" | "custom";
+  source: (typeof orderSources)[number];
   stage: OrderStage;
-  paymentStatus: "unpaid" | "paid" | "refunded";
-  paymentMethod: "cod" | "bank" | "mobile" | "cash";
+  paymentStatus: (typeof paymentStatuses)[number];
+  paymentMethod: (typeof paymentMethods)[number];
   items: OrderLine[];
   subtotal: number;
   discount: number;

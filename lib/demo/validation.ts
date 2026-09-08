@@ -5,7 +5,12 @@ import type {
   OrderLine,
   ShopSettings,
 } from "../admin/types.ts";
-import { orderStages } from "../admin/types.ts";
+import {
+  orderStages,
+  orderSources,
+  paymentMethods,
+  paymentStatuses,
+} from "../admin/types.ts";
 import {
   booleanValue,
   emailValue,
@@ -19,9 +24,6 @@ import {
 } from "../admin/validation.ts";
 import { defaultShopSettings } from "./seed.ts";
 import type { DemoSnapshot } from "./types.ts";
-const paymentMethods = ["cod", "bank", "mobile", "cash"] as const;
-const paymentStatuses = ["unpaid", "paid", "refunded"] as const;
-const orderSources = ["storefront", "admin", "custom"] as const;
 export const createId = () => crypto.randomUUID();
 export const round = (value: number) =>
   Math.round((value + Number.EPSILON) * 100) / 100;
@@ -145,10 +147,13 @@ export function normalizeProduct(
         ),
       };
     });
-  } else if (existing && price !== existing.price) {
+  } else if (
+    existing &&
+    (price !== existing.price || compareAtPrice !== existing.compareAtPrice)
+  ) {
     variants = variants.map((variant) => ({
       ...variant,
-      price,
+      price: price !== existing.price ? price : variant.price,
       compareAtPrice,
     }));
   }
@@ -295,11 +300,7 @@ export function validateDemoSnapshot(input: unknown): DemoSnapshot {
   const products = (value.products as unknown[]).map((entry) => {
     const raw = record(entry, "Backup product");
     const id = requiredId(raw.id, "Product ID");
-    const product = normalizeProduct(
-      raw,
-      undefined,
-      normalizeSettings(value.settings),
-    );
+    const product = normalizeProduct(raw, undefined, settings);
     if (productIds.has(id) || handles.has(product.handle))
       throw new ValidationError("Backup contains duplicate products.");
     productIds.add(id);
@@ -319,6 +320,7 @@ export function validateDemoSnapshot(input: unknown): DemoSnapshot {
     const number = requiredId(raw.number, "Order number");
     if (
       !/^PS-\d+$/.test(number) ||
+      !Number.isSafeInteger(Number(number.slice(3))) ||
       orderIds.has(id) ||
       orderNumbers.has(number)
     )

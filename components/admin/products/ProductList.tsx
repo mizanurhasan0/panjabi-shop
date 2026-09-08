@@ -1,5 +1,7 @@
 "use client";
 
+import { useAdminLanguage } from "@/lib/admin/i18n";
+
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
@@ -25,19 +27,19 @@ import { AdminTableViewport } from "../AdminTableViewport";
 import { RestockDialog } from "./RestockDialog";
 import { ProductToolbar } from "./ProductToolbar";
 
-const money = new Intl.NumberFormat("en-BD", {
-  style: "currency",
-  currency: "BDT",
-  maximumFractionDigits: 2,
-});
-
 export function ProductList() {
+  const { t, formatCurrency, formatNumber } = useAdminLanguage();
   const params = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
-  const page = Math.max(1, Number(params.get("page")) || 1);
+  const page = Math.min(
+    1_000_000,
+    Math.max(1, Math.trunc(Number(params.get("page"))) || 1),
+  );
   const query = params.get("query") ?? "";
-  const stock = params.get("stock") ?? "";
+  const requestedStock = params.get("stock");
+  const stock =
+    requestedStock === "low" || requestedStock === "out" ? requestedStock : "";
   const includeInactive = params.get("includeInactive") === "true";
   const filters: ProductFilters = {
     page,
@@ -54,7 +56,10 @@ export function ProductList() {
   const [deleting, setDeleting] = useState<AdminProduct | null>(null);
   const [busy, setBusy] = useState(false);
   const [actionError, setActionError] = useState("");
-  const [notice, setNotice] = useState("");
+  const [notice, setNotice] = useState<{
+    message: string;
+    params?: Record<string, string>;
+  } | null>(null);
   function filter(key: string, value: string) {
     const next = new URLSearchParams(params);
     if (value) next.set(key, value);
@@ -66,7 +71,7 @@ export function ProductList() {
     event.preventDefault();
     filter(
       "query",
-      String(new FormData(event.currentTarget).get("query") ?? ""),
+      String(new FormData(event.currentTarget).get("query") ?? "").trim(),
     );
   }
   function archive() {
@@ -75,9 +80,11 @@ export function ProductList() {
     setActionError("");
     try {
       deleteProduct(deleting.id);
-      setNotice(
-        `“${deleting.title}” was removed from the shop. You can reactivate it by including archived products.`,
-      );
+      setNotice({
+        message:
+          "“{title}” was removed from the shop. You can reactivate it by including archived products.",
+        params: { title: deleting.title },
+      });
       setDeleting(null);
       reload();
     } catch (error) {
@@ -118,16 +125,18 @@ export function ProductList() {
   return (
     <>
       <PageHeading
-        title="Products"
-        description="Keep your collection fresh and your stock in check."
+        title={t("Products")}
+        description={t("Keep your collection fresh and your stock in check.")}
       />
       <div className={adminStyles.listPage}>
-        {notice && <Alert tone="success">{notice}</Alert>}
+        {notice && (
+          <Alert tone="success">{t(notice.message, notice.params)}</Alert>
+        )}
         {(actionError || error) && (
           <Alert>
-            {actionError || error}
+            {t(actionError || error || "")}
             <Button variant="secondary" onClick={reload}>
-              Try again
+              {t("Try again")}
             </Button>
           </Alert>
         )}
@@ -147,11 +156,11 @@ export function ProductList() {
             onExport={downloadProducts}
           />
           {loading ? (
-            <AdminTableViewport label="Loading products" fill>
+            <AdminTableViewport label={t("Loading products")} fill>
               <div
                 className={adminStyles.stack}
                 role="status"
-                aria-label="Loading products"
+                aria-label={t("Loading products")}
               >
                 {[1, 2, 3].map((item) => (
                   <div className={`${adminStyles.skeleton} h-16`} key={item} />
@@ -161,7 +170,7 @@ export function ProductList() {
           ) : data?.items.length ? (
             <>
               <AdminTableViewport
-                label="Products table"
+                label={t("Products table")}
                 key={params.toString()}
                 fill
               >
@@ -170,17 +179,17 @@ export function ProductList() {
                 >
                   <thead>
                     <tr>
-                      <th>Product</th>
-                      <th>Price</th>
-                      <th>Stock</th>
-                      <th>Status</th>
-                      <th>Actions</th>
+                      <th>{t("Product")}</th>
+                      <th>{t("Price")}</th>
+                      <th>{t("Stock")}</th>
+                      <th>{t("Status")}</th>
+                      <th>{t("Actions")}</th>
                     </tr>
                   </thead>
                   <tbody>
                     {data.items.map((product) => (
                       <tr key={product.id}>
-                        <td data-label="Product">
+                        <td data-label={t("Product")}>
                           <Link
                             className="flex min-w-[180px] max-w-[320px] items-center gap-3 max-[641px]:min-w-0 max-[641px]:max-w-none [&>span:last-child]:min-w-0 [&_strong]:block [&_strong]:text-[11px] [&_strong]:leading-[1.7] [&_strong]:font-medium max-[641px]:[&_strong]:text-xs"
                             href={`/admin/products/${product.id}`}
@@ -206,11 +215,15 @@ export function ProductList() {
                             </span>
                           </Link>
                         </td>
-                        <td data-label="Selling price">
-                          <strong>{money.format(product.price)}</strong>
-                          <small>Cost {money.format(product.costPrice)}</small>
+                        <td data-label={t("Selling price")}>
+                          <strong>{formatCurrency(product.price)}</strong>
+                          <small>
+                            {t("Cost {amount}", {
+                              amount: formatCurrency(product.costPrice),
+                            })}
+                          </small>
                         </td>
-                        <td data-label="Stock">
+                        <td data-label={t("Stock")}>
                           <span
                             className={
                               product.stock <= product.lowStockThreshold
@@ -218,46 +231,54 @@ export function ProductList() {
                                 : ""
                             }
                           >
-                            {product.stock} units
+                            {t("{count} units", {
+                              count: formatNumber(product.stock),
+                            })}
                           </span>
                           <small>
                             {product.stock === 0
-                              ? "Out of stock"
+                              ? t("Out of stock")
                               : product.stock <= product.lowStockThreshold
-                                ? "Running low"
-                                : "In stock"}
+                                ? t("Running low")
+                                : t("In stock")}
                           </small>
                         </td>
-                        <td data-label="Status">
+                        <td data-label={t("Status")}>
                           <StatusBadge
                             stage={product.active ? "active" : "inactive"}
                           />
                         </td>
-                        <td data-label="Actions">
+                        <td data-label={t("Actions")}>
                           <div
                             className={`${adminStyles.actions} flex-nowrap! gap-[7px]! max-[1201px]:flex-wrap! max-[641px]:flex-nowrap! max-[641px]:[&>a]:flex-1 max-[641px]:[&>button:not([title])]:flex-1`}
                           >
                             <Link
                               className={adminStyles.buttonSecondary}
                               href={`/admin/products/${product.id}`}
-                              aria-label={`Edit ${product.title}`}
+                              aria-label={t("Edit {title}", {
+                                title: product.title,
+                              })}
                             >
                               <AdminIcon name="edit" size={14} />
-                              Edit
+                              {t("Edit")}
                             </Link>
                             <Button
                               variant="secondary"
                               onClick={() => setRestock(product)}
-                              aria-label={`Restock ${product.title}`}
+                              aria-label={t("Restock {title}", {
+                                title: product.title,
+                              })}
                             >
                               <AdminIcon name="plus" size={14} />
-                              Restock
+                              {t("Restock")}
                             </Button>
                             {product.active && (
                               <button
                                 className={`${adminStyles.iconButton} h-[34px]! w-8! basis-8! p-0! text-[#ba8e8a]! hover:bg-[#fff0ee]! hover:text-[#b95650]! max-[641px]:h-10! max-[641px]:w-10! max-[641px]:basis-10!`}
-                                aria-label={`Delete ${product.title}`}
-                                title="Delete product"
+                                aria-label={t("Delete {title}", {
+                                  title: product.title,
+                                })}
+                                title={t("Delete product")}
                                 onClick={() => setDeleting(product)}
                               >
                                 <AdminIcon name="trash" size={16} />
@@ -279,17 +300,19 @@ export function ProductList() {
             </>
           ) : (
             !error && (
-              <AdminTableViewport label="Products results" fill>
+              <AdminTableViewport label={t("Products results")} fill>
                 <EmptyState
                   title={
                     query || stock
-                      ? "No matching products"
-                      : "Your collection starts here"
+                      ? t("No matching products")
+                      : t("Your collection starts here")
                   }
                   description={
                     query || stock
-                      ? "Try a different search or stock filter."
-                      : "Add your first product, upload a photo, and set its stock."
+                      ? t("Try a different search or stock filter.")
+                      : t(
+                          "Add your first product, upload a photo, and set its stock.",
+                        )
                   }
                   action={
                     query || stock ? (
@@ -297,14 +320,14 @@ export function ProductList() {
                         variant="secondary"
                         onClick={() => router.replace(pathname)}
                       >
-                        Clear filters
+                        {t("Clear filters")}
                       </Button>
                     ) : (
                       <Link
                         className={adminStyles.buttonPrimary}
                         href="/admin/products/new"
                       >
-                        Add product
+                        {t("Add product")}
                       </Link>
                     )
                   }
@@ -315,22 +338,26 @@ export function ProductList() {
         </div>
         <p className="flex items-start gap-2 px-[3px] text-[10px] text-[#a0a3ac] max-[641px]:hidden [&_svg]:shrink-0">
           <AdminIcon name="products" size={16} />
-          Sample inventory is tracked per product across all sizes and colors.
-          Try restocking a product to update this demo.
+          {t(
+            "Sample inventory is tracked per product across all sizes and colors. Try restocking a product to update this demo.",
+          )}
         </p>
       </div>
       <RestockDialog
         product={restock}
         onClose={() => setRestock(null)}
         onRestocked={() => {
-          setNotice("Stock updated successfully.");
+          setNotice({ message: "Stock updated successfully." });
           reload();
         }}
       />
       <ConfirmDialog
         open={Boolean(deleting)}
-        title="Delete this product?"
-        description={`“${deleting?.title ?? "This product"}” will be hidden from your shop. Existing orders stay intact, and you can reactivate it later.`}
+        title={t("Delete this product?")}
+        description={t(
+          "“{title}” will be hidden from your shop. Existing orders stay intact, and you can reactivate it later.",
+          { title: deleting?.title ?? t("This product") },
+        )}
         onConfirm={archive}
         onClose={() => setDeleting(null)}
         busy={busy}

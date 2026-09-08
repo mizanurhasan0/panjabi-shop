@@ -1,4 +1,5 @@
 "use client";
+import { useAdminLanguage } from "@/lib/admin/i18n";
 import { adminStyles } from "./styles";
 import Image from "next/image";
 import { useRef, useState } from "react";
@@ -18,6 +19,7 @@ export function ImageUpload({
   onBusyChange?: (busy: boolean) => void;
   disabled?: boolean;
 }) {
+  const { t } = useAdminLanguage();
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const input = useRef<HTMLInputElement>(null);
@@ -27,7 +29,7 @@ export function ImageUpload({
         <div className="relative h-[100px] w-full max-w-[220px] rounded-xl bg-[#f7f6f2]">
           <Image
             src={value}
-            alt={`${label} preview`}
+            alt={t("{label} preview", { label })}
             fill
             unoptimized
             className="object-contain"
@@ -66,11 +68,13 @@ export function ImageUpload({
         />
       </label>
       <p className={adminStyles.muted}>
-        {busy
-          ? "Preparing image…"
-          : "PNG, JPEG or WebP · up to 5 MB · processed in your browser"}
+        {t(
+          busy
+            ? "Preparing image…"
+            : "PNG, JPEG or WebP · up to 5 MB · processed in your browser",
+        )}
       </p>
-      {error && <Alert>{error}</Alert>}
+      {error && <Alert>{t(error)}</Alert>}
     </div>
   );
 }

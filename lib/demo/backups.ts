@@ -5,7 +5,7 @@ import { validateDemoSnapshot } from "./validation.ts";
 import { downloadBlob } from "./downloads.ts";
 
 export const DEMO_BACKUP_LIMIT = 5;
-export const MAX_DEMO_BACKUP_BYTES = 15 * 1024 * 1024;
+const MAX_DEMO_BACKUP_BYTES = 15 * 1024 * 1024;
 const STORAGE_KEY = "panjabi-demo-backups-v1";
 const BACKUP_ID =
   /^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i;
@@ -134,10 +134,6 @@ export function getDemoBackups(): BackupInfo[] {
 
 export function createDemoBackup(): BackupInfo {
   const snapshot = getDemoSnapshot();
-  if (!snapshot)
-    throw new Error(
-      "Wait for your demo workspace to finish loading before creating a backup.",
-    );
   return addBackup({
     format: "panjabi-demo-backup",
     version: 1,

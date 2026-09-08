@@ -1,5 +1,7 @@
 "use client";
 
+import { useAdminLanguage } from "@/lib/admin/i18n";
+
 import Image from "next/image";
 import { useRef, useState, type ChangeEvent } from "react";
 import { errorMessage } from "@/lib/demo/client";
@@ -18,6 +20,7 @@ export function ProductImageManager({
   disabled: boolean;
   onBusyChange: (busy: boolean) => void;
 }) {
+  const { t, formatNumber } = useAdminLanguage();
   const fileInput = useRef<HTMLInputElement>(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
@@ -38,11 +41,11 @@ export function ProductImageManager({
       for (const file of files) {
         const image = await readDemoImage(file);
         if (!uploaded.includes(image)) uploaded.push(image);
-        onChange([...uploaded]);
       }
     } catch (error) {
       setError(errorMessage(error));
     } finally {
+      if (uploaded.length > images.length) onChange(uploaded);
       setBusy(false);
       onBusyChange(false);
       event.target.value = "";
@@ -75,12 +78,14 @@ export function ProductImageManager({
     <div className={adminStyles.stack}>
       <div className={`${adminStyles.cardHeader} pb-0! [&_p]:max-w-[350px]`}>
         <div>
-          <h2>Product images</h2>
-          <p>The first image is the cover shown in your shop.</p>
+          <h2>{t("Product images")}</h2>
+          <p>{t("The first image is the cover shown in your shop.")}</p>
         </div>
-        <span className={adminStyles.muted}>{images.length} / 20</span>
+        <span className={adminStyles.muted}>
+          {formatNumber(images.length)} / {formatNumber(20)}
+        </span>
       </div>
-      {error && <Alert>{error}</Alert>}
+      {error && <Alert>{t(error)}</Alert>}
       {images.length > 0 && (
         <div className="grid grid-cols-3 gap-3 max-[1201px]:grid-cols-2 max-[761px]:grid-cols-3 max-[641px]:grid-cols-2">
           {images.map((url, index) => (
@@ -90,7 +95,9 @@ export function ProductImageManager({
             >
               <Image
                 src={url}
-                alt={`Product image ${index + 1}`}
+                alt={t("Product image {number}", {
+                  number: formatNumber(index + 1),
+                })}
                 fill
                 sizes="(max-width: 640px) 40vw, 150px"
                 unoptimized
@@ -98,7 +105,7 @@ export function ProductImageManager({
               />
               {index === 0 && (
                 <span className="absolute top-[7px] left-[7px] rounded border border-[#f4e5c4] bg-[#fff7e6] px-[7px] py-[3px] text-[8px] text-[#98702c]">
-                  Cover
+                  {t("Cover")}
                 </span>
               )}
               <div className="absolute right-1.5 bottom-1.5 left-1.5 flex items-center justify-end gap-1">
@@ -114,13 +121,15 @@ export function ProductImageManager({
                     }
                     disabled={busy || disabled}
                   >
-                    Make cover
+                    {t("Make cover")}
                   </button>
                 )}
                 <button
                   type="button"
                   className="inline-flex size-7 items-center justify-center rounded-md border border-[#e6e6e9] bg-white text-[#a4716b] max-[641px]:size-[34px]"
-                  aria-label={`Remove image ${index + 1}`}
+                  aria-label={t("Remove image {number}", {
+                    number: formatNumber(index + 1),
+                  })}
                   onClick={() =>
                     onChange(images.filter((_, current) => current !== index))
                   }
@@ -141,7 +150,7 @@ export function ProductImageManager({
         multiple
         onChange={upload}
         tabIndex={-1}
-        aria-label="Upload product images"
+        aria-label={t("Upload product images")}
         disabled={busy || disabled}
       />
       <button
@@ -154,12 +163,12 @@ export function ProductImageManager({
           <AdminIcon name="plus" size={23} />
         </span>
         <strong>
-          {busy ? "Preparing images…" : "Choose images from your device"}
+          {busy ? t("Preparing images…") : t("Choose images from your device")}
         </strong>
-        <small>JPG, PNG, or WebP · Up to 5 MB per image</small>
+        <small>{t("JPG, PNG, or WebP · Up to 5 MB per image")}</small>
       </button>
       <div className="flex items-end gap-2.5 max-[1201px]:flex-col max-[1201px]:items-stretch [&>div]:flex-1 max-[641px]:[&>button]:self-end">
-        <Field label="Or use an existing local image path">
+        <Field label={t("Or use an existing local image path")}>
           <input
             className={adminStyles.input}
             value={imageUrl}
@@ -179,7 +188,7 @@ export function ProductImageManager({
           onClick={addUrl}
           disabled={busy || disabled || !imageUrl.trim() || images.length >= 20}
         >
-          Add image
+          {t("Add image")}
         </Button>
       </div>
     </div>

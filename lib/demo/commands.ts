@@ -4,7 +4,13 @@ import type {
   OrderLine,
   ShopSettings,
 } from "../admin/types.ts";
-import { orderStages, orderStageTransitions } from "../admin/types.ts";
+import {
+  orderStages,
+  orderStageTransitions,
+  orderSources,
+  paymentMethods,
+  paymentStatuses,
+} from "../admin/types.ts";
 import {
   emailValue,
   enumValue,
@@ -23,9 +29,6 @@ import {
 import { getOrder, getProduct } from "./queries.ts";
 import { updateDemoSnapshot } from "./store.ts";
 import type { DemoSnapshot } from "./types.ts";
-const paymentMethods = ["cod", "bank", "mobile", "cash"] as const;
-const paymentStatuses = ["unpaid", "paid", "refunded"] as const;
-const orderSources = ["storefront", "admin", "custom"] as const;
 const requiredId = (value: unknown, label: string) =>
   textValue(value, label, { required: true, max: 200 });
 
@@ -211,10 +214,12 @@ export function createOrder(
       throw new ValidationError("Discount cannot exceed the order subtotal.");
     const now = new Date().toISOString();
     const sequence =
-      Math.max(
+      state.orders.reduce(
+        (highest, order) => Math.max(highest, Number(order.number.slice(3))),
         1000,
-        ...state.orders.map((order) => Number(order.number.slice(3))),
       ) + 1;
+    if (!Number.isSafeInteger(sequence))
+      throw new ValidationError("The order number limit has been reached.");
     const total = round(subtotal - discount + shippingCharge);
     const paymentStatus = storefront
       ? "unpaid"

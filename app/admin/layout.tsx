@@ -1,3 +1,4 @@
+import { AdminLanguageProvider } from "@/lib/admin/i18n";
 import type { Metadata } from "next";
 import { adminStyles } from "@/components/admin/styles";
 
@@ -11,5 +12,9 @@ export default function AdminLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <div className={adminStyles.root}>{children}</div>;
+  return (
+    <AdminLanguageProvider className={adminStyles.root}>
+      {children}
+    </AdminLanguageProvider>
+  );
 }

@@ -2,6 +2,7 @@
 
 import { useEffect, useId, useRef, useState, type ReactNode } from "react";
 import { AdminIcon } from "./ui";
+import { useAdminLanguage } from "@/lib/admin/i18n";
 import { adminStyles } from "./styles";
 
 /** Inline on desktop; an overlay on small screens leaves room for table rows. */
@@ -18,6 +19,7 @@ export function AdminTableFilters({
   compact?: boolean;
   className?: string;
 }) {
+  const { t, formatNumber } = useAdminLanguage();
   const id = useId();
   const root = useRef<HTMLDivElement>(null);
   const trigger = useRef<HTMLButtonElement>(null);
@@ -57,14 +59,15 @@ export function AdminTableFilters({
         ref={trigger}
         type="button"
         className={`${adminStyles.buttonSecondary} w-full min-[642px]:hidden ${compact ? "size-11 px-2!" : ""} ${activeCount > 0 ? "border-[#dbc393]! bg-admin-accent-soft! text-[#8b682f]!" : ""}`}
-        aria-label={`${label}${activeCount > 0 ? ` (${activeCount})` : ""}`}
+        aria-label={`${t(label)}${activeCount > 0 ? ` (${formatNumber(activeCount)})` : ""}`}
         aria-controls={id}
         aria-expanded={open}
         onClick={() => setOpen(!open)}
       >
         <AdminIcon name="filter" size={16} />
         <span className={compact ? "sr-only" : ""}>
-          Filters{activeCount > 0 ? ` (${activeCount})` : ""}
+          {t("Filters")}
+          {activeCount > 0 ? ` (${formatNumber(activeCount)})` : ""}
         </span>
         {!compact && (
           <AdminIcon
@@ -79,14 +82,14 @@ export function AdminTableFilters({
         className={`${open ? "max-[641px]:block" : "max-[641px]:hidden"} max-[641px]:absolute max-[641px]:inset-x-0 max-[641px]:top-full max-[641px]:z-20 max-[641px]:mt-2 max-[641px]:max-h-[min(60dvh,380px)] max-[641px]:overflow-y-auto max-[641px]:overscroll-contain max-[641px]:rounded-xl max-[641px]:border max-[641px]:border-admin-line max-[641px]:bg-white max-[641px]:p-4 max-[641px]:shadow-xl`}
       >
         <div className="mb-3 hidden items-center justify-between max-[641px]:flex">
-          <strong className="text-xs font-medium">{label}</strong>
+          <strong className="text-xs font-medium">{t(label)}</strong>
           <button
             type="button"
             onClick={() => {
               close();
               trigger.current?.focus();
             }}
-            aria-label="Close filters"
+            aria-label={t("Close filters")}
             className="inline-flex size-9 items-center justify-center rounded-lg text-admin-muted hover:bg-admin-bg"
           >
             <AdminIcon name="close" size={16} />

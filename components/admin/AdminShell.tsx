@@ -1,6 +1,8 @@
 "use client";
 
 import Link from "next/link";
+import { useAdminLanguage } from "@/lib/admin/i18n";
+import { LanguageSwitcher } from "./LanguageSwitcher";
 import { usePathname, useRouter } from "next/navigation";
 import {
   useEffect,
@@ -50,8 +52,9 @@ function Navigation({
   pathname: string;
   onNavigate?: () => void;
 }) {
+  const { t } = useAdminLanguage();
   return (
-    <nav className="grid gap-[6px]" aria-label="Admin navigation">
+    <nav className="grid gap-[6px]" aria-label={t("Admin navigation")}>
       {navigation.map(({ href, label, icon }) => (
         <Link
           key={href}
@@ -61,7 +64,7 @@ function Navigation({
           onClick={onNavigate}
         >
           <AdminIcon name={icon} />
-          <span>{label}</span>
+          <span>{t(label)}</span>
           {isActive(pathname, href) && (
             <span className="ml-auto size-[5px] rounded-full bg-[#d99b32]" />
           )}
@@ -72,6 +75,7 @@ function Navigation({
 }
 
 export function AdminShell({ children }: { children: ReactNode }) {
+  const { t, formatNumber, formatDate } = useAdminLanguage();
   const pathname = usePathname();
   const isListPage =
     pathname === "/admin/orders" || pathname === "/admin/products";
@@ -141,16 +145,16 @@ export function AdminShell({ children }: { children: ReactNode }) {
         className="fixed top-2 left-2 z-100 -translate-y-[150%] rounded-lg bg-[#232323] px-4 py-[10px] text-white focus:translate-y-0"
         href="#admin-main"
       >
-        Skip to content
+        {t("Skip to content")}
       </a>
       <aside className="fixed inset-y-0 left-[var(--modal-inset-left,0px)] z-40 flex w-60 flex-col border-r border-admin-line bg-admin-surface px-[18px] pt-4 pb-[18px] max-[1201px]:w-[215px] max-[1201px]:px-[14px] max-[901px]:hidden print:hidden">
         <div className="px-[11px]">{brand}</div>
-        <p className={captionClassName}>WORKSPACE</p>
+        <p className={captionClassName}>{t("WORKSPACE")}</p>
         <Navigation pathname={pathname} />
         <div className="mt-auto pt-8">
           <Link href="/" className={storeLinkClassName}>
             <AdminIcon name="store" size={18} />
-            <span>Visit your storefront</span>
+            <span>{t("Visit your storefront")}</span>
             <AdminIcon name="arrow" size={16} />
           </Link>
           <div className="mt-[10px] flex items-center gap-[10px] border-t border-admin-line px-[2px] pt-5">
@@ -159,16 +163,16 @@ export function AdminShell({ children }: { children: ReactNode }) {
             </span>
             <span className="min-w-0 flex-1">
               <strong className="block truncate text-xs font-medium">
-                {user.name}
+                {t(user.name)}
               </strong>
               <small className="block text-[10px] text-admin-muted">
-                Demo workspace
+                {t("Demo workspace")}
               </small>
             </span>
             <button
               className={adminStyles.iconButton}
-              aria-label="Leave demo"
-              title="Leave demo"
+              aria-label={t("Leave demo")}
+              title={t("Leave demo")}
               disabled={signingOut}
               onClick={logout}
             >
@@ -184,20 +188,20 @@ export function AdminShell({ children }: { children: ReactNode }) {
           <div className="flex min-w-0 items-center gap-[18px] max-[901px]:gap-[10px]">
             <button
               className={`${adminStyles.iconButton} min-[901px]:hidden`}
-              aria-label="Open navigation"
+              aria-label={t("Open navigation")}
               aria-expanded={menuOpen}
               onClick={() => setMenuOpen(true)}
             >
               <AdminIcon name="menu" />
             </button>
             <div className="flex items-center gap-[13px] text-[11px] text-[#93959d] max-[901px]:hidden">
-              <span>Workspace</span>
+              <span>{t("Workspace")}</span>
               <AdminIcon name="chevron" size={13} />
               <strong className="font-medium text-[#4c4f57]">
-                {activePage}
+                {t(activePage)}
               </strong>
             </div>
-            <div className="hidden max-[901px]:block">
+            <div className="hidden min-w-0 max-[901px]:block max-[381px]:max-w-[88px]">
               <AdminBrand
                 name={shopName}
                 logo={logo}
@@ -208,12 +212,19 @@ export function AdminShell({ children }: { children: ReactNode }) {
           </div>
           <div className="flex min-w-0 items-center gap-[18px] max-[641px]:gap-[10px]">
             <span className="mr-2 flex items-center gap-[7px] text-[10px] text-admin-muted max-[901px]:hidden">
-              <span className="size-[6px] rounded-full bg-[#62a489]" /> Demo
-              workspace
+              <span className="size-[6px] rounded-full bg-[#62a489]" />{" "}
+              {t("Demo workspace")}
             </span>
+            <LanguageSwitcher />
             <button
               className={`${adminStyles.iconButton} relative border border-admin-line`}
-              aria-label={`Notifications${unread ? `, ${unread} unread` : ""}`}
+              aria-label={
+                unread
+                  ? t("Notifications, {count} unread", {
+                      count: formatNumber(unread),
+                    })
+                  : t("Notifications")
+              }
               aria-expanded={notificationsOpen}
               aria-controls="admin-notifications"
               aria-haspopup="dialog"
@@ -222,13 +233,13 @@ export function AdminShell({ children }: { children: ReactNode }) {
               <AdminIcon name="bell" />
               {unread > 0 && (
                 <span className="absolute -top-[6px] -right-[6px] min-w-[17px] rounded-[10px] border-2 border-white bg-[#e77d54] px-1 py-px text-[8px] leading-3 font-semibold text-white">
-                  {unread > 99 ? "99+" : unread}
+                  {unread > 99 ? `${formatNumber(99)}+` : formatNumber(unread)}
                 </span>
               )}
             </button>
             <span
-              className={`${avatarClassName} max-[641px]:size-[31px] max-[641px]:text-[11px]`}
-              title={user.name}
+              className={`${avatarClassName} max-[401px]:hidden max-[641px]:size-[31px] max-[641px]:text-[11px]`}
+              title={t(user.name)}
             >
               {user.name.slice(0, 1).toUpperCase()}
             </span>
@@ -239,7 +250,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
           className={`mx-auto w-full max-w-[1670px] px-9 pt-6 pb-5 focus:outline-none min-[1600px]:px-12 max-[1201px]:px-6 max-[641px]:px-4 print:p-0 ${isListPage ? "flex min-h-0 flex-1 flex-col gap-3 overflow-hidden max-[901px]:pb-[calc(76px+env(safe-area-inset-bottom))] max-[641px]:px-3 max-[641px]:pt-3 print:overflow-visible" : "min-h-[calc(100dvh-78px)] min-[1600px]:pt-8 min-[1600px]:pb-6 max-[901px]:min-h-[calc(100dvh-66px)] max-[901px]:pb-[90px] max-[641px]:pt-5 max-[641px]:pb-[92px]"}`}
           tabIndex={-1}
         >
-          {storageWarning && <Alert tone="info">{storageWarning}</Alert>}
+          {storageWarning && <Alert tone="info">{t(storageWarning)}</Alert>}
           <div
             key={pathname}
             className={`animate-admin-enter ${isListPage ? "flex min-h-0 flex-1 flex-col" : "min-h-[calc(100dvh-204px)]"}`}
@@ -248,15 +259,17 @@ export function AdminShell({ children }: { children: ReactNode }) {
           </div>
           {!isListPage && (
             <footer className="mt-[30px] flex justify-between gap-[14px] border-t border-admin-line pt-[17px] text-[9px] text-[#a1a4ad] max-[641px]:mt-[25px] max-[641px]:text-[8px] max-[641px]:[&>span:last-child]:hidden print:hidden">
-              <span>{shopName} · Shop manager</span>
-              <span>Sample data · Browser workspace</span>
+              <span>
+                {shopName} · {t("Shop manager")}
+              </span>
+              <span>{t("Sample data · Browser workspace")}</span>
             </footer>
           )}
         </main>
       </div>
       <nav
         className="fixed right-[var(--modal-inset-right,0px)] bottom-0 left-[var(--modal-inset-left,0px)] z-35 hidden grid-cols-4 border-t border-admin-line bg-white px-3 pt-[7px] pb-[max(7px,env(safe-area-inset-bottom))] shadow-[0_-3px_14px_#1f293703] max-[901px]:grid print:hidden"
-        aria-label="Quick navigation"
+        aria-label={t("Quick navigation")}
       >
         {navigation.slice(0, 3).map((item) => (
           <Link
@@ -266,7 +279,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
             aria-current={isActive(pathname, item.href) ? "page" : undefined}
           >
             <AdminIcon name={item.icon} />
-            <span>{item.label}</span>
+            <span>{t(item.label)}</span>
           </Link>
         ))}
         <button
@@ -277,15 +290,15 @@ export function AdminShell({ children }: { children: ReactNode }) {
               : "bg-transparent text-[#9295a0]"
           }`}
           onClick={() => setMenuOpen(true)}
-          aria-label="More navigation"
+          aria-label={t("More navigation")}
         >
           <AdminIcon name="menu" />
-          <span>More</span>
+          <span>{t("More")}</span>
         </button>
       </nav>
       <Modal
         id="admin-menu"
-        label="Admin navigation"
+        label={t("Admin navigation")}
         open={menuOpen}
         onClose={() => setMenuOpen(false)}
         className={`${adminStyles.modal} fixed inset-y-0 left-0 m-0 h-dvh max-h-dvh w-[min(320px,calc(100vw-42px))] -translate-x-full translate-y-0! rounded-r-2xl border-0! px-4! py-6! open:flex open:flex-col data-[state=open]:translate-x-0`}
@@ -297,53 +310,55 @@ export function AdminShell({ children }: { children: ReactNode }) {
           <button
             className={adminStyles.iconButton}
             onClick={() => setMenuOpen(false)}
-            aria-label="Close navigation"
+            aria-label={t("Close navigation")}
           >
             <AdminIcon name="close" />
           </button>
         </div>
-        <p className={captionClassName}>WORKSPACE</p>
+        <p className={captionClassName}>{t("WORKSPACE")}</p>
         <Navigation pathname={pathname} onNavigate={() => setMenuOpen(false)} />
         <div className="mt-auto grid gap-3 pt-[30px]">
           <Link href="/" className={storeLinkClassName}>
             <AdminIcon name="store" />
-            Visit storefront
+            {t("Visit storefront")}
             <AdminIcon name="arrow" size={16} />
           </Link>
           <Button variant="secondary" onClick={logout} disabled={signingOut}>
             <AdminIcon name="logout" size={18} />
-            {signingOut ? "Leaving…" : "Leave demo"}
+            {t(signingOut ? "Leaving…" : "Leave demo")}
           </Button>
         </div>
       </Modal>
       <Popover
         ref={notificationsRef}
         id="admin-notifications"
-        label="Order notifications"
+        label={t("Order notifications")}
         onOpenChange={setNotificationsOpen}
         className="top-[68px] right-8 bottom-auto left-auto z-50 m-0 max-h-[min(650px,calc(100dvh-110px))] w-[430px] max-w-[calc(100%-24px)] flex-col overflow-hidden rounded-[14px] border border-admin-line bg-white p-0 text-admin-ink shadow-[0_12px_40px_#10131e20] max-[641px]:top-[74px] max-[641px]:right-3 max-[641px]:w-full motion-safe:[&:popover-open]:animate-admin-enter"
       >
         <div className="flex shrink-0 items-center justify-between border-b border-admin-line px-5 pt-5 pb-4">
           <div>
-            <h2 className="text-base font-semibold">Notifications</h2>
+            <h2 className="text-base font-semibold">{t("Notifications")}</h2>
             <p className="mt-[3px] text-[10px] text-admin-muted">
               {unread
-                ? `${unread} unread update${unread === 1 ? "" : "s"}`
-                : "Your latest order updates"}
+                ? t("{count} unread updates", { count: formatNumber(unread) })
+                : t("Your latest order updates")}
             </p>
           </div>
           <button
             className={adminStyles.iconButton}
             popoverTarget="admin-notifications"
             popoverTargetAction="hide"
-            aria-label="Close notifications"
+            aria-label={t("Close notifications")}
           >
             <AdminIcon name="close" />
           </button>
         </div>
         {(notificationActionError || notificationError) && (
           <div className="m-[14px]">
-            <Alert>{notificationActionError || notificationError}</Alert>
+            <Alert>
+              {t(notificationActionError || notificationError || "")}
+            </Alert>
           </div>
         )}
         {unread > 0 && (
@@ -351,7 +366,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
             className={`${adminStyles.textButton} mx-5 my-[10px] shrink-0 self-start`}
             onClick={markAllRead}
           >
-            Mark all as read
+            {t("Mark all as read")}
           </button>
         )}
         <div className="min-h-0 max-h-[min(490px,calc(100dvh-235px))] flex-1 overflow-y-auto overscroll-contain [scrollbar-width:thin] [scrollbar-color:#c8cbd2_transparent]">
@@ -364,7 +379,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
                   </span>
                   <span className="grid min-w-0 gap-1">
                     <strong className="text-[11px] font-medium">
-                      {notification.title}
+                      {t(notification.title)}
                     </strong>
                     <span className="text-[10px] wrap-anywhere text-admin-muted">
                       {notification.message}
@@ -373,22 +388,19 @@ export function AdminShell({ children }: { children: ReactNode }) {
                       className="mt-1 text-[9px] text-[#a0a4ad]"
                       dateTime={notification.createdAt}
                     >
-                      {new Date(notification.createdAt).toLocaleString(
-                        "en-BD",
-                        {
-                          month: "short",
-                          day: "numeric",
-                          hour: "numeric",
-                          minute: "2-digit",
-                          timeZone: "Asia/Dhaka",
-                        },
-                      )}
+                      {formatDate(notification.createdAt, {
+                        month: "short",
+                        day: "numeric",
+                        hour: "numeric",
+                        minute: "2-digit",
+                        timeZone: "Asia/Dhaka",
+                      })}
                     </time>
                   </span>
                   {!notification.read && (
                     <span
                       className="mt-[7px] ml-auto size-[6px] shrink-0 rounded-full bg-[#d7a249]"
-                      aria-label="Unread"
+                      aria-label={t("Unread")}
                     />
                   )}
                 </>
@@ -420,7 +432,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
             <div
               className={`${adminStyles.stack} p-5`}
               role="status"
-              aria-label="Loading notifications"
+              aria-label={t("Loading notifications")}
             >
               <div className={`${adminStyles.skeleton} h-16`} />
               <div className={`${adminStyles.skeleton} h-16`} />

@@ -9,6 +9,7 @@ import {
   type ReactNode,
 } from "react";
 import { Modal } from "@/components/Modal";
+import { useAdminLanguage } from "@/lib/admin/i18n";
 import type { OrderStage } from "@/lib/admin/types";
 import { adminStyles } from "./styles";
 
@@ -59,9 +60,7 @@ export type AdminIconName =
   | "trash"
   | "edit"
   | "refresh"
-  | "eye"
   | "chevron"
-  | "shield"
   | "box"
   | "trend";
 
@@ -141,19 +140,7 @@ const iconPaths: Record<AdminIconName, ReactNode> = {
       <path d="M20 7v5h-5M4 17v-5h5M6 6a8 8 0 0 1 13 2M18 18a8 8 0 0 1-13-2" />
     </>
   ),
-  eye: (
-    <>
-      <path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7Z" />
-      <circle cx="12" cy="12" r="3" />
-    </>
-  ),
   chevron: <path d="m9 5 7 7-7 7" />,
-  shield: (
-    <>
-      <path d="m12 2 9 4v6c0 5-9 10-9 10S3 17 3 12V6l9-4Z" />
-      <path d="m8 12 3 3 5-6" />
-    </>
-  ),
   box: (
     <>
       <path d="M4 8h16v13H4zM3 3h18v5H3zM9 12h6" />
@@ -200,10 +187,11 @@ export function PageHeading({
   title: string;
   description?: string;
 }) {
+  const { t } = useAdminLanguage();
   return (
     <div className="sr-only">
-      <h1>{title}</h1>
-      {description && <p>{description}</p>}
+      <h1>{t(title)}</h1>
+      {description && <p>{t(description)}</p>}
     </div>
   );
 }
@@ -220,11 +208,12 @@ export function AdminActionBar({
   label?: string;
   className?: string;
 }) {
+  const { t } = useAdminLanguage();
   if (!children && !actions) return null;
   return (
     <div
       role="group"
-      aria-label={label}
+      aria-label={t(label)}
       data-slot="admin-action-bar"
       className={`flex min-w-0 flex-wrap items-center justify-between gap-3 ${className}`}
     >
@@ -252,16 +241,24 @@ export function Button({
   variant = "primary",
   className = "",
   type = "button",
+  children,
+  "aria-label": ariaLabel,
+  title,
   ...props
 }: ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: "primary" | "secondary" | "danger";
 }) {
+  const { t } = useAdminLanguage();
   return (
     <button
       type={type}
       className={`${buttonVariants[variant]} ${className}`}
       {...props}
-    />
+      aria-label={ariaLabel ? t(ariaLabel) : undefined}
+      title={title ? t(title) : undefined}
+    >
+      {typeof children === "string" ? t(children) : children}
+    </button>
   );
 }
 
@@ -276,32 +273,34 @@ export function Field({
   hint?: string;
   htmlFor?: string;
 }) {
+  const { t } = useAdminLanguage();
   const control =
     isValidElement(children) &&
     typeof children.type === "string" &&
     ["input", "select", "textarea"].includes(children.type)
       ? cloneElement(children as ReactElement<{ "aria-label"?: string }>, {
-          "aria-label": label,
+          "aria-label": t(label),
         })
       : children;
   return (
     <div className={adminStyles.field}>
       <label htmlFor={htmlFor}>
-        {label}
+        {t(label)}
         {control}
       </label>
-      {hint && <p className={adminStyles.fieldHint}>{hint}</p>}
+      {hint && <p className={adminStyles.fieldHint}>{t(hint)}</p>}
     </div>
   );
 }
 
 export function StatusBadge({ stage }: { stage: OrderStage | string }) {
+  const { t } = useAdminLanguage();
   return (
     <span
       className={`inline-flex items-center gap-[5px] rounded-[5px] px-2 py-1 text-[9px] font-medium leading-normal whitespace-nowrap capitalize ${badgeColors[stage] ?? "bg-[#f0f1f4] text-[#666a75]"}`}
     >
       <span className="size-1 rounded-full bg-current" aria-hidden="true" />
-      {stage.replaceAll("_", " ")}
+      {t(stage.replaceAll("_", " "))}
     </span>
   );
 }
@@ -315,15 +314,16 @@ export function EmptyState({
   description?: string;
   action?: ReactNode;
 }) {
+  const { t } = useAdminLanguage();
   return (
     <div className="flex flex-col items-center justify-center gap-[11px] px-5 py-12 text-center max-[641px]:px-2.5 max-[641px]:py-9">
       <div className="mb-[3px] flex size-16 items-center justify-center rounded-[18px] bg-[#f5f3ef] text-[#ba9d70]">
         <AdminIcon name="box" size={28} />
       </div>
-      <h3 className="text-[15px]! font-medium!">{title}</h3>
+      <h3 className="text-[15px]! font-medium!">{t(title)}</h3>
       {description && (
         <p className="max-w-[330px] text-[11px] text-admin-muted">
-          {description}
+          {t(description)}
         </p>
       )}
       {action && <div className="mt-2.5">{action}</div>}
@@ -338,12 +338,13 @@ export function Alert({
   children: ReactNode;
   tone?: "error" | "success" | "info";
 }) {
+  const { t } = useAdminLanguage();
   return (
     <div
       className={`rounded-lg border px-[15px] py-[13px] text-[11px] leading-[1.7] [overflow-wrap:anywhere] ${alertColors[tone]}`}
       role={tone === "error" ? "alert" : "status"}
     >
-      {children}
+      {typeof children === "string" ? t(children) : children}
     </div>
   );
 }
@@ -366,10 +367,11 @@ export function ConfirmDialog({
   confirmLabel?: string;
 }) {
   const id = useId();
+  const { t } = useAdminLanguage();
   return (
     <Modal
       id={id}
-      label={title}
+      label={t(title)}
       open={open}
       onClose={() => {
         if (!busy) onClose();
@@ -382,8 +384,8 @@ export function ConfirmDialog({
         <span className="mb-[18px] inline-flex size-12 items-center justify-center rounded-[13px] bg-[#fcf0ee] text-[#bd6862]">
           <AdminIcon name="trash" size={24} />
         </span>
-        <h2>{title}</h2>
-        <p>{description}</p>
+        <h2>{t(title)}</h2>
+        <p>{t(description)}</p>
         <div className={`${adminStyles.actions} mt-[26px] justify-end`}>
           <Button
             variant="secondary"
@@ -391,10 +393,10 @@ export function ConfirmDialog({
             disabled={busy}
             data-autofocus
           >
-            Cancel
+            {t("Cancel")}
           </Button>
           <Button variant="danger" onClick={onConfirm} disabled={busy}>
-            {busy ? "Please wait…" : confirmLabel}
+            {busy ? t("Please wait…") : t(confirmLabel)}
           </Button>
         </div>
       </div>
@@ -413,39 +415,40 @@ export function Pagination({
   pageSize: number;
   onChange: (page: number) => void;
 }) {
+  const { t, formatNumber } = useAdminLanguage();
   const pages = Math.max(1, Math.ceil(total / pageSize));
   if (total === 0) return null;
   return (
     <nav
       className="flex shrink-0 items-center justify-between gap-2 pt-3 text-[10px] text-[#8d9099] [&_button]:min-h-[34px] [&_button]:px-3 [&_button]:py-2 [&_button]:text-[10px] max-[641px]:[&_button]:min-h-10 max-[401px]:[&_button]:px-2"
-      aria-label="Table pagination"
+      aria-label={t("Table pagination")}
     >
       <p className="shrink-0 tabular-nums" aria-live="polite">
         <strong className="font-medium text-[#666a75]">
-          {Math.min((page - 1) * pageSize + 1, total)}–
-          {Math.min(page * pageSize, total)}
+          {formatNumber(Math.min((page - 1) * pageSize + 1, total))}–
+          {formatNumber(Math.min(page * pageSize, total))}
         </strong>{" "}
-        of {total}
+        {t("of {total}", { total: formatNumber(total) })}
       </p>
       <div className="ml-auto flex items-center gap-2">
         <Button
           variant="secondary"
           disabled={page <= 1}
           onClick={() => onChange(page - 1)}
-          aria-label="Previous page"
+          aria-label={t("Previous page")}
         >
-          Previous
+          {t("Previous")}
         </Button>
         <span className="text-[10px] text-[#747883] max-[641px]:hidden">
-          {page} / {pages}
+          {formatNumber(page)} / {formatNumber(pages)}
         </span>
         <Button
           variant="secondary"
           disabled={page >= pages}
           onClick={() => onChange(page + 1)}
-          aria-label="Next page"
+          aria-label={t("Next page")}
         >
-          Next
+          {t("Next")}
         </Button>
       </div>
     </nav>

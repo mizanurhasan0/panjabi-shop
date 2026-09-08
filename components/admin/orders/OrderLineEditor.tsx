@@ -1,52 +1,9 @@
+import { useAdminLanguage } from "@/lib/admin/i18n";
 import type { AdminProduct } from "@/lib/admin/types";
-import { formatPrice } from "@/lib/utils/products";
 import { adminStyles } from "../styles";
 import { AdminIcon, Button, Field } from "../ui";
 
-export interface DraftOrderLine {
-  id: string;
-  kind: "catalog" | "custom";
-  product: AdminProduct | null;
-  variantId: string;
-  title: string;
-  sku: string;
-  variant: string;
-  quantity: string;
-  price: string;
-  costPrice: string;
-  customizations: string;
-}
-
-export function blankOrderLine(kind: DraftOrderLine["kind"]): DraftOrderLine {
-  return {
-    id: crypto.randomUUID(),
-    kind,
-    product: null,
-    variantId: "",
-    title: "",
-    sku: "",
-    variant: "",
-    quantity: "1",
-    price: "",
-    costPrice: "0",
-    customizations: "",
-  };
-}
-
-export function draftAmounts(line: DraftOrderLine): {
-  price: number;
-  costPrice: number;
-  quantity: number;
-} {
-  return {
-    price: line.product
-      ? (line.product.variants.find((variant) => variant.id === line.variantId)
-          ?.price ?? line.product.price)
-      : Number(line.price) || 0,
-    costPrice: line.product?.costPrice ?? (Number(line.costPrice) || 0),
-    quantity: Number(line.quantity) || 0,
-  };
-}
+import { draftAmounts, type DraftOrderLine } from "./draft";
 
 export function OrderLineEditor({
   line,
@@ -65,6 +22,7 @@ export function OrderLineEditor({
   onRemove: () => void;
   canRemove: boolean;
 }) {
+  const { t, formatCurrency, formatNumber } = useAdminLanguage();
   const choices =
     line.product && !products.some((product) => product.id === line.product?.id)
       ? [line.product, ...products]
@@ -83,26 +41,28 @@ export function OrderLineEditor({
       <div className="mb-5 flex items-center justify-between gap-3 max-[641px]:gap-2">
         <h3 className="flex items-center gap-2.5 max-[641px]:text-xs!">
           <span className="inline-flex size-[27px] items-center justify-center rounded-[7px] bg-admin-accent-soft text-[10px] text-[#aa8034]">
-            {String(index + 1).padStart(2, "0")}
+            {formatNumber(index + 1)}
           </span>
-          {line.kind === "custom" ? "Custom item" : "Catalog item"}
+          {line.kind === "custom" ? t("Custom item") : t("Catalog item")}
         </h3>
         <Button
           className="min-h-[34px]! px-2.5! py-[7px]! text-[10px]! max-[641px]:min-h-[42px]! max-[641px]:min-w-[42px]"
           variant="secondary"
           onClick={onRemove}
           disabled={!canRemove}
-          aria-label={`Remove item ${index + 1}`}
+          aria-label={t("Remove item {number}", {
+            number: formatNumber(index + 1),
+          })}
         >
           <AdminIcon name="trash" size={15} />
-          <span className="max-[641px]:hidden">Remove</span>
+          <span className="max-[641px]:hidden">{t("Remove")}</span>
         </Button>
       </div>
       <div className={`${adminStyles.formGrid} gap-4!`}>
         {line.kind === "catalog" ? (
           <>
             <div className={adminStyles.formFull}>
-              <Field label="Product">
+              <Field label={t("Product")}>
                 <select
                   className={adminStyles.select}
                   value={line.product?.id ?? ""}
@@ -110,7 +70,7 @@ export function OrderLineEditor({
                   required
                 >
                   <option value="">
-                    {loading ? "Loading products…" : "Choose a product"}
+                    {loading ? t("Loading products…") : t("Choose a product")}
                   </option>
                   {choices.map((product) => (
                     <option
@@ -118,13 +78,16 @@ export function OrderLineEditor({
                       value={product.id}
                       disabled={!product.available}
                     >
-                      {product.title} · {product.stock} in stock
+                      {product.title} ·{" "}
+                      {t("{count} in stock", {
+                        count: formatNumber(product.stock),
+                      })}
                     </option>
                   ))}
                 </select>
               </Field>
             </div>
-            <Field label="Size / color">
+            <Field label={t("Size / color")}>
               <select
                 className={adminStyles.select}
                 value={line.variantId}
@@ -134,7 +97,7 @@ export function OrderLineEditor({
                 required
                 disabled={!line.product}
               >
-                <option value="">Choose a variant</option>
+                <option value="">{t("Choose a variant")}</option>
                 {line.product?.variants.map((variant) => (
                   <option
                     key={variant.id}
@@ -144,16 +107,18 @@ export function OrderLineEditor({
                     {[variant.color, variant.size]
                       .filter(Boolean)
                       .join(" / ") || variant.title}
-                    {!variant.available ? " · Unavailable" : ""}
+                    {!variant.available ? ` · ${t("Unavailable")}` : ""}
                   </option>
                 ))}
               </select>
             </Field>
             <Field
-              label="Quantity"
+              label={t("Quantity")}
               hint={
                 line.product
-                  ? `${line.product.stock} units available across this product`
+                  ? t("{count} units available across this product", {
+                      count: formatNumber(line.product.stock),
+                    })
                   : undefined
               }
             >
@@ -174,15 +139,17 @@ export function OrderLineEditor({
                 className={`${adminStyles.formFull} flex flex-wrap justify-between gap-2.5 rounded-[7px] bg-[#fafbfc] p-[13px] text-[10px] text-admin-muted max-[641px]:gap-[15px] [&>span]:grid [&>span]:gap-[3px] [&_strong]:font-medium [&_strong]:text-admin-ink`}
               >
                 <span>
-                  Unit price <strong>{formatPrice(amounts.price)}</strong>
+                  {t("Unit price")}
+                  <strong>{formatCurrency(amounts.price)}</strong>
                 </span>
                 <span>
-                  Unit cost <strong>{formatPrice(amounts.costPrice)}</strong>
+                  {t("Unit cost")}
+                  <strong>{formatCurrency(amounts.costPrice)}</strong>
                 </span>
                 <span>
-                  Line total{" "}
+                  {t("Line total")}{" "}
                   <strong>
-                    {formatPrice(amounts.price * amounts.quantity)}
+                    {formatCurrency(amounts.price * amounts.quantity)}
                   </strong>
                 </span>
               </div>
@@ -191,27 +158,27 @@ export function OrderLineEditor({
         ) : (
           <>
             <div className={adminStyles.formFull}>
-              <Field label="Custom item name">
+              <Field label={t("Custom item name")}>
                 <input
                   className={adminStyles.input}
                   value={line.title}
                   onChange={(event) => onChange({ title: event.target.value })}
-                  placeholder="e.g. Ivory wedding panjabi"
+                  placeholder={t("e.g. Ivory wedding panjabi")}
                   required
                   maxLength={200}
                 />
               </Field>
             </div>
-            <Field label="Size / variation">
+            <Field label={t("Size / variation")}>
               <input
                 className={adminStyles.input}
                 value={line.variant}
                 onChange={(event) => onChange({ variant: event.target.value })}
-                placeholder="e.g. Size 42 / Ivory"
+                placeholder={t("e.g. Size 42 / Ivory")}
                 maxLength={200}
               />
             </Field>
-            <Field label="SKU / reference (optional)">
+            <Field label={t("SKU / reference (optional)")}>
               <input
                 className={adminStyles.input}
                 value={line.sku}
@@ -219,7 +186,7 @@ export function OrderLineEditor({
                 maxLength={100}
               />
             </Field>
-            <Field label="Selling price (Tk)">
+            <Field label={t("Selling price (Tk)")}>
               <input
                 className={adminStyles.input}
                 type="number"
@@ -232,7 +199,7 @@ export function OrderLineEditor({
                 required
               />
             </Field>
-            <Field label="Cost price (Tk)">
+            <Field label={t("Cost price (Tk)")}>
               <input
                 className={adminStyles.input}
                 type="number"
@@ -247,7 +214,7 @@ export function OrderLineEditor({
                 required
               />
             </Field>
-            <Field label="Quantity">
+            <Field label={t("Quantity")}>
               <input
                 className={adminStyles.input}
                 type="number"
@@ -263,14 +230,16 @@ export function OrderLineEditor({
           </>
         )}
         <div className={adminStyles.formFull}>
-          <Field label="Customization notes (optional)">
+          <Field label={t("Customization notes (optional)")}>
             <textarea
               className={`${adminStyles.textarea} min-h-[75px]!`}
               value={line.customizations}
               onChange={(event) =>
                 onChange({ customizations: event.target.value })
               }
-              placeholder="Measurements, embroidery, fabric or special instructions…"
+              placeholder={t(
+                "Measurements, embroidery, fabric or special instructions…",
+              )}
               maxLength={2000}
             />
           </Field>

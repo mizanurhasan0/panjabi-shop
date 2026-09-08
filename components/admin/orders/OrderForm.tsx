@@ -1,8 +1,10 @@
 "use client";
 
+import { useAdminLanguage } from "@/lib/admin/i18n";
+
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useDeferredValue, useState, type FormEvent } from "react";
+import { useDeferredValue, useMemo, useState, type FormEvent } from "react";
 import { errorMessage, useDemoQuery } from "@/lib/demo/client";
 import { createOrder } from "@/lib/demo/commands";
 import { listProducts } from "@/lib/demo/queries";
@@ -17,13 +19,13 @@ import {
   Field,
   PageHeading,
 } from "../ui";
-import { OrderTotals } from "./shared";
+import { OrderTotals, paymentMethodLabels } from "./shared";
 import {
   blankOrderLine,
-  draftAmounts,
-  OrderLineEditor,
+  summarizeDraftOrder,
   type DraftOrderLine,
-} from "./OrderLineEditor";
+} from "./draft";
+import { OrderLineEditor } from "./OrderLineEditor";
 
 const costFields = [
   {
@@ -49,6 +51,7 @@ const costFields = [
 ] as const;
 
 export function OrderForm() {
+  const { t, formatNumber } = useAdminLanguage();
   const router = useRouter();
   const [lines, setLines] = useState<DraftOrderLine[]>(() => [
     blankOrderLine("catalog"),
@@ -69,53 +72,11 @@ export function OrderForm() {
   });
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
-  const subtotal =
-    Math.round(
-      lines.reduce((sum, line) => {
-        const item = draftAmounts(line);
-        return sum + item.price * item.quantity;
-      }, 0) * 100,
-    ) / 100;
-  const itemCosts = lines.reduce((sum, line) => {
-    const item = draftAmounts(line);
-    return sum + item.costPrice * item.quantity;
-  }, 0);
-  const total =
-    Math.round(
-      (subtotal + Number(costs.shippingCharge) - Number(costs.discount)) * 100,
-    ) / 100;
-  const summary = {
-    subtotal,
-    ...(Object.fromEntries(
-      Object.entries(costs).map(([key, value]) => [key, Number(value) || 0]),
-    ) as {
-      shippingCharge: number;
-      discount: number;
-      deliveryCost: number;
-      additionalCost: number;
-    }),
-    total,
-    profit:
-      Math.round(
-        (total -
-          itemCosts -
-          Number(costs.deliveryCost) -
-          Number(costs.additionalCost)) *
-          100,
-      ) / 100,
-  };
-  const stockTotals = new Map<string, number>();
-  for (const line of lines)
-    if (line.product)
-      stockTotals.set(
-        line.product.id,
-        (stockTotals.get(line.product.id) ?? 0) + Number(line.quantity),
-      );
-  const stockProblem = lines.find(
-    (line) =>
-      line.product &&
-      (stockTotals.get(line.product.id) ?? 0) > line.product.stock,
-  )?.product;
+  const { summary, stockProblem } = useMemo(
+    () => summarizeDraftOrder(lines, costs),
+    [lines, costs],
+  );
+  const { subtotal } = summary;
 
   function updateLine(id: string, update: Partial<DraftOrderLine>) {
     setLines((previous) =>
@@ -142,7 +103,13 @@ export function OrderForm() {
     }
     if (stockProblem) {
       setError(
-        `${stockProblem.title} has only ${stockProblem.stock} units available. Reduce the combined quantity.`,
+        t(
+          "{product} has only {count} units available. Reduce the combined quantity.",
+          {
+            product: stockProblem.title,
+            count: formatNumber(stockProblem.stock),
+          },
+        ),
       );
       return;
     }
@@ -184,19 +151,21 @@ export function OrderForm() {
   return (
     <div className={adminStyles.stack}>
       <PageHeading
-        title="Create an order"
-        description="Add catalog products, made-to-order pieces, or a little of both."
+        title={t("Create an order")}
+        description={t(
+          "Add catalog products, made-to-order pieces, or a little of both.",
+        )}
       />
       <div className={adminStyles.card}>
         <AdminActionBar
-          label="New order actions"
+          label={t("New order actions")}
           actions={
             <>
               <Link
                 className={adminStyles.buttonSecondary}
                 href="/admin/orders"
               >
-                Cancel
+                {t("Cancel")}
               </Link>
               <Button
                 type="submit"
@@ -204,13 +173,13 @@ export function OrderForm() {
                 disabled={busy || Boolean(stockProblem)}
               >
                 <AdminIcon name="plus" size={16} />
-                {busy ? "Creating order…" : "Create order"}
+                {busy ? t("Creating order…") : t("Create order")}
               </Button>
             </>
           }
         >
           <Link className={orderStyles.backLink} href="/admin/orders">
-            ← Back to orders
+            {t("← Back to orders")}
           </Link>
         </AdminActionBar>
       </div>
@@ -226,23 +195,23 @@ export function OrderForm() {
           <section className={adminStyles.card}>
             <div className={adminStyles.cardHeader}>
               <div>
-                <h2>Customer details</h2>
-                <p>Who are we preparing this order for?</p>
+                <h2>{t("Customer details")}</h2>
+                <p>{t("Who are we preparing this order for?")}</p>
               </div>
               <AdminIcon name="orders" />
             </div>
             <div className={adminStyles.formGrid}>
-              <Field label="Customer name">
+              <Field label={t("Customer name")}>
                 <input
                   className={adminStyles.input}
                   name="customerName"
                   autoComplete="name"
                   required
                   maxLength={200}
-                  placeholder="Full name"
+                  placeholder={t("Full name")}
                 />
               </Field>
-              <Field label="Phone number">
+              <Field label={t("Phone number")}>
                 <input
                   className={adminStyles.input}
                   name="customerPhone"
@@ -254,7 +223,7 @@ export function OrderForm() {
                 />
               </Field>
               <div className={adminStyles.formFull}>
-                <Field label="Email address (optional)">
+                <Field label={t("Email address (optional)")}>
                   <input
                     className={adminStyles.input}
                     name="customerEmail"
@@ -266,14 +235,14 @@ export function OrderForm() {
                 </Field>
               </div>
               <div className={adminStyles.formFull}>
-                <Field label="Delivery address">
+                <Field label={t("Delivery address")}>
                   <textarea
                     className={adminStyles.textarea}
                     name="address"
                     autoComplete="street-address"
                     required
                     maxLength={2000}
-                    placeholder="House, road, area, district…"
+                    placeholder={t("House, road, area, district…")}
                   />
                 </Field>
               </div>
@@ -282,24 +251,31 @@ export function OrderForm() {
           <section className={adminStyles.card}>
             <div className={adminStyles.cardHeader}>
               <div>
-                <h2>Order items</h2>
+                <h2>{t("Order items")}</h2>
                 <p>
-                  Catalog products reserve stock as soon as you create the
-                  order.
+                  {t(
+                    "Catalog products reserve stock as soon as you create the order.",
+                  )}
                 </p>
               </div>
               <span className={adminStyles.badge}>
-                {lines.length} {lines.length === 1 ? "item" : "items"}
+                {t(lines.length === 1 ? "{count} item" : "{count} items", {
+                  count: formatNumber(lines.length),
+                })}
               </span>
             </div>
             {lines.some((line) => line.kind === "catalog") && (
               <div className="mb-[22px]">
                 <Field
-                  label="Find a catalog product"
+                  label={t("Find a catalog product")}
                   hint={
                     data && data.total > 100
-                      ? "Showing the first 100 matches. Search to find another product."
-                      : "Out-of-stock products can be restocked from Products."
+                      ? t(
+                          "Showing the first 100 matches. Search to find another product.",
+                        )
+                      : t(
+                          "Out-of-stock products can be restocked from Products.",
+                        )
                   }
                 >
                   <input
@@ -308,15 +284,15 @@ export function OrderForm() {
                     value={search}
                     onChange={(event) => setSearch(event.target.value)}
                     maxLength={200}
-                    placeholder="Search by product name…"
+                    placeholder={t("Search by product name…")}
                   />
                 </Field>
                 {productError && (
                   <div className="mt-3">
                     <Alert>
-                      {productError}{" "}
+                      {t(productError)}{" "}
                       <Button variant="secondary" onClick={reload}>
-                        Retry
+                        {t("Retry")}
                       </Button>
                     </Alert>
                   </div>
@@ -350,7 +326,7 @@ export function OrderForm() {
                 disabled={lines.length >= 100}
               >
                 <AdminIcon name="plus" size={16} />
-                Add product
+                {t("Add product")}
               </Button>
               <Button
                 variant="secondary"
@@ -358,47 +334,57 @@ export function OrderForm() {
                 disabled={lines.length >= 100}
               >
                 <AdminIcon name="edit" size={16} />
-                Add custom item
+                {t("Add custom item")}
               </Button>
             </div>
             {stockProblem && (
               <div className="mt-[18px]">
                 <Alert>
-                  {stockProblem.title} has only {stockProblem.stock} units
-                  available across all matching lines.
+                  {t(
+                    "{product} has only {count} units available across all matching lines.",
+                    {
+                      product: stockProblem.title,
+                      count: formatNumber(stockProblem.stock),
+                    },
+                  )}
                 </Alert>
               </div>
             )}
           </section>
           <section className={adminStyles.card}>
             <div className={adminStyles.cardHeader}>
-              <h2>Payment &amp; delivery</h2>
+              <h2>{t("Payment & delivery")}</h2>
             </div>
             <div className={adminStyles.formGrid}>
-              <Field label="Payment method">
+              <Field label={t("Payment method")}>
                 <select
                   className={adminStyles.select}
                   name="paymentMethod"
                   defaultValue="cod"
                 >
-                  <option value="cod">Cash on delivery</option>
-                  <option value="cash">Cash</option>
-                  <option value="mobile">Mobile banking</option>
-                  <option value="bank">Bank transfer</option>
+                  {Object.entries(paymentMethodLabels).map(([value, label]) => (
+                    <option key={value} value={value}>
+                      {t(label)}
+                    </option>
+                  ))}
                 </select>
               </Field>
-              <Field label="Payment status">
+              <Field label={t("Payment status")}>
                 <select
                   className={adminStyles.select}
                   name="paymentStatus"
                   defaultValue="unpaid"
                 >
-                  <option value="unpaid">Unpaid</option>
-                  <option value="paid">Paid</option>
+                  <option value="unpaid">{t("Unpaid")}</option>
+                  <option value="paid">{t("Paid")}</option>
                 </select>
               </Field>
               {costFields.map((field) => (
-                <Field key={field.name} label={field.label} hint={field.hint}>
+                <Field
+                  key={field.name}
+                  label={t(field.label)}
+                  hint={t(field.hint)}
+                >
                   <input
                     className={adminStyles.input}
                     type="number"
@@ -418,12 +404,14 @@ export function OrderForm() {
                 </Field>
               ))}
               <div className={adminStyles.formFull}>
-                <Field label="Order notes (optional)">
+                <Field label={t("Order notes (optional)")}>
                   <textarea
                     className={adminStyles.textarea}
                     name="notes"
                     maxLength={5000}
-                    placeholder="Delivery instructions or anything else to remember…"
+                    placeholder={t(
+                      "Delivery instructions or anything else to remember…",
+                    )}
                   />
                 </Field>
               </div>
@@ -435,21 +423,22 @@ export function OrderForm() {
             className={`${adminStyles.card} sticky top-[22px] max-[1001px]:static`}
           >
             <div className={adminStyles.cardHeader}>
-              <h2>Order summary</h2>
+              <h2>{t("Order summary")}</h2>
               <AdminIcon name="orders" size={18} />
             </div>
             <OrderTotals order={summary} />
             <p className={orderStyles.footnote}>
-              The order starts as pending. You can update its stage after
-              creation.
+              {t(
+                "The order starts as pending. You can update its stage after creation.",
+              )}
             </p>
             {error && (
               <div className="mt-[18px]">
-                <Alert>{error}</Alert>
+                <Alert>{t(error)}</Alert>
               </div>
             )}
             <AdminActionBar
-              label="Order summary actions"
+              label={t("Order summary actions")}
               className="mt-4"
               actions={
                 <Button
@@ -457,7 +446,7 @@ export function OrderForm() {
                   type="submit"
                   disabled={busy || Boolean(stockProblem)}
                 >
-                  {busy ? "Creating order…" : "Create order"}
+                  {busy ? t("Creating order…") : t("Create order")}
                   <AdminIcon name="arrow" size={16} />
                 </Button>
               }

@@ -110,6 +110,49 @@ test("product edits retain stock and variant IDs; archived products remain resto
   assert.throws(() => restockProduct(product.id, -1));
 });
 
+test("compare-at-price-only edits update variants without replacing their selling prices", () => {
+  const product = fresh();
+  const priced = saveProduct(
+    {
+      variants: product.variants.map((variant, index) => ({
+        ...variant,
+        price: product.price + index,
+      })),
+    },
+    product.id,
+  );
+  const discounted = saveProduct(
+    { compareAtPrice: product.price + 1000 },
+    product.id,
+  );
+  assert.deepEqual(
+    discounted.variants.map((variant) => variant.price),
+    priced.variants.map((variant) => variant.price),
+  );
+  assert.ok(
+    discounted.variants.every(
+      (variant) => variant.compareAtPrice === product.price + 1000,
+    ),
+  );
+  const cleared = saveProduct({ compareAtPrice: null }, product.id);
+  assert.ok(
+    cleared.variants.every((variant) => variant.compareAtPrice === null),
+  );
+});
+
+test("unsafe imported order numbers are rejected and order creation cannot overflow", () => {
+  const product = fresh();
+  createOrder(input(product));
+  const state = structuredClone(getDemoSnapshot());
+  state.orders[0].number = `PS-${Number.MAX_SAFE_INTEGER + 1}`;
+  assert.throws(() => replaceDemoSnapshot(state), /order numbers/);
+  state.orders[0].number = `PS-${Number.MAX_SAFE_INTEGER}`;
+  replaceDemoSnapshot(state);
+  const before = getDemoSnapshot();
+  assert.throws(() => createOrder(input(product)), /number limit/);
+  assert.equal(getDemoSnapshot(), before);
+});
+
 test("checkout uses catalog prices and atomically reserves combined duplicate quantities", () => {
   const product = fresh();
   const lines = [

@@ -1,5 +1,7 @@
 "use client";
 
+import { useAdminLanguage } from "@/lib/admin/i18n";
+
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, type FormEvent } from "react";
@@ -44,6 +46,7 @@ interface ProductFormProps {
 }
 
 export function ProductForm(props: ProductFormProps) {
+  const { t } = useAdminLanguage();
   const { data: threshold, loading } = useDemoQuery(
     (state) => state.settings.lowStockThreshold,
   );
@@ -52,7 +55,7 @@ export function ProductForm(props: ProductFormProps) {
       <div
         className={adminStyles.stack}
         role="status"
-        aria-label="Preparing product form"
+        aria-label={t("Preparing product form")}
       >
         <div
           className={`${adminStyles.skeleton} mb-2 h-[42px] max-w-[300px]`}
@@ -71,6 +74,7 @@ function ProductFormContent({
   onSaved,
   defaultLowStockThreshold,
 }: ProductFormProps & { defaultLowStockThreshold: number }) {
+  const { t, formatCurrency, formatNumber } = useAdminLanguage();
   const router = useRouter();
   const [draft, setDraft] = useState({
     title: product?.title ?? "",
@@ -202,26 +206,34 @@ function ProductFormContent({
     <>
       <form onSubmit={submit} className={adminStyles.stack}>
         <PageHeading
-          title={product ? "Edit product" : "Add a product"}
+          title={product ? t("Edit product") : t("Add a product")}
           description={
             product
-              ? "A few thoughtful updates keep your collection looking its best."
-              : "A new piece for your collection. Let's get the details right."
+              ? t(
+                  "A few thoughtful updates keep your collection looking its best.",
+                )
+              : t(
+                  "A new piece for your collection. Let's get the details right.",
+                )
           }
         />
         <AdminActionBar
-          label="Product editor actions"
+          label={t("Product editor actions")}
           actions={
             <>
               <Link
                 className={adminStyles.buttonSecondary}
                 href="/admin/products"
               >
-                Cancel
+                {t("Cancel")}
               </Link>
               <Button type="submit" disabled={disabled}>
                 <AdminIcon name="check" size={17} />
-                {busy ? "Saving…" : product ? "Save changes" : "Create product"}
+                {busy
+                  ? t("Saving…")
+                  : product
+                    ? t("Save changes")
+                    : t("Create product")}
               </Button>
             </>
           }
@@ -230,12 +242,14 @@ function ProductFormContent({
             href="/admin/products"
             className="inline-flex min-h-11 items-center text-[12px] text-admin-muted transition-colors hover:text-admin-ink motion-reduce:transition-none"
           >
-            ← All products
+            {t("← All products")}
           </Link>
         </AdminActionBar>
         <div className={adminStyles.stack}>
-          {error && <Alert>{error}</Alert>}
-          {saved && <Alert tone="success">Product saved successfully.</Alert>}
+          {error && <Alert>{t(error)}</Alert>}
+          {saved && (
+            <Alert tone="success">{t("Product saved successfully.")}</Alert>
+          )}
           <div className="grid grid-cols-[minmax(0,1.8fr)_minmax(270px,1fr)] items-start gap-[22px] max-[1201px]:grid-cols-[minmax(0,1.4fr)_minmax(250px,1fr)] max-[1201px]:gap-[18px] max-[761px]:grid-cols-1">
             <div className={adminStyles.stack}>
               <section className={adminStyles.card}>
@@ -243,12 +257,12 @@ function ProductFormContent({
                   className={`${adminStyles.cardHeader} [&_p]:max-w-[350px]`}
                 >
                   <div>
-                    <h2>Product information</h2>
-                    <p>The essentials your customers will see.</p>
+                    <h2>{t("Product information")}</h2>
+                    <p>{t("The essentials your customers will see.")}</p>
                   </div>
                 </div>
                 <div className={adminStyles.stack}>
-                  <Field label="Product name">
+                  <Field label={t("Product name")}>
                     <input
                       className={adminStyles.input}
                       value={draft.title}
@@ -263,15 +277,17 @@ function ProductFormContent({
                         }));
                         setSaved(false);
                       }}
-                      placeholder="e.g. Ivory Embroidered Panjabi"
+                      placeholder={t("e.g. Ivory Embroidered Panjabi")}
                       maxLength={200}
                       required
                       disabled={disabled}
                     />
                   </Field>
                   <Field
-                    label="Description"
-                    hint="Describe the fabric, fit, and details in plain text."
+                    label={t("Description")}
+                    hint={t(
+                      "Describe the fabric, fit, and details in plain text.",
+                    )}
                   >
                     <textarea
                       className={adminStyles.textarea}
@@ -281,12 +297,12 @@ function ProductFormContent({
                         change("description", event.target.value)
                       }
                       maxLength={20_000}
-                      placeholder="What makes this piece special?"
+                      placeholder={t("What makes this piece special?")}
                       disabled={disabled}
                     />
                   </Field>
                   <div className={adminStyles.formGrid}>
-                    <Field label="Collection">
+                    <Field label={t("Collection")}>
                       <select
                         className={adminStyles.select}
                         value={draft.collectionHandle}
@@ -312,7 +328,7 @@ function ProductFormContent({
                         ))}
                       </select>
                     </Field>
-                    <Field label="Product type">
+                    <Field label={t("Product type")}>
                       <input
                         className={adminStyles.input}
                         value={draft.productType}
@@ -324,8 +340,8 @@ function ProductFormContent({
                       />
                     </Field>
                     <Field
-                      label="URL handle"
-                      hint="Used in your product's shop link."
+                      label={t("URL handle")}
+                      hint={t("Used in your product's shop link.")}
                     >
                       <input
                         className={adminStyles.input}
@@ -339,14 +355,14 @@ function ProductFormContent({
                         disabled={disabled}
                       />
                     </Field>
-                    <Field label="Brand / vendor">
+                    <Field label={t("Brand / vendor")}>
                       <input
                         className={adminStyles.input}
                         value={draft.vendor}
                         onChange={(event) =>
                           change("vendor", event.target.value)
                         }
-                        placeholder="Your shop name"
+                        placeholder={t("Your shop name")}
                         maxLength={200}
                         disabled={disabled}
                       />
@@ -370,25 +386,35 @@ function ProductFormContent({
                   className={`${adminStyles.cardHeader} [&_p]:max-w-[350px]`}
                 >
                   <div>
-                    <h2>Colors & sizes</h2>
-                    <p>Choose the options customers can order.</p>
+                    <h2>{t("Colors & sizes")}</h2>
+                    <p>{t("Choose the options customers can order.")}</p>
                   </div>
                   <span className={adminStyles.badge}>
-                    {combinationCount} variant
-                    {combinationCount === 1 ? "" : "s"}
+                    {t(
+                      combinationCount === 1
+                        ? "{count} variant"
+                        : "{count} variants",
+                      { count: formatNumber(combinationCount) },
+                    )}
                   </span>
                 </div>
                 <div className={adminStyles.formGrid}>
-                  <Field label="Colors" hint="Separate colors with commas.">
+                  <Field
+                    label={t("Colors")}
+                    hint={t("Separate colors with commas.")}
+                  >
                     <input
                       className={adminStyles.input}
                       value={draft.colors}
                       onChange={(event) => change("colors", event.target.value)}
-                      placeholder="Ivory, Black, Navy"
+                      placeholder={t("Ivory, Black, Navy")}
                       disabled={disabled}
                     />
                   </Field>
-                  <Field label="Sizes" hint="Separate sizes with commas.">
+                  <Field
+                    label={t("Sizes")}
+                    hint={t("Separate sizes with commas.")}
+                  >
                     <input
                       className={adminStyles.input}
                       value={draft.sizes}
@@ -398,8 +424,10 @@ function ProductFormContent({
                     />
                   </Field>
                   <Field
-                    label="SKU / product code"
-                    hint="A suffix is added for new color and size combinations."
+                    label={t("SKU / product code")}
+                    hint={t(
+                      "A suffix is added for new color and size combinations.",
+                    )}
                   >
                     <input
                       className={adminStyles.input}
@@ -411,23 +439,23 @@ function ProductFormContent({
                     />
                   </Field>
                   <Field
-                    label="Tags"
-                    hint="Optional labels separated by commas."
+                    label={t("Tags")}
+                    hint={t("Optional labels separated by commas.")}
                   >
                     <input
                       className={adminStyles.input}
                       value={draft.tags}
                       onChange={(event) => change("tags", event.target.value)}
-                      placeholder="Cotton, Eid, Embroidered"
+                      placeholder={t("Cotton, Eid, Embroidered")}
                       disabled={disabled}
                     />
                   </Field>
                 </div>
                 {product && (
                   <p className="mt-4 text-[10px] leading-[1.8] text-[#9a9ea7]">
-                    Existing matching variants keep their IDs, SKUs, and
-                    availability. Changing the selling price updates all variant
-                    prices.
+                    {t(
+                      "Existing matching variants keep their IDs, SKUs, and availability. Changing the selling price updates all variant prices.",
+                    )}
                   </p>
                 )}
               </section>
@@ -441,7 +469,7 @@ function ProductFormContent({
                 <div
                   className={`${adminStyles.cardHeader} [&_p]:max-w-[350px]`}
                 >
-                  <h2>Publishing</h2>
+                  <h2>{t("Publishing")}</h2>
                   <StatusBadge stage={draft.active ? "active" : "inactive"} />
                 </div>
                 <div
@@ -449,8 +477,8 @@ function ProductFormContent({
                 >
                   <label className="flex items-center justify-between gap-[18px] [&>span]:grid [&>span]:gap-1 [&_strong]:text-[11px] [&_strong]:font-medium [&_small]:text-[9px] [&_small]:text-[#9499a3] [&_input]:shrink-0">
                     <span>
-                      <strong>Visible in shop</strong>
-                      <small>Customers can browse this product.</small>
+                      <strong>{t("Visible in shop")}</strong>
+                      <small>{t("Customers can browse this product.")}</small>
                     </span>
                     <input
                       type="checkbox"
@@ -463,8 +491,8 @@ function ProductFormContent({
                   </label>
                   <label className="flex items-center justify-between gap-[18px] [&>span]:grid [&>span]:gap-1 [&_strong]:text-[11px] [&_strong]:font-medium [&_small]:text-[9px] [&_small]:text-[#9499a3] [&_input]:shrink-0">
                     <span>
-                      <strong>New arrival</strong>
-                      <small>Highlight this piece as new.</small>
+                      <strong>{t("New arrival")}</strong>
+                      <small>{t("Highlight this piece as new.")}</small>
                     </span>
                     <input
                       type="checkbox"
@@ -477,8 +505,9 @@ function ProductFormContent({
                   </label>
                   {product && !product.active && (
                     <Alert tone="info">
-                      Turn on “Visible in shop” to restore this archived
-                      product.
+                      {t(
+                        "Turn on “Visible in shop” to restore this archived product.",
+                      )}
                     </Alert>
                   )}
                 </div>
@@ -488,12 +517,12 @@ function ProductFormContent({
                   className={`${adminStyles.cardHeader} [&_p]:max-w-[350px]`}
                 >
                   <div>
-                    <h2>Pricing</h2>
-                    <p>All prices in Bangladeshi Taka (৳).</p>
+                    <h2>{t("Pricing")}</h2>
+                    <p>{t("All prices in Bangladeshi Taka (৳).")}</p>
                   </div>
                 </div>
                 <div className={adminStyles.stack}>
-                  <Field label="Selling price (৳)">
+                  <Field label={t("Selling price (৳)")}>
                     <input
                       className={adminStyles.input}
                       type="number"
@@ -509,8 +538,10 @@ function ProductFormContent({
                     />
                   </Field>
                   <Field
-                    label="Cost price (৳)"
-                    hint="Used to calculate profit. Customers cannot see this."
+                    label={t("Cost price (৳)")}
+                    hint={t(
+                      "Used to calculate profit. Customers cannot see this.",
+                    )}
                   >
                     <input
                       className={adminStyles.input}
@@ -529,8 +560,8 @@ function ProductFormContent({
                     />
                   </Field>
                   <Field
-                    label="Compare at price (৳)"
-                    hint="Optional original price to show a discount."
+                    label={t("Compare at price (৳)")}
+                    hint={t("Optional original price to show a discount.")}
                   >
                     <input
                       className={adminStyles.input}
@@ -543,22 +574,21 @@ function ProductFormContent({
                       onChange={(event) =>
                         change("compareAtPrice", event.target.value)
                       }
-                      placeholder="Optional"
+                      placeholder={t("Optional")}
                       disabled={disabled}
                     />
                   </Field>
                   <div className="grid gap-1 rounded-[9px] border border-[#edf0ec] bg-[#f8fbf7] p-3.5 [&>span]:text-[10px] [&>span]:text-[#7d8e7a] [&_strong]:text-[23px] [&_strong]:font-medium [&_strong]:tracking-[-0.7px] [&_strong]:text-[#5c795b] [&_small]:text-[9px] [&_small]:text-[#92a08d]">
-                    <span>Gross profit per item</span>
-                    <strong>
-                      ৳{" "}
-                      {(price - cost).toLocaleString("en-BD", {
-                        maximumFractionDigits: 2,
-                      })}
-                    </strong>
+                    <span>{t("Gross profit per item")}</span>
+                    <strong>{formatCurrency(price - cost)}</strong>
                     <small>
                       {price > 0
-                        ? `${(((price - cost) / price) * 100).toFixed(1)}% margin before order expenses`
-                        : "Set a selling price to calculate margin"}
+                        ? t("{margin}% margin before order expenses", {
+                            margin: formatNumber(
+                              Math.round(((price - cost) / price) * 1000) / 10,
+                            ),
+                          })
+                        : t("Set a selling price to calculate margin")}
                     </small>
                   </div>
                 </div>
@@ -567,17 +597,21 @@ function ProductFormContent({
                 <div
                   className={`${adminStyles.cardHeader} [&_p]:max-w-[350px]`}
                 >
-                  <h2>Inventory</h2>
+                  <h2>{t("Inventory")}</h2>
                   <AdminIcon name="products" size={19} />
                 </div>
                 <div className={adminStyles.stack}>
                   {product ? (
                     <div className="flex items-center justify-between gap-3 rounded-lg border border-[#eff0f3] bg-[#f7f8fa] px-3.5 py-3 [&>span]:text-[10px] [&>span]:text-[#969aa4] [&_strong]:text-xs [&_strong]:font-medium">
-                      <span>Available stock</span>
-                      <strong>{product.stock} units</strong>
+                      <span>{t("Available stock")}</span>
+                      <strong>
+                        {t("{count} units", {
+                          count: formatNumber(product.stock),
+                        })}
+                      </strong>
                     </div>
                   ) : (
-                    <Field label="Opening stock">
+                    <Field label={t("Opening stock")}>
                       <input
                         className={adminStyles.input}
                         type="number"
@@ -595,8 +629,8 @@ function ProductFormContent({
                     </Field>
                   )}
                   <Field
-                    label="Low stock alert at"
-                    hint="An alert appears when stock reaches this number."
+                    label={t("Low stock alert at")}
+                    hint={t("An alert appears when stock reaches this number.")}
                   >
                     <input
                       className={adminStyles.input}
@@ -614,29 +648,33 @@ function ProductFormContent({
                     />
                   </Field>
                   <p className="mt-4 text-[10px] leading-[1.8] text-[#9a9ea7]">
-                    Stock is shared across all variants.
+                    {t("Stock is shared across all variants.")}{" "}
                     {product
-                      ? " Use Restock on the products page to add units."
-                      : " Orders reduce stock automatically."}
+                      ? t("Use Restock on the products page to add units.")
+                      : t("Orders reduce stock automatically.")}
                   </p>
                 </div>
               </section>
             </aside>
           </div>
           <AdminActionBar
-            label="Save product"
+            label={t("Save product")}
             className="border-t border-admin-line pt-4"
             actions={
               <Button type="submit" disabled={disabled}>
-                {busy ? "Saving…" : product ? "Save changes" : "Create product"}
+                {busy
+                  ? t("Saving…")
+                  : product
+                    ? t("Save changes")
+                    : t("Create product")}
                 <AdminIcon name="check" size={16} />
               </Button>
             }
           >
             <span className="text-[11px] text-admin-muted">
               {uploading
-                ? "Wait for image uploads to finish."
-                : "Ready when you are. Save to update your shop."}
+                ? t("Wait for image uploads to finish.")
+                : t("Ready when you are. Save to update your shop.")}
             </span>
           </AdminActionBar>
         </div>
