@@ -1,13 +1,14 @@
 import { CollectionBanner } from "@/components/CollectionBanner";
 import { CollectionPageClient } from "@/components/CollectionPageClient";
 import { getCollectionTitle } from "@/lib/data/collections";
+import { defaultShopSettings } from "@/lib/demo/seed";
 
 export async function generateMetadata({
   params,
 }: PageProps<"/collections/[handle]">) {
   const { handle } = await params;
   const title = getCollectionTitle(handle);
-  return { title: `${title} | YELLOW` };
+  return { title: `${title} | ${defaultShopSettings.name}` };
 }
 
 export default async function CollectionPage({

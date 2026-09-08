@@ -107,10 +107,7 @@ export function CartDrawer() {
                   {formatPrice(subtotal)}
                 </span>
               </div>
-              <CheckoutPreview
-                layout="drawer"
-                onRequest={closeCart}
-              />
+              <CheckoutPreview layout="drawer" onRequest={closeCart} />
               <Link
                 href="/cart"
                 onClick={closeCart}

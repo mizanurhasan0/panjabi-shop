@@ -75,7 +75,13 @@ function SearchContent({
   const router = useRouter();
   const term = query.trim();
   const results = useMemo(
-    () => (term ? searchProducts(term) : searchConfig.featuredProducts.flatMap(({handle}) => { const product = getProductByHandle(handle); return product ? [product] : []; })),
+    () =>
+      term
+        ? searchProducts(term)
+        : searchConfig.featuredProducts.flatMap(({ handle }) => {
+            const product = getProductByHandle(handle);
+            return product ? [product] : [];
+          }),
     [term, searchProducts, getProductByHandle],
   );
   const searchHref = `/search?q=${encodeURIComponent(term)}`;

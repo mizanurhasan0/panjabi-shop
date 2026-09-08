@@ -5,13 +5,21 @@ import { CartDrawer } from "./CartDrawer";
 import { CartProvider } from "@/lib/store/cart";
 import { WishlistProvider } from "@/lib/store/wishlist";
 
-export function Providers({ children, shop }: { children: React.ReactNode; shop: PublicShop }) {
+export function Providers({
+  children,
+  shop,
+}: {
+  children: React.ReactNode;
+  shop: PublicShop;
+}) {
   return (
-    <CatalogProvider initial={shop}><CartProvider>
-      <WishlistProvider>
-        {children}
-        <CartDrawer />
-      </WishlistProvider>
-    </CartProvider></CatalogProvider>
+    <CatalogProvider initial={shop}>
+      <CartProvider>
+        <WishlistProvider>
+          {children}
+          <CartDrawer />
+        </WishlistProvider>
+      </CartProvider>
+    </CatalogProvider>
   );
 }

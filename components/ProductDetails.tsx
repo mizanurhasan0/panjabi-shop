@@ -19,8 +19,11 @@ interface ProductDetailsProps {
 export function ProductDetails({ product }: ProductDetailsProps) {
   const { addItem } = useCart();
   const { isWishlisted, toggle } = useWishlist();
-  const [selectedColor, setSelectedColor] = useState(product.colors[0] || "");
-  const [selectedSize, setSelectedSize] = useState("");
+  const [preferredColor, setPreferredColor] = useState(product.colors[0] || "");
+  const [preferredSize, setPreferredSize] = useState("");
+  const selectedColor = product.colors.includes(preferredColor)
+    ? preferredColor
+    : product.colors[0] || "";
 
   const { colorVariants, sizes, availableSizes } = useMemo(() => {
     const variants = product.variants.filter(
@@ -28,7 +31,9 @@ export function ProductDetails({ product }: ProductDetailsProps) {
     );
     return {
       colorVariants: variants,
-      sizes: [...new Set(variants.map((variant) => variant.size).filter(Boolean))],
+      sizes: [
+        ...new Set(variants.map((variant) => variant.size).filter(Boolean)),
+      ],
       availableSizes: new Set(
         variants
           .filter((variant) => variant.available)
@@ -36,6 +41,7 @@ export function ProductDetails({ product }: ProductDetailsProps) {
       ),
     };
   }, [product.variants, selectedColor]);
+  const selectedSize = sizes.includes(preferredSize) ? preferredSize : "";
   const selectedVariant = selectedSize
     ? colorVariants.find((variant) => variant.size === selectedSize)
     : colorVariants.find((variant) => variant.available) || colorVariants[0];
@@ -68,13 +74,13 @@ export function ProductDetails({ product }: ProductDetailsProps) {
         image={product.images[0]}
         selectedColor={selectedColor}
         onColorChange={(color) => {
-          setSelectedColor(color);
-          setSelectedSize("");
+          setPreferredColor(color);
+          setPreferredSize("");
         }}
         sizes={sizes}
         availableSizes={availableSizes}
         selectedSize={selectedSize}
-        onSizeChange={setSelectedSize}
+        onSizeChange={setPreferredSize}
       />
 
       <AccordionItem title="Description">

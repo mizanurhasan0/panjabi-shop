@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
 import {
@@ -14,21 +16,17 @@ import { ImageSlider } from "@/components/ImageSlider";
 import styles from "./HomePage.module.css";
 import { BrandCarousel } from "./BrandCarousel";
 import { CollectionProductCard } from "./CollectionProductCard";
-import { getPublicShop } from "@/lib/admin/public-shop";
+import { useCatalog } from "@/lib/store/catalog";
 import { sortProducts } from "@/lib/utils/products";
 
 export function HomePage() {
-  const { products } = getPublicShop();
+  const { products } = useCatalog();
   const newArrivals = sortProducts(products, "date-desc").slice(0, 8);
 
   return (
     <>
       <div className="home-hero">
-        <ImageSlider
-          slides={heroSlides}
-          aspectRatio="40%"
-          showArrows={false}
-        />
+        <ImageSlider slides={heroSlides} aspectRatio="40%" showArrows={false} />
       </div>
       <AnnouncementBar />
 
@@ -65,21 +63,38 @@ export function HomePage() {
                 sizes="(max-width: 1023px) 50vw, 25vw"
                 className="w-full"
               />
-              <span className="category-tile-label" style={{ color: "var(--ylw-text)", background: "#fff", bottom: 0 }}>{tile.title}</span>
+              <span
+                className="category-tile-label"
+                style={{
+                  color: "var(--ylw-text)",
+                  background: "#fff",
+                  bottom: 0,
+                }}
+              >
+                {tile.title}
+              </span>
             </Link>
           ))}
         </div>
       </section>
 
-      <section className="container-ylw pb-10" aria-labelledby="new-arrivals-heading">
-        <h2 id="new-arrivals-heading" className="section-heading mb-8">New Arrivals</h2>
+      <section
+        className="container-ylw pb-10"
+        aria-labelledby="new-arrivals-heading"
+      >
+        <h2 id="new-arrivals-heading" className="section-heading mb-8">
+          New Arrivals
+        </h2>
         <div className="grid grid-cols-2 gap-x-4 min-[992px]:grid-cols-4 min-[992px]:gap-x-[30px]">
           {newArrivals.map((product) => (
             <CollectionProductCard key={product.id} product={product} />
           ))}
         </div>
         <div className="text-center">
-          <Link href="/collections/fall-2026" className="inline-block border border-ylw-text px-8 py-3 text-[12px] uppercase tracking-wider">
+          <Link
+            href="/collections/fall-2026"
+            className="inline-block border border-ylw-text px-8 py-3 text-[12px] uppercase tracking-wider"
+          >
             View all new arrivals
           </Link>
         </div>

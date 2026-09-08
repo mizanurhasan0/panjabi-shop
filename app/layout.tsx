@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { defaultShopSettings } from "@/lib/demo/seed";
+import { DemoBranding } from "@/components/DemoBranding";
 import { Poppins } from "next/font/google";
 import "./globals.css";
 
@@ -9,11 +11,14 @@ const poppins = Poppins({
   display: "swap",
 });
 
-export const metadata: Metadata = {
-  title: "A premium brand focused on quality, comfort, and design",
-  description:
-    "YELLOW exists to deliver premium-quality and contemporary designs for style-conscious urbanites.",
-};
+export function generateMetadata(): Metadata {
+  const settings = defaultShopSettings;
+  return {
+    title: settings.name,
+    description: settings.tagline,
+    icons: { icon: settings.icon },
+  };
+}
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
@@ -23,6 +28,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${poppins.variable} h-full`}
     >
       <body className="flex min-h-full flex-col antialiased">
+        <DemoBranding />
         {children}
       </body>
     </html>

@@ -43,7 +43,10 @@ const parseStoredNote = (stored: string | null) => stored ?? "";
 const serializeNote = (note: string) => note;
 
 /** Treat persisted cart data as untrusted and keep one line per variant. */
-function parseStoredCart(stored: string | null, getProductByHandle: (handle: string) => Product | undefined): CartItem[] {
+function parseStoredCart(
+  stored: string | null,
+  getProductByHandle: (handle: string) => Product | undefined,
+): CartItem[] {
   if (!stored) return [];
   try {
     const parsed: unknown = JSON.parse(stored);
@@ -82,7 +85,10 @@ function parseStoredCart(stored: string | null, getProductByHandle: (handle: str
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const { getProductByHandle } = useCatalog();
-  const parseCart = useCallback((stored: string | null) => parseStoredCart(stored, getProductByHandle), [getProductByHandle]);
+  const parseCart = useCallback(
+    (stored: string | null) => parseStoredCart(stored, getProductByHandle),
+    [getProductByHandle],
+  );
   const [isOpen, setIsOpen] = useState(false);
   const openCart = useCallback(() => setIsOpen(true), []);
   const closeCart = useCallback(() => setIsOpen(false), []);
@@ -128,20 +134,26 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     [setItems],
   );
 
-  const removeItem = useCallback((variantId: string) => {
-    setItems((prev) => prev.filter((i) => i.variantId !== variantId));
-  }, [setItems]);
-
-  const updateQuantity = useCallback((variantId: string, quantity: number) => {
-    if (!Number.isSafeInteger(quantity)) return;
-    if (quantity <= 0) {
+  const removeItem = useCallback(
+    (variantId: string) => {
       setItems((prev) => prev.filter((i) => i.variantId !== variantId));
-      return;
-    }
-    setItems((prev) =>
-      prev.map((i) => (i.variantId === variantId ? { ...i, quantity } : i)),
-    );
-  }, [setItems]);
+    },
+    [setItems],
+  );
+
+  const updateQuantity = useCallback(
+    (variantId: string, quantity: number) => {
+      if (!Number.isSafeInteger(quantity)) return;
+      if (quantity <= 0) {
+        setItems((prev) => prev.filter((i) => i.variantId !== variantId));
+        return;
+      }
+      setItems((prev) =>
+        prev.map((i) => (i.variantId === variantId ? { ...i, quantity } : i)),
+      );
+    },
+    [setItems],
+  );
 
   const clearCart = useCallback(() => {
     setItems([]);

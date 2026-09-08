@@ -19,7 +19,10 @@ interface CollectionPageClientProps {
 
 export function CollectionPageClient({ handle }: CollectionPageClientProps) {
   const { getProductsByCollection } = useCatalog();
-  const allProducts = useMemo(() => getProductsByCollection(handle), [handle, getProductsByCollection]);
+  const allProducts = useMemo(
+    () => getProductsByCollection(handle),
+    [handle, getProductsByCollection],
+  );
   const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
   const [selectedProductTypes, setSelectedProductTypes] = useState<string[]>(
     [],

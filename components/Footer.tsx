@@ -4,6 +4,7 @@ import { useId, useState, type ReactNode } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { SocialIcon } from "./SocialIcon";
+import { useCatalog } from "@/lib/store/catalog";
 import { footerLinks } from "@/lib/data/navigation";
 import styles from "./Footer.module.css";
 
@@ -43,6 +44,7 @@ function FooterSection({
 }
 
 export function Footer() {
+  const { settings } = useCatalog();
   const sections = [
     { title: "Information", links: footerLinks.information },
     { title: "Policies", links: footerLinks.policies },
@@ -69,19 +71,21 @@ export function Footer() {
           <FooterSection title="Customer Service">
             <li>
               <a
-                href={`tel:${footerLinks.customerService.phone}`}
+                href={`tel:${settings.phone || footerLinks.customerService.phone}`}
                 className="footer-link"
               >
-                {footerLinks.customerService.phone}
+                {settings.phone || footerLinks.customerService.phone}
               </a>
             </li>
-            <li className="footer-link">{footerLinks.customerService.hours}</li>
+            <li className="footer-link">
+              {settings.address || footerLinks.customerService.hours}
+            </li>
             <li>
               <a
-                href={`mailto:${footerLinks.customerService.email}`}
+                href={`mailto:${settings.email || footerLinks.customerService.email}`}
                 className="footer-link"
               >
-                {footerLinks.customerService.email}
+                {settings.email || footerLinks.customerService.email}
               </a>
             </li>
           </FooterSection>
@@ -103,7 +107,7 @@ export function Footer() {
       </div>
       <div className={`container-ylw footer-bottom ${styles.bottom}`}>
         <p className="m-0 text-[12px] tracking-[0.02em] text-ylw-text">
-          © 2026 Yellow Clothing Ltd. | All Rights Reserved.
+          © {new Date().getFullYear()} {settings.name}. | All Rights Reserved.
         </p>
         <Image
           src="/images/payment-methods.jpg"

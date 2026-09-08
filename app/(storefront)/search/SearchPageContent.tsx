@@ -20,7 +20,11 @@ export default function SearchPageContent() {
         Search
       </h1>
 
-      <form action="/search" method="GET" className="mx-auto mb-8 max-w-[500px]">
+      <form
+        action="/search"
+        method="GET"
+        className="mx-auto mb-8 max-w-[500px]"
+      >
         <div className="flex gap-2">
           <input
             key={query}
@@ -58,7 +62,8 @@ export default function SearchPageContent() {
 
       {query && (
         <p className="mb-6 text-center text-[13px] text-ylw-text-secondary">
-          {results.length} result{results.length !== 1 ? "s" : ""} for &quot;{query}&quot;
+          {results.length} result{results.length !== 1 ? "s" : ""} for &quot;
+          {query}&quot;
         </p>
       )}
 

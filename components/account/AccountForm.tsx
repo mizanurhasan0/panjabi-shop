@@ -3,6 +3,7 @@
 import { useId, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useCatalog } from "@/lib/store/catalog";
 
 const accountModes = {
   login: {
@@ -63,6 +64,7 @@ function AccountField({
 }
 
 export function AccountForm({ mode }: { mode: keyof typeof accountModes }) {
+  const { settings } = useCatalog();
   const [submitted, setSubmitted] = useState(false);
   const content = accountModes[mode];
   const isRegistration = mode === "register";
@@ -73,8 +75,8 @@ export function AccountForm({ mode }: { mode: keyof typeof accountModes }) {
         <div className="mb-8 text-center">
           <Link href="/">
             <Image
-              src="/images/logo.jpg"
-              alt="YELLOW"
+              src={settings.logo}
+              alt={settings.name}
               width={160}
               height={56}
               className="mx-auto h-12 w-auto"
@@ -128,7 +130,9 @@ export function AccountForm({ mode }: { mode: keyof typeof accountModes }) {
               label="Password"
               name="password"
               type="password"
-              autoComplete={isRegistration ? "new-password" : "current-password"}
+              autoComplete={
+                isRegistration ? "new-password" : "current-password"
+              }
             />
             <button type="submit" className="btn-primary w-full">
               {content.submitLabel}

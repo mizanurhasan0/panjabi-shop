@@ -9,7 +9,6 @@ import { CartProductImage } from "@/components/cart/CartProductImage";
 import { CheckoutPreview } from "@/components/cart/CheckoutPreview";
 import { QuantityControl } from "@/components/cart/QuantityControl";
 
-
 export default function CartPage() {
   const { products } = useCatalog();
   const recommendations = products.slice(0, 8);
@@ -86,10 +85,7 @@ export default function CartPage() {
             </span>
           </div>
 
-          <CheckoutPreview
-            layout="page"
-
-          />
+          <CheckoutPreview layout="page" />
         </div>
       )}
 

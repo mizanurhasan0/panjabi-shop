@@ -1,11 +1,6 @@
 "use client";
 
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useMemo,
-} from "react";
+import { createContext, useCallback, useContext, useMemo } from "react";
 import type { Product } from "@/lib/types";
 import { useCatalog } from "./catalog";
 import { parseStoredHandles } from "./storage";
@@ -24,21 +19,30 @@ const STORAGE_KEY = "ylw-wishlist";
 
 export function WishlistProvider({ children }: { children: React.ReactNode }) {
   const { getProductByHandle } = useCatalog();
-  const parseWishlist = useCallback((stored: string | null) => parseStoredHandles(stored, (handle) => Boolean(getProductByHandle(handle))), [getProductByHandle]);
+  const parseWishlist = useCallback(
+    (stored: string | null) =>
+      parseStoredHandles(stored, (handle) =>
+        Boolean(getProductByHandle(handle)),
+      ),
+    [getProductByHandle],
+  );
   const [handles, setHandles] = usePersistedState<string[]>(
     STORAGE_KEY,
     [],
     parseWishlist,
   );
 
-  const toggle = useCallback((handle: string) => {
-    if (!getProductByHandle(handle)) return;
-    setHandles((prev) =>
-      prev.includes(handle)
-        ? prev.filter((h) => h !== handle)
-        : [...prev, handle],
-    );
-  }, [setHandles, getProductByHandle]);
+  const toggle = useCallback(
+    (handle: string) => {
+      if (!getProductByHandle(handle)) return;
+      setHandles((prev) =>
+        prev.includes(handle)
+          ? prev.filter((h) => h !== handle)
+          : [...prev, handle],
+      );
+    },
+    [setHandles, getProductByHandle],
+  );
 
   const isWishlisted = useCallback(
     (handle: string) => handles.includes(handle),
