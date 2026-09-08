@@ -2,8 +2,15 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useState, useSyncExternalStore, type ReactNode } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  useSyncExternalStore,
+  type ReactNode,
+} from "react";
 import { Modal } from "@/components/Modal";
+import { Popover } from "@/components/Popover";
 import { errorMessage, useDemoQuery } from "@/lib/demo/client";
 import { getDemoStorageWarning, subscribeDemo } from "@/lib/demo/store";
 import { markNotificationsRead } from "@/lib/demo/commands";
@@ -81,6 +88,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
   const notifications = notificationData ?? [];
   const [menuOpen, setMenuOpen] = useState(false);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
+  const notificationsRef = useRef<HTMLDivElement>(null);
   const [signingOut, setSigningOut] = useState(false);
   const [notificationActionError, setNotificationActionError] = useState("");
   const storageWarning = useSyncExternalStore(
@@ -94,6 +102,10 @@ export function AdminShell({ children }: { children: ReactNode }) {
   const unread = notifications.filter(
     (notification) => !notification.read,
   ).length;
+
+  useEffect(() => {
+    notificationsRef.current?.hidePopover();
+  }, [pathname]);
 
   function logout() {
     setSigningOut(true);
@@ -203,7 +215,9 @@ export function AdminShell({ children }: { children: ReactNode }) {
               className={`${adminStyles.iconButton} relative border border-admin-line`}
               aria-label={`Notifications${unread ? `, ${unread} unread` : ""}`}
               aria-expanded={notificationsOpen}
-              onClick={() => setNotificationsOpen(true)}
+              aria-controls="admin-notifications"
+              aria-haspopup="dialog"
+              popoverTarget="admin-notifications"
             >
               <AdminIcon name="bell" />
               {unread > 0 && (
@@ -302,14 +316,12 @@ export function AdminShell({ children }: { children: ReactNode }) {
           </Button>
         </div>
       </Modal>
-      <Modal
+      <Popover
+        ref={notificationsRef}
         id="admin-notifications"
         label="Order notifications"
-        open={notificationsOpen}
-        onClose={() => setNotificationsOpen(false)}
-        className={`${adminStyles.modal} fixed top-[68px] right-[calc(2rem+var(--modal-inset-right,0px))] bottom-auto left-auto m-0 max-h-[min(650px,calc(100dvh-110px))] w-[430px] max-w-[calc(100vw-24px-var(--modal-inset-left,0px)-var(--modal-inset-right,0px))]! flex-col overflow-hidden! rounded-[14px] open:flex max-[641px]:top-[74px] max-[641px]:right-[calc(12px+var(--modal-inset-right,0px))] max-[641px]:w-full`}
-        animateExit
-        unstyled
+        onOpenChange={setNotificationsOpen}
+        className="top-[68px] right-8 bottom-auto left-auto z-50 m-0 max-h-[min(650px,calc(100dvh-110px))] w-[430px] max-w-[calc(100%-24px)] flex-col overflow-hidden rounded-[14px] border border-admin-line bg-white p-0 text-admin-ink shadow-[0_12px_40px_#10131e20] max-[641px]:top-[74px] max-[641px]:right-3 max-[641px]:w-full motion-safe:[&:popover-open]:animate-admin-enter"
       >
         <div className="flex shrink-0 items-center justify-between border-b border-admin-line px-5 pt-5 pb-4">
           <div>
@@ -322,7 +334,8 @@ export function AdminShell({ children }: { children: ReactNode }) {
           </div>
           <button
             className={adminStyles.iconButton}
-            onClick={() => setNotificationsOpen(false)}
+            popoverTarget="admin-notifications"
+            popoverTargetAction="hide"
             aria-label="Close notifications"
           >
             <AdminIcon name="close" />
@@ -385,7 +398,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
                   key={notification.id}
                   href={`/admin/orders/${notification.orderId}`}
                   className={`${notificationItemClassName} ${notification.read ? "" : "bg-[#fffdf8]"}`}
-                  onClick={() => setNotificationsOpen(false)}
+                  onClick={() => notificationsRef.current?.hidePopover()}
                 >
                   {content}
                 </Link>
@@ -414,7 +427,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
             </div>
           )}
         </div>
-      </Modal>
+      </Popover>
     </div>
   );
 }
