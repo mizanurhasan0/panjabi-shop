@@ -12,7 +12,14 @@ import {
   DEMO_BACKUP_LIMIT,
 } from "@/lib/demo/backups";
 import type { BackupInfo } from "@/lib/admin/types";
-import { PageHeading, Button, Alert, ConfirmDialog, EmptyState } from "./ui";
+import {
+  AdminActionBar,
+  PageHeading,
+  Button,
+  Alert,
+  ConfirmDialog,
+  EmptyState,
+} from "./ui";
 
 export function BackupManager() {
   const { data, error, reload, loading } = useDemoQuery(() => getDemoBackups());
@@ -55,80 +62,50 @@ export function BackupManager() {
       <PageHeading
         title="Keep a copy of your demo"
         description="Save your products, orders, settings, and images in a portable snapshot."
-        actions={
-          <Button onClick={create} disabled={busy}>
-            {busy ? "Please wait…" : "+ Create backup"}
-          </Button>
-        }
       />
-      <Alert tone="info">
-        Keep up to {DEMO_BACKUP_LIMIT} snapshots in this browser. Download a
-        JSON copy to keep your work when clearing browser data or switching
-        devices. This is a frontend demo.
-      </Alert>
       {(failure || error) && <Alert>{failure || error}</Alert>}
       {message && <Alert tone="success">{message}</Alert>}
       {imported && (
-        <div className={`${adminStyles.card} ${adminStyles.actions}`}>
-          <p className={adminStyles.muted}>
-            Imported snapshot: {imported.products} products · {imported.orders}{" "}
-            orders
-          </p>
-          <Button
-            variant="secondary"
-            disabled={busy}
-            onClick={() => setSelected({ backup: imported, action: "restore" })}
+        <div className={adminStyles.card}>
+          <AdminActionBar
+            label="Imported backup actions"
+            actions={
+              <Button
+                variant="secondary"
+                disabled={busy}
+                onClick={() =>
+                  setSelected({ backup: imported, action: "restore" })
+                }
+              >
+                Restore imported backup
+              </Button>
+            }
           >
-            Restore imported backup
-          </Button>
+            <p className={adminStyles.muted}>
+              Imported snapshot: {imported.products} products ·{" "}
+              {imported.orders} orders
+            </p>
+          </AdminActionBar>
         </div>
       )}
       <section className={adminStyles.card}>
-        <div className={adminStyles.cardHeader}>
-          <div>
-            <h2>Import a downloaded backup</h2>
-            <p className={adminStyles.muted}>
-              Choose a JSON snapshot, then select Restore from the list.
-              Importing does not replace current data.
-            </p>
-          </div>
-        </div>
-        <label className={adminStyles.field}>
-          Backup file
-          <input
-            ref={importInput}
-            className={adminStyles.input}
-            type="file"
-            accept="application/json,.json"
-            disabled={busy}
-            onChange={async (event) => {
-              const file = event.target.files?.[0];
-              if (!file) return;
-              setBusy(true);
-              setFailure("");
-              try {
-                setImported(await importDemoBackup(file));
-                setMessage(
-                  "Backup imported. Select Restore when you are ready to apply it.",
-                );
-                reload();
-              } catch (error) {
-                setFailure(errorMessage(error));
-              } finally {
-                setBusy(false);
-                if (importInput.current) importInput.current.value = "";
-              }
-            }}
-          />
-        </label>
-      </section>
-      <section className={adminStyles.card}>
-        <div className={adminStyles.cardHeader}>
+        <AdminActionBar
+          label="Backup actions"
+          actions={
+            <Button onClick={create} disabled={busy}>
+              {busy ? "Please wait…" : "+ Create backup"}
+            </Button>
+          }
+        >
           <h2>Saved backups</h2>
-          <span className={adminStyles.muted}>
+          <span className="text-[11px] text-admin-muted">
             {data?.length ?? 0} / {DEMO_BACKUP_LIMIT} snapshots
           </span>
-        </div>
+        </AdminActionBar>
+        <p className="mt-3 mb-4 text-[11px] text-admin-muted">
+          Keep up to {DEMO_BACKUP_LIMIT} snapshots. Download a JSON copy to keep
+          a backup outside this browser.
+        </p>
         {loading ? (
           <div className={`${adminStyles.skeleton} h-[180px]`} />
         ) : !data?.length ? (
@@ -204,6 +181,45 @@ export function BackupManager() {
             </table>
           </div>
         )}
+      </section>
+      <section className={adminStyles.card}>
+        <div className={adminStyles.cardHeader}>
+          <div>
+            <h2>Import a downloaded backup</h2>
+            <p className={adminStyles.muted}>
+              Choose a JSON snapshot, then select Restore from the list.
+              Importing does not replace current data.
+            </p>
+          </div>
+        </div>
+        <label className={adminStyles.field}>
+          Backup file
+          <input
+            ref={importInput}
+            className={adminStyles.input}
+            type="file"
+            accept="application/json,.json"
+            disabled={busy}
+            onChange={async (event) => {
+              const file = event.target.files?.[0];
+              if (!file) return;
+              setBusy(true);
+              setFailure("");
+              try {
+                setImported(await importDemoBackup(file));
+                setMessage(
+                  "Backup imported. Select Restore when you are ready to apply it.",
+                );
+                reload();
+              } catch (error) {
+                setFailure(errorMessage(error));
+              } finally {
+                setBusy(false);
+                if (importInput.current) importInput.current.value = "";
+              }
+            }}
+          />
+        </label>
       </section>
       <ConfirmDialog
         open={Boolean(selected)}

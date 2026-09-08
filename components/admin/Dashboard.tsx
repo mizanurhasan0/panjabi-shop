@@ -8,7 +8,13 @@ import { getDashboardStats } from "@/lib/demo/queries";
 import { getDemoSnapshot } from "@/lib/demo/store";
 import type { ReportPeriod } from "@/lib/admin/types";
 import { formatPrice } from "@/lib/utils/products";
-import { PageHeading, Alert, EmptyState, StatusBadge } from "./ui";
+import {
+  AdminActionBar,
+  PageHeading,
+  Alert,
+  EmptyState,
+  StatusBadge,
+} from "./ui";
 
 const shortcutClassName = `${adminStyles.card} flex flex-col items-start gap-3 [&_strong]:text-[17px] [&_strong]:font-medium`;
 
@@ -39,7 +45,22 @@ export function Dashboard() {
         title="A clear view of your shop"
         description="Orders, inventory and the numbers that matter."
       />
-      <div className="flex flex-wrap items-center gap-3 min-[641px]:gap-[14px]">
+      <AdminActionBar
+        label="Dashboard actions"
+        actions={
+          <>
+            <button className={adminStyles.buttonSecondary} onClick={reload}>
+              Refresh
+            </button>
+            <Link
+              className={adminStyles.buttonPrimary}
+              href="/admin/orders/new"
+            >
+              + Create order
+            </Link>
+          </>
+        }
+      >
         <div
           className="grid w-full grid-cols-4 gap-1 rounded-xl border border-[#e8e5de] bg-white p-1 min-[641px]:flex min-[641px]:w-auto min-[641px]:flex-wrap"
           role="group"
@@ -56,17 +77,7 @@ export function Dashboard() {
             </button>
           ))}
         </div>
-        <div
-          className={`${adminStyles.actions} ml-auto w-full [&>*]:flex-1 min-[641px]:w-auto min-[641px]:[&>*]:flex-none`}
-        >
-          <button className={adminStyles.buttonSecondary} onClick={reload}>
-            Refresh
-          </button>
-          <Link className={adminStyles.buttonPrimary} href="/admin/orders/new">
-            + Create order
-          </Link>
-        </div>
-      </div>
+      </AdminActionBar>
       {(error || exportError) && (
         <Alert tone="error">{error || exportError}</Alert>
       )}

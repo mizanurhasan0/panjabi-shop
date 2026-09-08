@@ -16,6 +16,7 @@ import { formatPrice } from "@/lib/utils/products";
 import { adminStyles } from "../styles";
 import { orderStyles } from "./styles";
 import {
+  AdminActionBar,
   AdminIcon,
   Alert,
   Button,
@@ -112,31 +113,46 @@ function OrderDetailContent({
   const stageOptions = [order.stage, ...orderStageTransitions[order.stage]];
   return (
     <div className={adminStyles.stack}>
-      <Link className={orderStyles.backLink} href="/admin/orders">
-        ← Back to orders
-      </Link>
       <PageHeading
         title={`Order ${order.number}`}
         description={`Placed ${orderDate(order.createdAt, true)} · ${order.source} order`}
-        actions={
-          <>
-            <Button variant="secondary" onClick={download} disabled={exporting}>
-              <AdminIcon name="download" size={16} />
-              {exporting ? "Preparing PDF…" : "Download PDF"}
-            </Button>
-            <Button variant="danger" onClick={() => setConfirm(true)}>
-              <AdminIcon name="trash" size={16} />
-              Delete order
-            </Button>
-          </>
-        }
       />
-      <div className={adminStyles.actions}>
-        <StatusBadge stage={order.stage} />
-        <StatusBadge stage={order.paymentStatus} />
-        <span className={adminStyles.muted}>
-          {order.paymentMethod.toUpperCase()} payment
-        </span>
+      <div className={adminStyles.card}>
+        <AdminActionBar
+          label="Order detail actions"
+          actions={
+            <>
+              <Button
+                variant="secondary"
+                onClick={download}
+                disabled={exporting}
+              >
+                <AdminIcon name="download" size={16} />
+                {exporting ? "Preparing PDF…" : "Download PDF"}
+              </Button>
+              <Button
+                variant="danger"
+                onClick={() => setConfirm(true)}
+                disabled={busy}
+              >
+                <AdminIcon name="trash" size={16} />
+                Delete order
+              </Button>
+            </>
+          }
+        >
+          <div className="flex min-w-0 flex-wrap items-center gap-x-3 gap-y-2">
+            <Link className={orderStyles.backLink} href="/admin/orders">
+              ← Back to orders
+            </Link>
+            <span className="text-[11px] font-medium">{order.number}</span>
+            <StatusBadge stage={order.stage} />
+            <StatusBadge stage={order.paymentStatus} />
+            <span className="text-[11px] text-admin-muted">
+              {order.paymentMethod.toUpperCase()} payment
+            </span>
+          </div>
+        </AdminActionBar>
       </div>
       {error && <Alert>{error}</Alert>}
       {success && <Alert tone="success">{success}</Alert>}
@@ -290,12 +306,15 @@ function OrderDetailContent({
                 Cancelling or returning an order restores its reserved stock
                 once.
               </p>
-              <div className={adminStyles.actions}>
-                <Button type="submit" disabled={busy}>
-                  {busy ? "Saving…" : "Save changes"}
-                  <AdminIcon name="check" size={16} />
-                </Button>
-              </div>
+              <AdminActionBar
+                label="Update order actions"
+                actions={
+                  <Button type="submit" disabled={busy}>
+                    {busy ? "Saving…" : "Save changes"}
+                    <AdminIcon name="check" size={16} />
+                  </Button>
+                }
+              />
             </form>
           </section>
           <section className={adminStyles.card}>

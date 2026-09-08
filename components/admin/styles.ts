@@ -10,13 +10,11 @@ const modal =
 
 export const adminStyles = {
   root: "min-h-dvh bg-admin-bg text-[13px] leading-[1.6] text-admin-ink max-[641px]:text-[12px] print:bg-white [&_button:disabled]:cursor-not-allowed [&_input[type=checkbox]]:size-4 [&_input[type=checkbox]]:accent-[#28292b] [&_:focus-visible]:outline-[3px]! [&_:focus-visible]:outline-[#c78b25]! [&_:focus-visible]:outline-offset-[3px] motion-reduce:[&_*]:animate-none! motion-reduce:[&_*]:transition-none! motion-reduce:[&_*]:scroll-auto!",
-  stack: "grid gap-5 max-[641px]:gap-4",
+  stack: "grid gap-4",
   grid3: `${grid} grid-cols-3 max-[641px]:grid-cols-1`,
   grid4:
     "grid min-w-0 grid-cols-4 gap-5 max-[1201px]:grid-cols-2 max-[641px]:gap-3",
   actions: "flex flex-wrap items-center gap-2.5",
-  pageActions:
-    "mb-5 flex flex-wrap items-center justify-end gap-2.5 in-[.grid]:mb-0 max-[641px]:[&>*]:flex-1",
   buttonPrimary: `${button} border-[#28292b] bg-[#28292b] text-white shadow-[0_2px_3px_#23232309] hover:bg-[#414245]`,
   buttonSecondary: `${button} border-[#dedfe5] bg-white text-[#4b4e56] hover:border-[#bfc2ca] hover:bg-admin-bg`,
   buttonDanger: `${button} border-[#bc4141] bg-[#bc4141] text-white hover:bg-[#a83737]`,
@@ -36,8 +34,6 @@ export const adminStyles = {
   input: `${input} min-h-11`,
   select: `${input} min-h-11 pr-[30px]`,
   textarea: `${input} min-h-[110px] resize-y`,
-  toolbar:
-    "mb-[22px] flex flex-wrap items-center justify-between gap-3.5 max-[641px]:gap-3",
   tableWrap:
     "max-w-full overflow-x-auto rounded-[10px] border border-admin-line max-[641px]:overflow-visible max-[641px]:rounded-none max-[641px]:border-0",
   table: [

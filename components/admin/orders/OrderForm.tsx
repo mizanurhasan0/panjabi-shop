@@ -9,7 +9,14 @@ import { listProducts } from "@/lib/demo/queries";
 import type { Order, OrderInput } from "@/lib/admin/types";
 import { adminStyles } from "../styles";
 import { orderStyles } from "./styles";
-import { AdminIcon, Alert, Button, Field, PageHeading } from "../ui";
+import {
+  AdminActionBar,
+  AdminIcon,
+  Alert,
+  Button,
+  Field,
+  PageHeading,
+} from "../ui";
 import { OrderTotals } from "./shared";
 import {
   blankOrderLine,
@@ -176,14 +183,42 @@ export function OrderForm() {
 
   return (
     <div className={adminStyles.stack}>
-      <Link className={orderStyles.backLink} href="/admin/orders">
-        ← Back to orders
-      </Link>
       <PageHeading
         title="Create an order"
         description="Add catalog products, made-to-order pieces, or a little of both."
       />
-      <form onSubmit={submit} className={orderStyles.detailGrid}>
+      <div className={adminStyles.card}>
+        <AdminActionBar
+          label="New order actions"
+          actions={
+            <>
+              <Link
+                className={adminStyles.buttonSecondary}
+                href="/admin/orders"
+              >
+                Cancel
+              </Link>
+              <Button
+                type="submit"
+                form="create-order"
+                disabled={busy || Boolean(stockProblem)}
+              >
+                <AdminIcon name="plus" size={16} />
+                {busy ? "Creating order…" : "Create order"}
+              </Button>
+            </>
+          }
+        >
+          <Link className={orderStyles.backLink} href="/admin/orders">
+            ← Back to orders
+          </Link>
+        </AdminActionBar>
+      </div>
+      <form
+        id="create-order"
+        onSubmit={submit}
+        className={orderStyles.detailGrid}
+      >
         <fieldset
           className={`${adminStyles.stack} m-0 min-w-0 border-0 p-0`}
           disabled={busy}
@@ -413,20 +448,20 @@ export function OrderForm() {
                 <Alert>{error}</Alert>
               </div>
             )}
-            <Button
-              className="mt-[22px] w-full justify-between! max-[641px]:min-h-12!"
-              type="submit"
-              disabled={busy || Boolean(stockProblem)}
-            >
-              {busy ? "Creating order…" : "Create order"}
-              <AdminIcon name="arrow" size={16} />
-            </Button>
-            <Link
-              className="mx-auto mt-3.5 block w-fit text-[11px] text-admin-muted"
-              href="/admin/orders"
-            >
-              Cancel
-            </Link>
+            <AdminActionBar
+              label="Order summary actions"
+              className="mt-4"
+              actions={
+                <Button
+                  className="w-full"
+                  type="submit"
+                  disabled={busy || Boolean(stockProblem)}
+                >
+                  {busy ? "Creating order…" : "Create order"}
+                  <AdminIcon name="arrow" size={16} />
+                </Button>
+              }
+            />
           </section>
         </aside>
       </form>

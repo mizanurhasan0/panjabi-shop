@@ -12,6 +12,7 @@ import {
   Alert,
   ConfirmDialog,
   AdminIcon,
+  AdminActionBar,
 } from "./ui";
 import { ImageUpload } from "./ImageUpload";
 
@@ -180,16 +181,27 @@ function SettingsForm({
             />
           </Field>
         </div>
+        <AdminActionBar
+          label="Shop settings actions"
+          className="mt-4 border-t border-admin-line pt-4"
+          actions={
+            <Button
+              type="submit"
+              disabled={busy || uploads.logo || uploads.icon}
+            >
+              {busy ? "Saving…" : "Save settings"}
+            </Button>
+          }
+        >
+          <span className="text-[11px] text-admin-muted">
+            Shop details and preferences
+          </span>
+        </AdminActionBar>
       </section>
       {error && <Alert>{error}</Alert>}
       {saved && (
         <Alert tone="success">Shop settings saved in this browser.</Alert>
       )}
-      <div className={adminStyles.actions}>
-        <Button type="submit" disabled={busy || uploads.logo || uploads.icon}>
-          {busy ? "Saving…" : "Save settings"}
-        </Button>
-      </div>
     </form>
   );
 }
@@ -201,27 +213,29 @@ function ResetDemoPanel({ onReset }: { onReset: () => void }) {
   const [message, setMessage] = useState("");
   return (
     <section className={`${adminStyles.card} ${adminStyles.stack}`}>
-      <div className={adminStyles.cardHeader}>
+      <AdminActionBar
+        label="Reset demo actions"
+        actions={
+          <Button variant="secondary" onClick={() => setOpen(true)}>
+            <AdminIcon name="refresh" size={17} />
+            Reset demo data
+          </Button>
+        }
+      >
         <div>
           <h2>Start fresh with sample data</h2>
-          <p>
+          <p className="mt-1 text-[11px] text-admin-muted">
             Bring back the original demo products, orders, notifications, and
             branding.
           </p>
         </div>
-        <AdminIcon name="refresh" size={21} />
-      </div>
+      </AdminActionBar>
       <p className={adminStyles.muted}>
         Changes are saved in this browser. Resetting replaces your current demo
         changes; downloaded files and saved backups remain available.
       </p>
       {error && <Alert>{error}</Alert>}
       {message && <Alert tone="success">{message}</Alert>}
-      <div className={adminStyles.actions}>
-        <Button variant="secondary" onClick={() => setOpen(true)}>
-          Reset demo data
-        </Button>
-      </div>
       <ConfirmDialog
         open={open}
         title="Reset the demo workspace?"

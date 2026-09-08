@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { useState, useSyncExternalStore, type ReactNode } from "react";
 import { Modal } from "@/components/Modal";
@@ -11,9 +10,10 @@ import { markNotificationsRead } from "@/lib/demo/commands";
 import { defaultShopSettings, demoOwner } from "@/lib/demo/seed";
 import { AdminIcon, Alert, Button, EmptyState, type AdminIconName } from "./ui";
 import { adminStyles } from "./styles";
+import { AdminBrand } from "./AdminBrand";
 
 const captionClassName =
-  "mt-[46px] mb-3 px-[14px] text-[9px] font-medium tracking-[1.7px] text-[#93959c]";
+  "mt-6 mb-3 px-[14px] text-[9px] font-medium tracking-[1.7px] text-[#93959c]";
 const avatarClassName =
   "inline-flex size-9 shrink-0 items-center justify-center rounded-full bg-[#f1ede6] text-[13px] font-semibold text-[#765b35]";
 const storeLinkClassName =
@@ -108,27 +108,11 @@ export function AdminShell({ children }: { children: ReactNode }) {
   }
 
   const brand = (
-    <Link
-      href="/admin"
-      className="flex min-w-0 items-center gap-[11px]"
-      aria-label={`${shopName} dashboard`}
-      onClick={() => setMenuOpen(false)}
-    >
-      {logo ? (
-        <Image
-          src={logo}
-          alt=""
-          width={43}
-          height={43}
-          unoptimized
-          className="size-[43px]! rounded-lg object-contain"
-        />
-      ) : (
-        <span className="inline-flex size-[43px] shrink-0 items-center justify-center rounded-xl bg-admin-accent text-[#272727]">
-          <AdminIcon name="store" size={23} />
-        </span>
-      )}
-    </Link>
+    <AdminBrand
+      name={shopName}
+      logo={logo}
+      onNavigate={() => setMenuOpen(false)}
+    />
   );
 
   return (
@@ -139,7 +123,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
       >
         Skip to content
       </a>
-      <aside className="fixed inset-y-0 left-0 z-40 flex w-60 flex-col border-r border-admin-line bg-admin-surface px-[18px] pt-8 pb-[18px] max-[1201px]:w-[215px] max-[1201px]:px-[14px] max-[901px]:hidden print:hidden">
+      <aside className="fixed inset-y-0 left-0 z-40 flex w-60 flex-col border-r border-admin-line bg-admin-surface px-[18px] pt-4 pb-[18px] max-[1201px]:w-[215px] max-[1201px]:px-[14px] max-[901px]:hidden print:hidden">
         <div className="px-[11px]">{brand}</div>
         <p className={captionClassName}>WORKSPACE</p>
         <Navigation pathname={pathname} />
@@ -184,14 +168,21 @@ export function AdminShell({ children }: { children: ReactNode }) {
             >
               <AdminIcon name="menu" />
             </button>
-            <div className="flex items-center gap-[13px] text-[11px] text-[#93959d] max-[641px]:hidden">
+            <div className="flex items-center gap-[13px] text-[11px] text-[#93959d] max-[901px]:hidden">
               <span>Workspace</span>
               <AdminIcon name="chevron" size={13} />
               <strong className="font-medium text-[#4c4f57]">
                 {activePage}
               </strong>
             </div>
-            <div className="hidden max-[641px]:block">{brand}</div>
+            <div className="hidden max-[901px]:block">
+              <AdminBrand
+                name={shopName}
+                logo={logo}
+                compact
+                onNavigate={() => setMenuOpen(false)}
+              />
+            </div>
           </div>
           <div className="flex min-w-0 items-center gap-[18px] max-[641px]:gap-[10px]">
             <span className="mr-2 flex items-center gap-[7px] text-[10px] text-admin-muted max-[901px]:hidden">
@@ -221,7 +212,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
         </header>
         <main
           id="admin-main"
-          className="mx-auto min-h-[calc(100dvh-78px)] max-w-[1670px] px-9 pt-[34px] pb-5 focus:outline-none min-[1600px]:px-12 min-[1600px]:pt-10 min-[1600px]:pb-6 max-[1201px]:px-6 max-[1201px]:pt-7 max-[901px]:min-h-[calc(100dvh-66px)] max-[901px]:pb-[90px] max-[641px]:px-4 max-[641px]:pt-6 max-[641px]:pb-[92px] print:p-0"
+          className="mx-auto min-h-[calc(100dvh-78px)] max-w-[1670px] px-9 pt-6 pb-5 focus:outline-none min-[1600px]:px-12 min-[1600px]:pt-8 min-[1600px]:pb-6 max-[1201px]:px-6 max-[1201px]:pt-6 max-[901px]:min-h-[calc(100dvh-66px)] max-[901px]:pb-[90px] max-[641px]:px-4 max-[641px]:pt-5 max-[641px]:pb-[92px] print:p-0"
           tabIndex={-1}
         >
           {storageWarning && <Alert tone="info">{storageWarning}</Alert>}

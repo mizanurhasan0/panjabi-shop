@@ -9,6 +9,7 @@ import type { AdminProduct } from "@/lib/admin/types";
 import type { ProductVariant } from "@/lib/types";
 import { collections } from "@/lib/data/collections";
 import {
+  AdminActionBar,
   AdminIcon,
   Alert,
   Button,
@@ -199,13 +200,7 @@ function ProductFormContent({
 
   return (
     <>
-      <Link
-        href="/admin/products"
-        className="mb-[17px] inline-flex text-[10px] text-[#8a8d97] hover:text-[#292b30]"
-      >
-        ← All products
-      </Link>
-      <form onSubmit={submit}>
+      <form onSubmit={submit} className={adminStyles.stack}>
         <PageHeading
           title={product ? "Edit product" : "Add a product"}
           description={
@@ -213,6 +208,9 @@ function ProductFormContent({
               ? "A few thoughtful updates keep your collection looking its best."
               : "A new piece for your collection. Let's get the details right."
           }
+        />
+        <AdminActionBar
+          label="Product editor actions"
           actions={
             <>
               <Link
@@ -227,7 +225,14 @@ function ProductFormContent({
               </Button>
             </>
           }
-        />
+        >
+          <Link
+            href="/admin/products"
+            className="inline-flex min-h-11 items-center text-[12px] text-admin-muted transition-colors hover:text-admin-ink motion-reduce:transition-none"
+          >
+            ← All products
+          </Link>
+        </AdminActionBar>
         <div className={adminStyles.stack}>
           {error && <Alert>{error}</Alert>}
           {saved && <Alert tone="success">Product saved successfully.</Alert>}
@@ -618,17 +623,22 @@ function ProductFormContent({
               </section>
             </aside>
           </div>
-          <div className="flex items-center justify-between gap-[18px] border-t border-admin-line pt-[19px] max-[641px]:flex-col max-[641px]:items-start max-[641px]:gap-[13px] [&>span]:text-[10px] [&>span]:text-[#999da7] max-[641px]:[&>span]:text-[9px] max-[641px]:[&>button]:w-full">
-            <span>
+          <AdminActionBar
+            label="Save product"
+            className="border-t border-admin-line pt-4"
+            actions={
+              <Button type="submit" disabled={disabled}>
+                {busy ? "Saving…" : product ? "Save changes" : "Create product"}
+                <AdminIcon name="check" size={16} />
+              </Button>
+            }
+          >
+            <span className="text-[11px] text-admin-muted">
               {uploading
                 ? "Wait for image uploads to finish."
                 : "Ready when you are. Save to update your shop."}
             </span>
-            <Button type="submit" disabled={disabled}>
-              {busy ? "Saving…" : product ? "Save changes" : "Create product"}
-              <AdminIcon name="check" size={16} />
-            </Button>
-          </div>
+          </AdminActionBar>
         </div>
       </form>
     </>

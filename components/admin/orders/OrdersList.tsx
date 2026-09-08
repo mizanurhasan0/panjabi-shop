@@ -11,6 +11,7 @@ import { orderStages, type OrderStage } from "@/lib/admin/types";
 import { formatPrice } from "@/lib/utils/products";
 import { adminStyles } from "../styles";
 import {
+  AdminActionBar,
   AdminIcon,
   Alert,
   Button,
@@ -94,84 +95,97 @@ export function OrdersList({ queryString }: { queryString: string }) {
       <PageHeading
         title="Orders"
         description="Every order, from the first hello to a happy delivery."
-        actions={
-          <>
-            <Button
-              variant="secondary"
-              onClick={download}
-              disabled={exporting || loading}
-            >
-              <AdminIcon name="download" size={16} />
-              {exporting ? "Preparing Excel…" : "Export Excel"}
-            </Button>
-            <Link
-              className={adminStyles.buttonPrimary}
-              href="/admin/orders/new"
-            >
-              <AdminIcon name="plus" size={16} />
-              New order
-            </Link>
-          </>
-        }
       />
       {exportError && <Alert>{exportError}</Alert>}
       <section className={adminStyles.card}>
         <form
           key={queryString}
-          className="mb-6 grid grid-cols-[minmax(180px,1.5fr)_minmax(130px,1fr)_repeat(2,minmax(120px,1fr))_auto] items-end gap-3 max-[1201px]:grid-cols-2 max-[1201px]:[&>:first-child]:col-span-full max-[641px]:grid-cols-1 max-[641px]:gap-[15px] max-[641px]:[&_input[type=date]]:min-h-[46px]"
+          className="mb-4 grid min-w-0 gap-3"
           onSubmit={filter}
         >
-          <Field label="Search orders">
-            <input
-              className={adminStyles.input}
-              name="query"
-              defaultValue={params.get("query") ?? ""}
-              placeholder="Order, customer or phone"
-              maxLength={200}
-            />
-          </Field>
-          <Field label="Order stage">
-            <select
-              className={adminStyles.select}
-              name="stage"
-              defaultValue={params.get("stage") ?? ""}
-            >
-              <option value="">All stages</option>
-              {orderStages.map((stage) => (
-                <option key={stage} value={stage}>
-                  {stage.charAt(0).toUpperCase() + stage.slice(1)}
-                </option>
-              ))}
-            </select>
-          </Field>
-          <Field label="From date">
-            <input
-              className={adminStyles.input}
-              type="date"
-              name="from"
-              defaultValue={inputDate(params.get("from"))}
-            />
-          </Field>
-          <Field label="To date">
-            <input
-              className={adminStyles.input}
-              type="date"
-              name="to"
-              defaultValue={inputDate(params.get("to"), true)}
-            />
-          </Field>
-          <div
-            className={`${adminStyles.actions} min-h-11 max-[1201px]:col-span-full max-[641px]:[&>button]:flex-1`}
+          <AdminActionBar
+            label="Order actions"
+            actions={
+              <>
+                <Button
+                  variant="secondary"
+                  onClick={download}
+                  disabled={exporting || loading}
+                >
+                  <AdminIcon name="download" size={16} />
+                  {exporting ? "Preparing Excel…" : "Export Excel"}
+                </Button>
+                <Link
+                  className={adminStyles.buttonPrimary}
+                  href="/admin/orders/new"
+                >
+                  <AdminIcon name="plus" size={16} />
+                  New order
+                </Link>
+              </>
+            }
           >
-            <Button type="submit" variant="secondary">
-              <AdminIcon name="search" size={16} />
-              Filter
-            </Button>
-            {queryString && (
-              <Link href="/admin/orders" className={adminStyles.textButton}>
-                Reset
-              </Link>
-            )}
+            <div className="relative w-full min-w-0 max-w-[420px] max-[641px]:max-w-none">
+              <AdminIcon
+                name="search"
+                size={16}
+                className="pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 text-admin-muted"
+              />
+              <input
+                className={`${adminStyles.input} pl-9!`}
+                type="search"
+                name="query"
+                aria-label="Search orders"
+                defaultValue={params.get("query") ?? ""}
+                placeholder="Order, customer or phone"
+                maxLength={200}
+              />
+            </div>
+          </AdminActionBar>
+          <div className="grid min-w-0 grid-cols-[minmax(140px,1fr)_minmax(140px,1fr)_minmax(140px,1fr)_auto] items-end gap-3 max-[1001px]:grid-cols-2 max-[481px]:grid-cols-1">
+            <Field label="Order stage">
+              <select
+                className={adminStyles.select}
+                name="stage"
+                defaultValue={params.get("stage") ?? ""}
+              >
+                <option value="">All stages</option>
+                {orderStages.map((stage) => (
+                  <option key={stage} value={stage}>
+                    {stage.charAt(0).toUpperCase() + stage.slice(1)}
+                  </option>
+                ))}
+              </select>
+            </Field>
+            <Field label="From date">
+              <input
+                className={adminStyles.input}
+                type="date"
+                name="from"
+                defaultValue={inputDate(params.get("from"))}
+              />
+            </Field>
+            <Field label="To date">
+              <input
+                className={adminStyles.input}
+                type="date"
+                name="to"
+                defaultValue={inputDate(params.get("to"), true)}
+              />
+            </Field>
+            <div
+              className={`${adminStyles.actions} min-h-11 max-[641px]:[&>button]:flex-1`}
+            >
+              <Button type="submit" variant="secondary">
+                <AdminIcon name="search" size={16} />
+                Filter
+              </Button>
+              {queryString && (
+                <Link href="/admin/orders" className={adminStyles.textButton}>
+                  Reset
+                </Link>
+              )}
+            </div>
           </div>
         </form>
         {error && (

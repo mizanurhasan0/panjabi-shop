@@ -194,20 +194,55 @@ export function AdminIcon({
 export function PageHeading({
   title,
   description,
-  actions,
 }: {
   title: string;
   description?: string;
-  actions?: ReactNode;
 }) {
   return (
-    <>
-      <div className="sr-only">
-        <h1>{title}</h1>
-        {description && <p>{description}</p>}
-      </div>
-      {actions && <div className={adminStyles.pageActions}>{actions}</div>}
-    </>
+    <div className="sr-only">
+      <h1>{title}</h1>
+      {description && <p>{description}</p>}
+    </div>
+  );
+}
+
+/** Keeps page controls with their context, with equal-width actions on mobile. */
+export function AdminActionBar({
+  children,
+  actions,
+  label = "Page actions",
+  className = "",
+}: {
+  children?: ReactNode;
+  actions?: ReactNode;
+  label?: string;
+  className?: string;
+}) {
+  if (!children && !actions) return null;
+  return (
+    <div
+      role="group"
+      aria-label={label}
+      data-slot="admin-action-bar"
+      className={`flex min-w-0 flex-wrap items-center justify-between gap-3 ${className}`}
+    >
+      {children && (
+        <div
+          data-slot="action-bar-content"
+          className="flex min-w-0 flex-1 flex-wrap items-center gap-3 max-[641px]:basis-full"
+        >
+          {children}
+        </div>
+      )}
+      {actions && (
+        <div
+          data-slot="action-bar-actions"
+          className="ml-auto flex min-w-0 flex-wrap items-center justify-end gap-2.5 max-[641px]:w-full max-[641px]:[&>*]:flex-1"
+        >
+          {actions}
+        </div>
+      )}
+    </div>
   );
 }
 
