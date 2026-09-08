@@ -16,8 +16,8 @@ import {
   PageHeading,
   StatusBadge,
 } from "../ui";
+import { adminStyles } from "../styles";
 import { ProductImageManager } from "./ProductImageManager";
-import "./products.css";
 
 function values(value: string) {
   return [
@@ -49,12 +49,14 @@ export function ProductForm(props: ProductFormProps) {
   if (!props.product && loading) {
     return (
       <div
-        className="admin-stack"
+        className={adminStyles.stack}
         role="status"
         aria-label="Preparing product form"
       >
-        <div className="admin-skeleton admin-skeleton-heading" />
-        <div className="admin-skeleton admin-skeleton-table" />
+        <div
+          className={`${adminStyles.skeleton} mb-2 h-[42px] max-w-[300px]`}
+        />
+        <div className={`${adminStyles.skeleton} h-[380px]`} />
       </div>
     );
   }
@@ -197,7 +199,10 @@ function ProductFormContent({
 
   return (
     <>
-      <Link href="/admin/products" className="admin-product-back">
+      <Link
+        href="/admin/products"
+        className="mb-[17px] inline-flex text-[10px] text-[#8a8d97] hover:text-[#292b30]"
+      >
         ← All products
       </Link>
       <form onSubmit={submit}>
@@ -211,7 +216,7 @@ function ProductFormContent({
           actions={
             <>
               <Link
-                className="admin-button admin-button-secondary"
+                className={adminStyles.buttonSecondary}
                 href="/admin/products"
               >
                 Cancel
@@ -223,22 +228,24 @@ function ProductFormContent({
             </>
           }
         />
-        <div className="admin-stack">
+        <div className={adminStyles.stack}>
           {error && <Alert>{error}</Alert>}
           {saved && <Alert tone="success">Product saved successfully.</Alert>}
-          <div className="admin-product-editor">
-            <div className="admin-stack">
-              <section className="admin-card">
-                <div className="admin-card-header">
+          <div className="grid grid-cols-[minmax(0,1.8fr)_minmax(270px,1fr)] items-start gap-[22px] max-[1201px]:grid-cols-[minmax(0,1.4fr)_minmax(250px,1fr)] max-[1201px]:gap-[18px] max-[761px]:grid-cols-1">
+            <div className={adminStyles.stack}>
+              <section className={adminStyles.card}>
+                <div
+                  className={`${adminStyles.cardHeader} [&_p]:max-w-[350px]`}
+                >
                   <div>
                     <h2>Product information</h2>
                     <p>The essentials your customers will see.</p>
                   </div>
                 </div>
-                <div className="admin-stack">
+                <div className={adminStyles.stack}>
                   <Field label="Product name">
                     <input
-                      className="admin-input"
+                      className={adminStyles.input}
                       value={draft.title}
                       onChange={(event) => {
                         const title = event.target.value;
@@ -262,7 +269,7 @@ function ProductFormContent({
                     hint="Describe the fabric, fit, and details in plain text."
                   >
                     <textarea
-                      className="admin-textarea"
+                      className={adminStyles.textarea}
                       rows={5}
                       value={draft.description}
                       onChange={(event) =>
@@ -273,10 +280,10 @@ function ProductFormContent({
                       disabled={disabled}
                     />
                   </Field>
-                  <div className="admin-form-grid">
+                  <div className={adminStyles.formGrid}>
                     <Field label="Collection">
                       <select
-                        className="admin-select"
+                        className={adminStyles.select}
                         value={draft.collectionHandle}
                         onChange={(event) =>
                           change("collectionHandle", event.target.value)
@@ -302,7 +309,7 @@ function ProductFormContent({
                     </Field>
                     <Field label="Product type">
                       <input
-                        className="admin-input"
+                        className={adminStyles.input}
                         value={draft.productType}
                         onChange={(event) =>
                           change("productType", event.target.value)
@@ -316,7 +323,7 @@ function ProductFormContent({
                       hint="Used in your product's shop link."
                     >
                       <input
-                        className="admin-input"
+                        className={adminStyles.input}
                         value={draft.handle}
                         onChange={(event) => {
                           change("handle", event.target.value);
@@ -329,7 +336,7 @@ function ProductFormContent({
                     </Field>
                     <Field label="Brand / vendor">
                       <input
-                        className="admin-input"
+                        className={adminStyles.input}
                         value={draft.vendor}
                         onChange={(event) =>
                           change("vendor", event.target.value)
@@ -342,7 +349,7 @@ function ProductFormContent({
                   </div>
                 </div>
               </section>
-              <section className="admin-card">
+              <section className={adminStyles.card}>
                 <ProductImageManager
                   images={images}
                   onChange={(next) => {
@@ -353,21 +360,23 @@ function ProductFormContent({
                   onBusyChange={setUploading}
                 />
               </section>
-              <section className="admin-card">
-                <div className="admin-card-header">
+              <section className={adminStyles.card}>
+                <div
+                  className={`${adminStyles.cardHeader} [&_p]:max-w-[350px]`}
+                >
                   <div>
                     <h2>Colors & sizes</h2>
                     <p>Choose the options customers can order.</p>
                   </div>
-                  <span className="admin-badge">
+                  <span className={adminStyles.badge}>
                     {combinationCount} variant
                     {combinationCount === 1 ? "" : "s"}
                   </span>
                 </div>
-                <div className="admin-form-grid">
+                <div className={adminStyles.formGrid}>
                   <Field label="Colors" hint="Separate colors with commas.">
                     <input
-                      className="admin-input"
+                      className={adminStyles.input}
                       value={draft.colors}
                       onChange={(event) => change("colors", event.target.value)}
                       placeholder="Ivory, Black, Navy"
@@ -376,7 +385,7 @@ function ProductFormContent({
                   </Field>
                   <Field label="Sizes" hint="Separate sizes with commas.">
                     <input
-                      className="admin-input"
+                      className={adminStyles.input}
                       value={draft.sizes}
                       onChange={(event) => change("sizes", event.target.value)}
                       placeholder="38, 40, 42, 44"
@@ -388,7 +397,7 @@ function ProductFormContent({
                     hint="A suffix is added for new color and size combinations."
                   >
                     <input
-                      className="admin-input"
+                      className={adminStyles.input}
                       value={draft.sku}
                       onChange={(event) => change("sku", event.target.value)}
                       maxLength={70}
@@ -401,7 +410,7 @@ function ProductFormContent({
                     hint="Optional labels separated by commas."
                   >
                     <input
-                      className="admin-input"
+                      className={adminStyles.input}
                       value={draft.tags}
                       onChange={(event) => change("tags", event.target.value)}
                       placeholder="Cotton, Eid, Embroidered"
@@ -410,7 +419,7 @@ function ProductFormContent({
                   </Field>
                 </div>
                 {product && (
-                  <p className="admin-product-options-note">
+                  <p className="mt-4 text-[10px] leading-[1.8] text-[#9a9ea7]">
                     Existing matching variants keep their IDs, SKUs, and
                     availability. Changing the selling price updates all variant
                     prices.
@@ -418,14 +427,22 @@ function ProductFormContent({
                 )}
               </section>
             </div>
-            <aside className="admin-stack admin-product-editor-sidebar">
-              <section className="admin-card">
-                <div className="admin-card-header">
+            <aside
+              className={`${adminStyles.stack} max-[761px]:grid-cols-2 max-[761px]:items-start max-[641px]:grid-cols-1`}
+            >
+              <section
+                className={`${adminStyles.card} max-[761px]:col-span-full`}
+              >
+                <div
+                  className={`${adminStyles.cardHeader} [&_p]:max-w-[350px]`}
+                >
                   <h2>Publishing</h2>
                   <StatusBadge stage={draft.active ? "active" : "inactive"} />
                 </div>
-                <div className="admin-stack">
-                  <label className="admin-product-toggle">
+                <div
+                  className={`${adminStyles.stack} max-[761px]:grid-cols-2 max-[641px]:grid-cols-1`}
+                >
+                  <label className="flex items-center justify-between gap-[18px] [&>span]:grid [&>span]:gap-1 [&_strong]:text-[11px] [&_strong]:font-medium [&_small]:text-[9px] [&_small]:text-[#9499a3] [&_input]:shrink-0">
                     <span>
                       <strong>Visible in shop</strong>
                       <small>Customers can browse this product.</small>
@@ -439,7 +456,7 @@ function ProductFormContent({
                       disabled={disabled}
                     />
                   </label>
-                  <label className="admin-product-toggle">
+                  <label className="flex items-center justify-between gap-[18px] [&>span]:grid [&>span]:gap-1 [&_strong]:text-[11px] [&_strong]:font-medium [&_small]:text-[9px] [&_small]:text-[#9499a3] [&_input]:shrink-0">
                     <span>
                       <strong>New arrival</strong>
                       <small>Highlight this piece as new.</small>
@@ -461,17 +478,19 @@ function ProductFormContent({
                   )}
                 </div>
               </section>
-              <section className="admin-card">
-                <div className="admin-card-header">
+              <section className={adminStyles.card}>
+                <div
+                  className={`${adminStyles.cardHeader} [&_p]:max-w-[350px]`}
+                >
                   <div>
                     <h2>Pricing</h2>
                     <p>All prices in Bangladeshi Taka (৳).</p>
                   </div>
                 </div>
-                <div className="admin-stack">
+                <div className={adminStyles.stack}>
                   <Field label="Selling price (৳)">
                     <input
-                      className="admin-input"
+                      className={adminStyles.input}
                       type="number"
                       inputMode="decimal"
                       min={0}
@@ -489,7 +508,7 @@ function ProductFormContent({
                     hint="Used to calculate profit. Customers cannot see this."
                   >
                     <input
-                      className="admin-input"
+                      className={adminStyles.input}
                       type="number"
                       inputMode="decimal"
                       min={0}
@@ -509,7 +528,7 @@ function ProductFormContent({
                     hint="Optional original price to show a discount."
                   >
                     <input
-                      className="admin-input"
+                      className={adminStyles.input}
                       type="number"
                       inputMode="decimal"
                       min={price}
@@ -523,7 +542,7 @@ function ProductFormContent({
                       disabled={disabled}
                     />
                   </Field>
-                  <div className="admin-product-margin">
+                  <div className="grid gap-1 rounded-[9px] border border-[#edf0ec] bg-[#f8fbf7] p-3.5 [&>span]:text-[10px] [&>span]:text-[#7d8e7a] [&_strong]:text-[23px] [&_strong]:font-medium [&_strong]:tracking-[-0.7px] [&_strong]:text-[#5c795b] [&_small]:text-[9px] [&_small]:text-[#92a08d]">
                     <span>Gross profit per item</span>
                     <strong>
                       ৳{" "}
@@ -539,21 +558,23 @@ function ProductFormContent({
                   </div>
                 </div>
               </section>
-              <section className="admin-card">
-                <div className="admin-card-header">
+              <section className={adminStyles.card}>
+                <div
+                  className={`${adminStyles.cardHeader} [&_p]:max-w-[350px]`}
+                >
                   <h2>Inventory</h2>
                   <AdminIcon name="products" size={19} />
                 </div>
-                <div className="admin-stack">
+                <div className={adminStyles.stack}>
                   {product ? (
-                    <div className="admin-stock-summary">
+                    <div className="flex items-center justify-between gap-3 rounded-lg border border-[#eff0f3] bg-[#f7f8fa] px-3.5 py-3 [&>span]:text-[10px] [&>span]:text-[#969aa4] [&_strong]:text-xs [&_strong]:font-medium">
                       <span>Available stock</span>
                       <strong>{product.stock} units</strong>
                     </div>
                   ) : (
                     <Field label="Opening stock">
                       <input
-                        className="admin-input"
+                        className={adminStyles.input}
                         type="number"
                         inputMode="numeric"
                         min={0}
@@ -573,7 +594,7 @@ function ProductFormContent({
                     hint="An alert appears when stock reaches this number."
                   >
                     <input
-                      className="admin-input"
+                      className={adminStyles.input}
                       type="number"
                       inputMode="numeric"
                       min={0}
@@ -587,7 +608,7 @@ function ProductFormContent({
                       disabled={disabled}
                     />
                   </Field>
-                  <p className="admin-product-options-note">
+                  <p className="mt-4 text-[10px] leading-[1.8] text-[#9a9ea7]">
                     Stock is shared across all variants.
                     {product
                       ? " Use Restock on the products page to add units."
@@ -597,7 +618,7 @@ function ProductFormContent({
               </section>
             </aside>
           </div>
-          <div className="admin-product-save-bar">
+          <div className="flex items-center justify-between gap-[18px] border-t border-admin-line pt-[19px] max-[641px]:flex-col max-[641px]:items-start max-[641px]:gap-[13px] [&>span]:text-[10px] [&>span]:text-[#999da7] max-[641px]:[&>span]:text-[9px] max-[641px]:[&>button]:w-full">
             <span>
               {uploading
                 ? "Wait for image uploads to finish."

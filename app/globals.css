@@ -34,6 +34,38 @@
   --color-ylw-badge: var(--ylw-badge);
   --color-ylw-btn-dark: var(--ylw-btn-dark);
   --font-sans: var(--ylw-font);
+  --color-admin-bg: #f7f8fa;
+  --color-admin-surface: #fff;
+  --color-admin-ink: var(--ylw-text);
+  --color-admin-muted: #747780;
+  --color-admin-line: #e9eaee;
+  --color-admin-accent: var(--ylw-badge);
+  --color-admin-accent-soft: #fff6e5;
+}
+
+@theme {
+  --animate-admin-enter: admin-enter 200ms ease-out both;
+  --animate-admin-shimmer: admin-shimmer 1.8s infinite;
+
+  @keyframes admin-enter {
+    from {
+      opacity: 0;
+      transform: translateY(5px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes admin-shimmer {
+    from {
+      background-position: 200% 0;
+    }
+    to {
+      background-position: -200% 0;
+    }
+  }
 }
 
 * {

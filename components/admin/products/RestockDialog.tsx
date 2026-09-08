@@ -6,6 +6,7 @@ import { errorMessage } from "@/lib/demo/client";
 import { restockProduct } from "@/lib/demo/commands";
 import type { AdminProduct } from "@/lib/admin/types";
 import { AdminIcon, Alert, Button, Field } from "../ui";
+import { adminStyles } from "../styles";
 
 export function RestockDialog({
   product,
@@ -37,6 +38,7 @@ export function RestockDialog({
   }
   return (
     <Modal
+      unstyled
       id={id}
       label="Restock product"
       open={Boolean(product)}
@@ -46,19 +48,22 @@ export function RestockDialog({
           onClose();
         }
       }}
-      className="admin-dialog"
+      className={adminStyles.dialog}
       animateExit
     >
-      <form className="admin-dialog-content admin-stack" onSubmit={submit}>
+      <form
+        className={`${adminStyles.dialogContent} ${adminStyles.stack}`}
+        onSubmit={submit}
+      >
         <div>
-          <span className="admin-product-restock-icon">
+          <span className="mb-[17px] flex size-[45px] items-center justify-center rounded-xl bg-[#fff6e6] text-[#a98446]">
             <AdminIcon name="products" size={25} />
           </span>
           <h2>Restock product</h2>
           <p>{product?.title}</p>
         </div>
         {error && <Alert>{error}</Alert>}
-        <div className="admin-stock-summary">
+        <div className="flex items-center justify-between gap-3 rounded-lg border border-[#eff0f3] bg-[#f7f8fa] px-3.5 py-3 [&>span]:text-[10px] [&>span]:text-[#969aa4] [&_strong]:text-xs [&_strong]:font-medium">
           <span>Current stock</span>
           <strong>{product?.stock ?? 0} units</strong>
         </div>
@@ -68,7 +73,7 @@ export function RestockDialog({
         >
           <input
             key={product?.id}
-            className="admin-input"
+            className={adminStyles.input}
             name="quantity"
             type="number"
             inputMode="numeric"
@@ -81,7 +86,7 @@ export function RestockDialog({
             data-autofocus
           />
         </Field>
-        <div className="admin-actions">
+        <div className={`${adminStyles.actions} mt-[26px] justify-end`}>
           <Button
             variant="secondary"
             onClick={() => {

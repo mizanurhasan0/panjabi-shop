@@ -1,6 +1,7 @@
 "use client";
 
 import { Alert, Button, EmptyState } from "@/components/admin/ui";
+import { adminStyles } from "@/components/admin/styles";
 
 export default function AdminError({
   reset,
@@ -9,7 +10,7 @@ export default function AdminError({
   reset: () => void;
 }) {
   return (
-    <div className="admin-card">
+    <div className={adminStyles.card}>
       <EmptyState
         title="We couldn't load this page"
         description="Please try again. Your saved shop data is still there."

@@ -10,6 +10,34 @@ import {
 } from "react";
 import { Modal } from "@/components/Modal";
 import type { OrderStage } from "@/lib/admin/types";
+import { adminStyles } from "./styles";
+
+const buttonVariants = {
+  primary: adminStyles.buttonPrimary,
+  secondary: adminStyles.buttonSecondary,
+  danger: adminStyles.buttonDanger,
+} as const;
+
+const badgeColors: Record<string, string> = {
+  pending: "bg-[#fff5e2] text-[#b0822f]",
+  unpaid: "bg-[#fff5e2] text-[#b0822f]",
+  confirmed: "bg-[#edf0fe] text-[#6c77b4]",
+  processing: "bg-[#edf0fe] text-[#6c77b4]",
+  shipped: "bg-[#ebf3ff] text-[#5485bc]",
+  delivered: "bg-[#eaf6ef] text-[#538f70]",
+  paid: "bg-[#eaf6ef] text-[#538f70]",
+  active: "bg-[#eaf6ef] text-[#538f70]",
+  cancelled: "bg-[#fcefee] text-[#bd6862]",
+  inactive: "bg-[#fcefee] text-[#bd6862]",
+  returned: "bg-[#f3edf8] text-[#9b71b8]",
+  refunded: "bg-[#f3edf8] text-[#9b71b8]",
+};
+
+const alertColors = {
+  error: "border-[#f2d9d6] bg-[#fff4f3] text-[#a64442]",
+  success: "border-[#d7eadd] bg-[#eff9f2] text-[#37795a]",
+  info: "border-[#e0e6f2] bg-[#f2f5fc] text-[#626d8b]",
+} as const;
 
 export type AdminIconName =
   | "dashboard"
@@ -173,13 +201,13 @@ export function PageHeading({
   actions?: ReactNode;
 }) {
   return (
-    <div className="admin-page-heading">
-      <div>
+    <>
+      <div className="sr-only">
         <h1>{title}</h1>
         {description && <p>{description}</p>}
       </div>
-      {actions && <div className="admin-actions">{actions}</div>}
-    </div>
+      {actions && <div className={adminStyles.pageActions}>{actions}</div>}
+    </>
   );
 }
 
@@ -194,7 +222,7 @@ export function Button({
   return (
     <button
       type={type}
-      className={`admin-button admin-button-${variant} ${className}`}
+      className={`${buttonVariants[variant]} ${className}`}
       {...props}
     />
   );
@@ -220,20 +248,22 @@ export function Field({
         })
       : children;
   return (
-    <div className="admin-field">
+    <div className={adminStyles.field}>
       <label htmlFor={htmlFor}>
         {label}
         {control}
       </label>
-      {hint && <p className="admin-field-hint">{hint}</p>}
+      {hint && <p className={adminStyles.fieldHint}>{hint}</p>}
     </div>
   );
 }
 
 export function StatusBadge({ stage }: { stage: OrderStage | string }) {
   return (
-    <span className={`admin-badge admin-badge-${stage}`}>
-      <span aria-hidden="true" />
+    <span
+      className={`inline-flex items-center gap-[5px] rounded-[5px] px-2 py-1 text-[9px] font-medium leading-normal whitespace-nowrap capitalize ${badgeColors[stage] ?? "bg-[#f0f1f4] text-[#666a75]"}`}
+    >
+      <span className="size-1 rounded-full bg-current" aria-hidden="true" />
       {stage.replaceAll("_", " ")}
     </span>
   );
@@ -249,13 +279,17 @@ export function EmptyState({
   action?: ReactNode;
 }) {
   return (
-    <div className="admin-empty-state">
-      <div className="admin-empty-icon">
+    <div className="flex flex-col items-center justify-center gap-[11px] px-5 py-12 text-center max-[641px]:px-2.5 max-[641px]:py-9">
+      <div className="mb-[3px] flex size-16 items-center justify-center rounded-[18px] bg-[#f5f3ef] text-[#ba9d70]">
         <AdminIcon name="box" size={28} />
       </div>
-      <h3>{title}</h3>
-      {description && <p>{description}</p>}
-      {action}
+      <h3 className="text-[15px]! font-medium!">{title}</h3>
+      {description && (
+        <p className="max-w-[330px] text-[11px] text-admin-muted">
+          {description}
+        </p>
+      )}
+      {action && <div className="mt-2.5">{action}</div>}
     </div>
   );
 }
@@ -269,7 +303,7 @@ export function Alert({
 }) {
   return (
     <div
-      className={`admin-alert admin-alert-${tone}`}
+      className={`rounded-lg border px-[15px] py-[13px] text-[11px] leading-[1.7] [overflow-wrap:anywhere] ${alertColors[tone]}`}
       role={tone === "error" ? "alert" : "status"}
     >
       {children}
@@ -303,16 +337,17 @@ export function ConfirmDialog({
       onClose={() => {
         if (!busy) onClose();
       }}
-      className="admin-dialog"
+      className={adminStyles.dialog}
+      unstyled
       animateExit
     >
-      <div className="admin-dialog-content">
-        <span className="admin-dialog-icon">
+      <div className={adminStyles.dialogContent}>
+        <span className="mb-[18px] inline-flex size-12 items-center justify-center rounded-[13px] bg-[#fcf0ee] text-[#bd6862]">
           <AdminIcon name="trash" size={24} />
         </span>
         <h2>{title}</h2>
         <p>{description}</p>
-        <div className="admin-actions">
+        <div className={`${adminStyles.actions} mt-[26px] justify-end`}>
           <Button
             variant="secondary"
             onClick={onClose}
@@ -344,15 +379,18 @@ export function Pagination({
   const pages = Math.max(1, Math.ceil(total / pageSize));
   if (total === 0) return null;
   return (
-    <nav className="admin-pagination" aria-label="Table pagination">
+    <nav
+      className="flex items-center justify-between gap-4 pt-5 text-[10px] text-[#8d9099] max-[641px]:flex-wrap max-[641px]:gap-3 max-[641px]:pt-[18px] [&_button]:min-h-[34px] [&_button]:px-3 [&_button]:py-2 [&_button]:text-[10px] max-[641px]:[&_button]:min-h-10"
+      aria-label="Table pagination"
+    >
       <p>
-        <strong>
+        <strong className="font-medium text-[#666a75]">
           {Math.min((page - 1) * pageSize + 1, total)}–
           {Math.min(page * pageSize, total)}
         </strong>{" "}
         of {total}
       </p>
-      <div className="admin-actions">
+      <div className={`${adminStyles.actions} max-[641px]:ml-auto`}>
         <Button
           variant="secondary"
           disabled={page <= 1}
@@ -361,7 +399,7 @@ export function Pagination({
         >
           Previous
         </Button>
-        <span className="admin-page-count">
+        <span className="text-[10px] text-[#747883] max-[641px]:hidden">
           {page} / {pages}
         </span>
         <Button

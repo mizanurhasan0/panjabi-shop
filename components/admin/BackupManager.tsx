@@ -1,4 +1,5 @@
 "use client";
+import { adminStyles } from "./styles";
 import { useEffect, useRef, useState } from "react";
 import { errorMessage, useDemoQuery } from "@/lib/demo/client";
 import {
@@ -50,7 +51,7 @@ export function BackupManager() {
     }
   }
   return (
-    <div className="admin-stack">
+    <div className={adminStyles.stack}>
       <PageHeading
         title="Keep a copy of your demo"
         description="Save your products, orders, settings, and images in a portable snapshot."
@@ -68,8 +69,8 @@ export function BackupManager() {
       {(failure || error) && <Alert>{failure || error}</Alert>}
       {message && <Alert tone="success">{message}</Alert>}
       {imported && (
-        <div className="admin-card admin-actions">
-          <p className="admin-muted">
+        <div className={`${adminStyles.card} ${adminStyles.actions}`}>
+          <p className={adminStyles.muted}>
             Imported snapshot: {imported.products} products · {imported.orders}{" "}
             orders
           </p>
@@ -82,21 +83,21 @@ export function BackupManager() {
           </Button>
         </div>
       )}
-      <section className="admin-card">
-        <div className="admin-card-header">
+      <section className={adminStyles.card}>
+        <div className={adminStyles.cardHeader}>
           <div>
             <h2>Import a downloaded backup</h2>
-            <p className="admin-muted">
+            <p className={adminStyles.muted}>
               Choose a JSON snapshot, then select Restore from the list.
               Importing does not replace current data.
             </p>
           </div>
         </div>
-        <label className="admin-field">
+        <label className={adminStyles.field}>
           Backup file
           <input
             ref={importInput}
-            className="admin-input"
+            className={adminStyles.input}
             type="file"
             accept="application/json,.json"
             disabled={busy}
@@ -121,23 +122,23 @@ export function BackupManager() {
           />
         </label>
       </section>
-      <section className="admin-card">
-        <div className="admin-card-header">
+      <section className={adminStyles.card}>
+        <div className={adminStyles.cardHeader}>
           <h2>Saved backups</h2>
-          <span className="admin-muted">
+          <span className={adminStyles.muted}>
             {data?.length ?? 0} / {DEMO_BACKUP_LIMIT} snapshots
           </span>
         </div>
         {loading ? (
-          <div className="admin-skeleton" style={{ height: 180 }} />
+          <div className={`${adminStyles.skeleton} h-[180px]`} />
         ) : !data?.length ? (
           <EmptyState
             title="No backups yet"
             description="Create your first snapshot before making major changes."
           />
         ) : (
-          <div className="admin-table-wrap">
-            <table className="admin-table">
+          <div className={adminStyles.tableWrap}>
+            <table className={adminStyles.table}>
               <thead>
                 <tr>
                   <th>Created</th>
@@ -162,7 +163,7 @@ export function BackupManager() {
                       {(backup.bytes / 1024 / 1024).toFixed(2)} MB
                     </td>
                     <td data-label="Actions">
-                      <div className="admin-actions">
+                      <div className={adminStyles.actions}>
                         <Button
                           variant="secondary"
                           disabled={busy}

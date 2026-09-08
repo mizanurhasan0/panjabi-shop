@@ -1,14 +1,20 @@
+import { adminStyles } from "@/components/admin/styles";
+
 export default function AdminLoading() {
   return (
-    <div className="admin-stack" role="status" aria-label="Loading workspace">
-      <div className="admin-skeleton admin-skeleton-heading" />
-      <div className="admin-grid admin-grid-4">
+    <div
+      className={adminStyles.stack}
+      role="status"
+      aria-label="Loading workspace"
+    >
+      <div className={`${adminStyles.skeleton} mb-2 h-[42px] max-w-[300px]`} />
+      <div className={adminStyles.grid4}>
         {Array.from({ length: 4 }, (_, index) => (
-          <div key={index} className="admin-skeleton admin-skeleton-card" />
+          <div key={index} className={`${adminStyles.skeleton} h-[140px]`} />
         ))}
       </div>
-      <div className="admin-skeleton admin-skeleton-table" />
-      <span className="admin-sr-only">Loading your workspace…</span>
+      <div className={`${adminStyles.skeleton} h-[380px]`} />
+      <span className="sr-only">Loading your workspace…</span>
     </div>
   );
 }

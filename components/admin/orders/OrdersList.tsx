@@ -9,6 +9,7 @@ import { getDemoSnapshot } from "@/lib/demo/store";
 import { exportSpreadsheet } from "@/lib/demo/downloads";
 import { orderStages, type OrderStage } from "@/lib/admin/types";
 import { formatPrice } from "@/lib/utils/products";
+import { adminStyles } from "../styles";
 import {
   AdminIcon,
   Alert,
@@ -20,7 +21,6 @@ import {
   StatusBadge,
 } from "../ui";
 import { orderDate, OrderLoading } from "./shared";
-import "./orders.css";
 
 function inputDate(value: string | null, exclusiveEnd = false): string {
   if (!value || !Number.isFinite(Date.parse(value))) return "";
@@ -90,7 +90,7 @@ export function OrdersList({ queryString }: { queryString: string }) {
     router.push(`/admin/orders?${next}`);
   }
   return (
-    <div className="admin-stack">
+    <div className={adminStyles.stack}>
       <PageHeading
         title="Orders"
         description="Every order, from the first hello to a happy delivery."
@@ -105,7 +105,7 @@ export function OrdersList({ queryString }: { queryString: string }) {
               {exporting ? "Preparing Excel…" : "Export Excel"}
             </Button>
             <Link
-              className="admin-button admin-button-primary"
+              className={adminStyles.buttonPrimary}
               href="/admin/orders/new"
             >
               <AdminIcon name="plus" size={16} />
@@ -115,11 +115,15 @@ export function OrdersList({ queryString }: { queryString: string }) {
         }
       />
       {exportError && <Alert>{exportError}</Alert>}
-      <section className="admin-card">
-        <form key={queryString} className="order-filters" onSubmit={filter}>
+      <section className={adminStyles.card}>
+        <form
+          key={queryString}
+          className="mb-6 grid grid-cols-[minmax(180px,1.5fr)_minmax(130px,1fr)_repeat(2,minmax(120px,1fr))_auto] items-end gap-3 max-[1201px]:grid-cols-2 max-[1201px]:[&>:first-child]:col-span-full max-[641px]:grid-cols-1 max-[641px]:gap-[15px] max-[641px]:[&_input[type=date]]:min-h-[46px]"
+          onSubmit={filter}
+        >
           <Field label="Search orders">
             <input
-              className="admin-input"
+              className={adminStyles.input}
               name="query"
               defaultValue={params.get("query") ?? ""}
               placeholder="Order, customer or phone"
@@ -128,7 +132,7 @@ export function OrdersList({ queryString }: { queryString: string }) {
           </Field>
           <Field label="Order stage">
             <select
-              className="admin-select"
+              className={adminStyles.select}
               name="stage"
               defaultValue={params.get("stage") ?? ""}
             >
@@ -142,7 +146,7 @@ export function OrdersList({ queryString }: { queryString: string }) {
           </Field>
           <Field label="From date">
             <input
-              className="admin-input"
+              className={adminStyles.input}
               type="date"
               name="from"
               defaultValue={inputDate(params.get("from"))}
@@ -150,19 +154,21 @@ export function OrdersList({ queryString }: { queryString: string }) {
           </Field>
           <Field label="To date">
             <input
-              className="admin-input"
+              className={adminStyles.input}
               type="date"
               name="to"
               defaultValue={inputDate(params.get("to"), true)}
             />
           </Field>
-          <div className="admin-actions">
+          <div
+            className={`${adminStyles.actions} min-h-11 max-[1201px]:col-span-full max-[641px]:[&>button]:flex-1`}
+          >
             <Button type="submit" variant="secondary">
               <AdminIcon name="search" size={16} />
               Filter
             </Button>
             {queryString && (
-              <Link href="/admin/orders" className="admin-text-button">
+              <Link href="/admin/orders" className={adminStyles.textButton}>
                 Reset
               </Link>
             )}
@@ -180,8 +186,8 @@ export function OrdersList({ queryString }: { queryString: string }) {
         {data &&
           (data.items.length ? (
             <>
-              <div className="admin-table-wrap">
-                <table className="admin-table">
+              <div className={adminStyles.tableWrap}>
+                <table className={adminStyles.table}>
                   <thead>
                     <tr>
                       <th>Order</th>
@@ -191,7 +197,7 @@ export function OrdersList({ queryString }: { queryString: string }) {
                       <th>Payment</th>
                       <th>Total</th>
                       <th>
-                        <span className="admin-sr-only">Actions</span>
+                        <span className="sr-only">Actions</span>
                       </th>
                     </tr>
                   </thead>
@@ -200,7 +206,7 @@ export function OrdersList({ queryString }: { queryString: string }) {
                       <tr key={order.id}>
                         <td data-label="Order">
                           <Link
-                            className="order-number"
+                            className="text-[#7f5c27]!"
                             href={`/admin/orders/${order.id}`}
                           >
                             {order.number}
@@ -234,7 +240,7 @@ export function OrdersList({ queryString }: { queryString: string }) {
                         <td>
                           <Link
                             href={`/admin/orders/${order.id}`}
-                            className="admin-button admin-button-secondary"
+                            className={adminStyles.buttonSecondary}
                             aria-label={`View order ${order.number}`}
                           >
                             View order
@@ -263,7 +269,7 @@ export function OrdersList({ queryString }: { queryString: string }) {
               action={
                 <Link
                   href={queryString ? "/admin/orders" : "/admin/orders/new"}
-                  className="admin-button admin-button-primary"
+                  className={adminStyles.buttonPrimary}
                 >
                   {queryString ? "Clear filters" : "Create an order"}
                 </Link>

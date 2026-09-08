@@ -1,5 +1,6 @@
 import type { Order } from "@/lib/admin/types";
 import { formatPrice } from "@/lib/utils/products";
+import { adminStyles } from "../styles";
 
 const dateFormatter = new Intl.DateTimeFormat("en-GB", {
   day: "numeric",
@@ -34,7 +35,7 @@ export function OrderTotals({
   showProfit?: boolean;
 }) {
   return (
-    <dl className="order-totals">
+    <dl className="m-0 grid gap-3.5 text-[11px] [&>div]:flex [&>div]:items-baseline [&>div]:justify-between [&>div]:gap-3.5 [&_dt]:text-admin-muted [&_dd]:m-0 [&_dd]:font-medium [&_dd]:whitespace-nowrap">
       <div>
         <dt>Subtotal</dt>
         <dd>{formatPrice(order.subtotal)}</dd>
@@ -47,8 +48,8 @@ export function OrderTotals({
         <dt>Delivery charge</dt>
         <dd>{formatPrice(order.shippingCharge)}</dd>
       </div>
-      <div className="order-total">
-        <dt>Customer total</dt>
+      <div className="my-[5px] border-y border-admin-line py-[18px] text-sm max-[641px]:text-[15px]">
+        <dt className="font-medium text-admin-ink!">Customer total</dt>
         <dd>{formatPrice(order.total)}</dd>
       </div>
       {showProfit && (
@@ -61,8 +62,8 @@ export function OrderTotals({
             <dt>Other expenses</dt>
             <dd>{formatPrice(order.additionalCost)}</dd>
           </div>
-          <div className="order-profit">
-            <dt>Estimated profit</dt>
+          <div className="border-t border-dashed border-admin-line pt-3.5 text-[#528065]">
+            <dt className="text-[#528065]!">Estimated profit</dt>
             <dd>{formatPrice(order.profit)}</dd>
           </div>
         </>
@@ -73,10 +74,14 @@ export function OrderTotals({
 
 export function OrderLoading() {
   return (
-    <div className="admin-stack" role="status" aria-label="Loading orders">
-      <div className="admin-skeleton admin-skeleton-heading" />
-      <div className="admin-skeleton admin-skeleton-table" />
-      <span className="admin-sr-only">Loading orders…</span>
+    <div
+      className={adminStyles.stack}
+      role="status"
+      aria-label="Loading orders"
+    >
+      <div className={`${adminStyles.skeleton} mb-2 h-[42px] max-w-[300px]`} />
+      <div className={`${adminStyles.skeleton} h-[380px]`} />
+      <span className="sr-only">Loading orders…</span>
     </div>
   );
 }

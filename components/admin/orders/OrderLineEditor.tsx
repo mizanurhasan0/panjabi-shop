@@ -1,5 +1,6 @@
 import type { AdminProduct } from "@/lib/admin/types";
 import { formatPrice } from "@/lib/utils/products";
+import { adminStyles } from "../styles";
 import { AdminIcon, Button, Field } from "../ui";
 
 export interface DraftOrderLine {
@@ -78,29 +79,32 @@ export function OrderLineEditor({
     });
   }
   return (
-    <div className="order-line-editor">
-      <div className="order-line-heading">
-        <h3>
-          <span>{String(index + 1).padStart(2, "0")}</span>
+    <div className="rounded-[10px] border border-admin-line p-5 motion-safe:animate-admin-enter max-[1201px]:p-4 max-[641px]:p-3.5">
+      <div className="mb-5 flex items-center justify-between gap-3 max-[641px]:gap-2">
+        <h3 className="flex items-center gap-2.5 max-[641px]:text-xs!">
+          <span className="inline-flex size-[27px] items-center justify-center rounded-[7px] bg-admin-accent-soft text-[10px] text-[#aa8034]">
+            {String(index + 1).padStart(2, "0")}
+          </span>
           {line.kind === "custom" ? "Custom item" : "Catalog item"}
         </h3>
         <Button
+          className="min-h-[34px]! px-2.5! py-[7px]! text-[10px]! max-[641px]:min-h-[42px]! max-[641px]:min-w-[42px]"
           variant="secondary"
           onClick={onRemove}
           disabled={!canRemove}
           aria-label={`Remove item ${index + 1}`}
         >
           <AdminIcon name="trash" size={15} />
-          <span className="order-remove-label">Remove</span>
+          <span className="max-[641px]:hidden">Remove</span>
         </Button>
       </div>
-      <div className="admin-form-grid">
+      <div className={`${adminStyles.formGrid} gap-4!`}>
         {line.kind === "catalog" ? (
           <>
-            <div className="admin-form-full">
+            <div className={adminStyles.formFull}>
               <Field label="Product">
                 <select
-                  className="admin-select"
+                  className={adminStyles.select}
                   value={line.product?.id ?? ""}
                   onChange={(event) => selectProduct(event.target.value)}
                   required
@@ -122,7 +126,7 @@ export function OrderLineEditor({
             </div>
             <Field label="Size / color">
               <select
-                className="admin-select"
+                className={adminStyles.select}
                 value={line.variantId}
                 onChange={(event) =>
                   onChange({ variantId: event.target.value })
@@ -154,7 +158,7 @@ export function OrderLineEditor({
               }
             >
               <input
-                className="admin-input"
+                className={adminStyles.input}
                 type="number"
                 min="1"
                 max={line.product?.stock || 10000}
@@ -166,7 +170,9 @@ export function OrderLineEditor({
               />
             </Field>
             {line.product && (
-              <div className="order-line-prices admin-form-full">
+              <div
+                className={`${adminStyles.formFull} flex flex-wrap justify-between gap-2.5 rounded-[7px] bg-[#fafbfc] p-[13px] text-[10px] text-admin-muted max-[641px]:gap-[15px] [&>span]:grid [&>span]:gap-[3px] [&_strong]:font-medium [&_strong]:text-admin-ink`}
+              >
                 <span>
                   Unit price <strong>{formatPrice(amounts.price)}</strong>
                 </span>
@@ -184,10 +190,10 @@ export function OrderLineEditor({
           </>
         ) : (
           <>
-            <div className="admin-form-full">
+            <div className={adminStyles.formFull}>
               <Field label="Custom item name">
                 <input
-                  className="admin-input"
+                  className={adminStyles.input}
                   value={line.title}
                   onChange={(event) => onChange({ title: event.target.value })}
                   placeholder="e.g. Ivory wedding panjabi"
@@ -198,7 +204,7 @@ export function OrderLineEditor({
             </div>
             <Field label="Size / variation">
               <input
-                className="admin-input"
+                className={adminStyles.input}
                 value={line.variant}
                 onChange={(event) => onChange({ variant: event.target.value })}
                 placeholder="e.g. Size 42 / Ivory"
@@ -207,7 +213,7 @@ export function OrderLineEditor({
             </Field>
             <Field label="SKU / reference (optional)">
               <input
-                className="admin-input"
+                className={adminStyles.input}
                 value={line.sku}
                 onChange={(event) => onChange({ sku: event.target.value })}
                 maxLength={100}
@@ -215,7 +221,7 @@ export function OrderLineEditor({
             </Field>
             <Field label="Selling price (Tk)">
               <input
-                className="admin-input"
+                className={adminStyles.input}
                 type="number"
                 value={line.price}
                 onChange={(event) => onChange({ price: event.target.value })}
@@ -228,7 +234,7 @@ export function OrderLineEditor({
             </Field>
             <Field label="Cost price (Tk)">
               <input
-                className="admin-input"
+                className={adminStyles.input}
                 type="number"
                 value={line.costPrice}
                 onChange={(event) =>
@@ -243,7 +249,7 @@ export function OrderLineEditor({
             </Field>
             <Field label="Quantity">
               <input
-                className="admin-input"
+                className={adminStyles.input}
                 type="number"
                 value={line.quantity}
                 onChange={(event) => onChange({ quantity: event.target.value })}
@@ -256,10 +262,10 @@ export function OrderLineEditor({
             </Field>
           </>
         )}
-        <div className="admin-form-full">
+        <div className={adminStyles.formFull}>
           <Field label="Customization notes (optional)">
             <textarea
-              className="admin-textarea order-custom-input"
+              className={`${adminStyles.textarea} min-h-[75px]!`}
               value={line.customizations}
               onChange={(event) =>
                 onChange({ customizations: event.target.value })

@@ -1,4 +1,5 @@
 "use client";
+import { adminStyles } from "./styles";
 import Image from "next/image";
 import { useRef, useState } from "react";
 import { Alert } from "./ui";
@@ -21,18 +22,9 @@ export function ImageUpload({
   const [error, setError] = useState("");
   const input = useRef<HTMLInputElement>(null);
   return (
-    <div className="admin-stack" style={{ gap: 12 }}>
+    <div className="grid gap-3">
       {value && (
-        <div
-          style={{
-            position: "relative",
-            width: "100%",
-            maxWidth: 220,
-            height: 100,
-            background: "#f7f6f2",
-            borderRadius: 12,
-          }}
-        >
+        <div className="relative h-[100px] w-full max-w-[220px] rounded-xl bg-[#f7f6f2]">
           <Image
             src={value}
             alt={`${label} preview`}
@@ -43,11 +35,11 @@ export function ImageUpload({
           />
         </div>
       )}
-      <label className="admin-field">
+      <label className={adminStyles.field}>
         {label}
         <input
           ref={input}
-          className="admin-input"
+          className={adminStyles.input}
           type="file"
           accept="image/png,image/jpeg,image/webp"
           disabled={busy || disabled}
@@ -73,7 +65,7 @@ export function ImageUpload({
           }}
         />
       </label>
-      <p className="admin-muted">
+      <p className={adminStyles.muted}>
         {busy
           ? "Preparing image…"
           : "PNG, JPEG or WebP · up to 5 MB · processed in your browser"}

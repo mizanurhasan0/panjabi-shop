@@ -1,4 +1,5 @@
 "use client";
+import { adminStyles } from "./styles";
 import { useState } from "react";
 import { errorMessage, useDemoQuery } from "@/lib/demo/client";
 import { saveSettings } from "@/lib/demo/commands";
@@ -20,15 +21,13 @@ export function SettingsManager() {
   );
   const [resetRevision, setResetRevision] = useState(0);
   return (
-    <div className="admin-stack">
+    <div className={adminStyles.stack}>
       <PageHeading
         title="Make it your shop"
         description="Your identity, contact details and inventory preferences."
       />
       {error && <Alert>{error}</Alert>}
-      {loading && (
-        <div className="admin-card admin-skeleton" style={{ height: 400 }} />
-      )}
+      {loading && <div className={`${adminStyles.skeleton} h-[400px]`} />}
       {data && (
         <SettingsForm key={resetRevision} settings={data} onSaved={reload} />
       )}
@@ -54,7 +53,7 @@ function SettingsForm({
   }
   return (
     <form
-      className="admin-stack"
+      className={adminStyles.stack}
       onSubmit={async (event) => {
         event.preventDefault();
         if (busy || uploads.logo || uploads.icon) return;
@@ -71,19 +70,19 @@ function SettingsForm({
         }
       }}
     >
-      <section className="admin-card">
-        <div className="admin-card-header">
+      <section className={adminStyles.card}>
+        <div className={adminStyles.cardHeader}>
           <div>
             <h2>Shop identity</h2>
-            <p className="admin-muted">
+            <p className={adminStyles.muted}>
               Shown in your demo storefront, dashboard and downloaded documents.
             </p>
           </div>
         </div>
-        <div className="admin-form-grid">
+        <div className={adminStyles.formGrid}>
           <Field label="Shop name">
             <input
-              className="admin-input"
+              className={adminStyles.input}
               required
               maxLength={100}
               value={value.name}
@@ -92,7 +91,7 @@ function SettingsForm({
           </Field>
           <Field label="Tagline">
             <input
-              className="admin-input"
+              className={adminStyles.input}
               maxLength={200}
               value={value.tagline}
               onChange={(event) => update("tagline", event.target.value)}
@@ -118,14 +117,14 @@ function SettingsForm({
           />
         </div>
       </section>
-      <section className="admin-card">
-        <div className="admin-card-header">
+      <section className={adminStyles.card}>
+        <div className={adminStyles.cardHeader}>
           <h2>Contact & inventory</h2>
         </div>
-        <div className="admin-form-grid">
+        <div className={adminStyles.formGrid}>
           <Field label="Email">
             <input
-              className="admin-input"
+              className={adminStyles.input}
               type="email"
               maxLength={254}
               value={value.email}
@@ -134,7 +133,7 @@ function SettingsForm({
           </Field>
           <Field label="Phone">
             <input
-              className="admin-input"
+              className={adminStyles.input}
               type="tel"
               maxLength={40}
               value={value.phone}
@@ -143,7 +142,7 @@ function SettingsForm({
           </Field>
           <Field label="Shop address">
             <textarea
-              className="admin-textarea"
+              className={adminStyles.textarea}
               rows={3}
               maxLength={1000}
               value={value.address}
@@ -155,7 +154,7 @@ function SettingsForm({
             hint="New products use this threshold. Existing products retain their own settings."
           >
             <input
-              className="admin-input"
+              className={adminStyles.input}
               type="number"
               min={0}
               max={1000000}
@@ -168,14 +167,14 @@ function SettingsForm({
           </Field>
           <Field label="Currency">
             <input
-              className="admin-input"
+              className={adminStyles.input}
               value="Bangladeshi Taka (BDT)"
               readOnly
             />
           </Field>
           <Field label="Reporting timezone">
             <input
-              className="admin-input"
+              className={adminStyles.input}
               value="Asia/Dhaka (UTC+6)"
               readOnly
             />
@@ -186,7 +185,7 @@ function SettingsForm({
       {saved && (
         <Alert tone="success">Shop settings saved in this browser.</Alert>
       )}
-      <div className="admin-actions">
+      <div className={adminStyles.actions}>
         <Button type="submit" disabled={busy || uploads.logo || uploads.icon}>
           {busy ? "Saving…" : "Save settings"}
         </Button>
@@ -201,8 +200,8 @@ function ResetDemoPanel({ onReset }: { onReset: () => void }) {
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
   return (
-    <section className="admin-card admin-stack">
-      <div className="admin-card-header">
+    <section className={`${adminStyles.card} ${adminStyles.stack}`}>
+      <div className={adminStyles.cardHeader}>
         <div>
           <h2>Start fresh with sample data</h2>
           <p>
@@ -212,13 +211,13 @@ function ResetDemoPanel({ onReset }: { onReset: () => void }) {
         </div>
         <AdminIcon name="refresh" size={21} />
       </div>
-      <p className="admin-muted">
+      <p className={adminStyles.muted}>
         Changes are saved in this browser. Resetting replaces your current demo
         changes; downloaded files and saved backups remain available.
       </p>
       {error && <Alert>{error}</Alert>}
       {message && <Alert tone="success">{message}</Alert>}
-      <div className="admin-actions">
+      <div className={adminStyles.actions}>
         <Button variant="secondary" onClick={() => setOpen(true)}>
           Reset demo data
         </Button>

@@ -13,6 +13,8 @@ import {
   type ShopSettings,
 } from "@/lib/admin/types";
 import { formatPrice } from "@/lib/utils/products";
+import { adminStyles } from "../styles";
+import { orderStyles } from "./styles";
 import {
   AdminIcon,
   Alert,
@@ -23,7 +25,6 @@ import {
   StatusBadge,
 } from "../ui";
 import { orderDate, OrderLoading, OrderTotals } from "./shared";
-import "./orders.css";
 
 export function OrderDetail({ id }: { id: string }) {
   const { data, error, loading, reload } = useDemoQuery((state) => ({
@@ -33,17 +34,14 @@ export function OrderDetail({ id }: { id: string }) {
   if (loading) return <OrderLoading />;
   if (error || !data?.order)
     return (
-      <div className="admin-stack">
+      <div className={adminStyles.stack}>
         <PageHeading title="Order details" />
         <Alert>
           {error || "This order is no longer in your demo workspace."}
         </Alert>
-        <div className="admin-actions">
+        <div className={adminStyles.actions}>
           <Button onClick={reload}>Try again</Button>
-          <Link
-            href="/admin/orders"
-            className="admin-button admin-button-secondary"
-          >
+          <Link href="/admin/orders" className={adminStyles.buttonSecondary}>
             Back to orders
           </Link>
         </div>
@@ -113,8 +111,8 @@ function OrderDetailContent({
   }
   const stageOptions = [order.stage, ...orderStageTransitions[order.stage]];
   return (
-    <div className="admin-stack">
-      <Link className="order-back-link" href="/admin/orders">
+    <div className={adminStyles.stack}>
+      <Link className={orderStyles.backLink} href="/admin/orders">
         ← Back to orders
       </Link>
       <PageHeading
@@ -133,26 +131,26 @@ function OrderDetailContent({
           </>
         }
       />
-      <div className="admin-actions">
+      <div className={adminStyles.actions}>
         <StatusBadge stage={order.stage} />
         <StatusBadge stage={order.paymentStatus} />
-        <span className="admin-muted">
+        <span className={adminStyles.muted}>
           {order.paymentMethod.toUpperCase()} payment
         </span>
       </div>
       {error && <Alert>{error}</Alert>}
       {success && <Alert tone="success">{success}</Alert>}
-      <div className="order-detail-grid">
-        <div className="admin-stack">
-          <section className="admin-card">
-            <div className="admin-card-header">
+      <div className={orderStyles.detailGrid}>
+        <div className={adminStyles.stack}>
+          <section className={adminStyles.card}>
+            <div className={adminStyles.cardHeader}>
               <h2>Order items</h2>
-              <span className="admin-muted">
+              <span className={adminStyles.muted}>
                 {order.items.length} line items
               </span>
             </div>
-            <div className="admin-table-wrap">
-              <table className="admin-table">
+            <div className={adminStyles.tableWrap}>
+              <table className={adminStyles.table}>
                 <thead>
                   <tr>
                     <th>Product</th>
@@ -172,7 +170,7 @@ function OrderDetailContent({
                           {item.sku ? ` · ${item.sku}` : ""}
                         </small>
                         {item.customizations && (
-                          <p className="order-customizations">
+                          <p className="mt-2 rounded-[5px] bg-[#fffaef] px-[9px] py-[7px] text-[10px] whitespace-pre-wrap text-[#92713a]">
                             {item.customizations}
                           </p>
                         )}
@@ -192,20 +190,20 @@ function OrderDetailContent({
                 </tbody>
               </table>
             </div>
-            <p className="order-footnote">
+            <p className={orderStyles.footnote}>
               Product prices and unit costs are saved when the order is created.
             </p>
           </section>
-          <section className="admin-card">
-            <div className="admin-card-header">
+          <section className={adminStyles.card}>
+            <div className={adminStyles.cardHeader}>
               <h2>Update order</h2>
             </div>
             <form
-              className="admin-stack"
+              className={adminStyles.stack}
               onSubmit={update}
               key={order.updatedAt}
             >
-              <div className="admin-form-grid">
+              <div className={adminStyles.formGrid}>
                 <Field
                   label="Order stage"
                   hint={
@@ -215,7 +213,7 @@ function OrderDetailContent({
                   }
                 >
                   <select
-                    className="admin-select"
+                    className={adminStyles.select}
                     name="stage"
                     defaultValue={order.stage}
                     disabled={busy}
@@ -229,7 +227,7 @@ function OrderDetailContent({
                 </Field>
                 <Field label="Payment status">
                   <select
-                    className="admin-select"
+                    className={adminStyles.select}
                     name="paymentStatus"
                     defaultValue={order.paymentStatus}
                     disabled={busy}
@@ -246,7 +244,7 @@ function OrderDetailContent({
                   hint="Actual courier cost, deducted from your profit."
                 >
                   <input
-                    className="admin-input"
+                    className={adminStyles.input}
                     type="number"
                     name="deliveryCost"
                     min="0"
@@ -263,7 +261,7 @@ function OrderDetailContent({
                   hint="Packaging, tailoring or other costs for this order."
                 >
                   <input
-                    className="admin-input"
+                    className={adminStyles.input}
                     type="number"
                     name="additionalCost"
                     min="0"
@@ -281,18 +279,18 @@ function OrderDetailContent({
                 hint="Notes are saved to the order timeline."
               >
                 <textarea
-                  className="admin-textarea"
+                  className={adminStyles.textarea}
                   name="note"
                   placeholder="Delivery update, customer request or payment reference…"
                   maxLength={2000}
                   disabled={busy}
                 />
               </Field>
-              <p className="order-footnote">
+              <p className={orderStyles.footnote}>
                 Cancelling or returning an order restores its reserved stock
                 once.
               </p>
-              <div className="admin-actions">
+              <div className={adminStyles.actions}>
                 <Button type="submit" disabled={busy}>
                   {busy ? "Saving…" : "Save changes"}
                   <AdminIcon name="check" size={16} />
@@ -300,18 +298,26 @@ function OrderDetailContent({
               </div>
             </form>
           </section>
-          <section className="admin-card">
-            <div className="admin-card-header">
+          <section className={adminStyles.card}>
+            <div className={adminStyles.cardHeader}>
               <h2>Order timeline</h2>
             </div>
-            <ol className="order-timeline">
+            <ol className="m-0 list-none p-0">
               {order.history.toReversed().map((event) => (
-                <li key={event.id}>
-                  <span className="order-timeline-dot" />
-                  <div>
+                <li
+                  key={event.id}
+                  className="relative flex gap-[17px] pb-[25px] last:pb-0 not-last:before:absolute not-last:before:top-2.5 not-last:before:bottom-0 not-last:before:left-[5px] not-last:before:w-px not-last:before:bg-[#e7e9ee] not-last:before:content-['']"
+                >
+                  <span className="relative z-1 mt-[7px] size-[11px] shrink-0 rounded-full border-[3px] border-[#faf1df] bg-[#c0984c]" />
+                  <div className="min-w-0">
                     <StatusBadge stage={event.stage} />
-                    <p>{event.note}</p>
-                    <time dateTime={event.createdAt}>
+                    <p className="mt-1.5 text-[11px] whitespace-pre-wrap [overflow-wrap:anywhere] max-[641px]:text-xs">
+                      {event.note}
+                    </p>
+                    <time
+                      className="mt-1 block text-[9px] text-[#969aa3]"
+                      dateTime={event.createdAt}
+                    >
                       {orderDate(event.createdAt, true)}
                     </time>
                   </div>
@@ -320,17 +326,27 @@ function OrderDetailContent({
             </ol>
           </section>
         </div>
-        <aside className="admin-stack order-sidebar">
-          <section className="admin-card">
-            <div className="admin-card-header">
+        <aside className={`${adminStyles.stack} min-w-0`}>
+          <section className={adminStyles.card}>
+            <div className={adminStyles.cardHeader}>
               <h2>Customer</h2>
               <AdminIcon name="orders" size={18} />
             </div>
-            <div className="order-customer">
-              <strong>{order.customerName}</strong>
-              <a href={`tel:${order.customerPhone}`}>{order.customerPhone}</a>
+            <div className="grid gap-2 [overflow-wrap:anywhere] [&>div]:mt-2 [&>div]:border-t [&>div]:border-admin-line [&>div]:pt-[15px] [&_h3]:mb-1.5 [&_h3]:text-[10px]! [&_h3]:font-medium! [&_h3]:text-[#9599a2] [&_p]:text-[11px] [&_p]:whitespace-pre-wrap">
+              <strong className="text-sm font-medium">
+                {order.customerName}
+              </strong>
+              <a
+                className="text-[11px] text-admin-muted hover:underline"
+                href={`tel:${order.customerPhone}`}
+              >
+                {order.customerPhone}
+              </a>
               {order.customerEmail && (
-                <a href={`mailto:${order.customerEmail}`}>
+                <a
+                  className="text-[11px] text-admin-muted hover:underline"
+                  href={`mailto:${order.customerEmail}`}
+                >
                   {order.customerEmail}
                 </a>
               )}
@@ -346,12 +362,12 @@ function OrderDetailContent({
               )}
             </div>
           </section>
-          <section className="admin-card">
-            <div className="admin-card-header">
+          <section className={adminStyles.card}>
+            <div className={adminStyles.cardHeader}>
               <h2>Order summary</h2>
             </div>
             <OrderTotals order={order} />
-            <p className="order-footnote">
+            <p className={orderStyles.footnote}>
               Profit becomes a dashboard sale when the order is delivered.
             </p>
           </section>

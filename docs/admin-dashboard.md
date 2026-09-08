@@ -28,6 +28,8 @@ Reports use Bangladesh time with Monday-starting weeks and order creation dates.
 
 UI components use typed selectors and commands through `lib/demo/client.ts`, not a mock HTTP layer. The store, domain commands, sample generator, browser images and lazy-loaded downloads have separate responsibilities. Next.js renders the site; there are no application API routes or database connections.
 
+Admin screens use Tailwind utilities. Repeated controls and responsive table layouts share recipes in `components/admin/styles.ts`; order layouts share `components/admin/orders/styles.ts`. Colors and animation keyframes are registered in the Tailwind theme in `app/globals.css`. There are no separate admin component stylesheets.
+
 ```sh
 pnpm dev
 pnpm typecheck

@@ -11,6 +11,7 @@ interface ModalProps {
   className?: string;
   children: ReactNode;
   animateExit?: boolean;
+  unstyled?: boolean;
 }
 
 function isBackdropPointer(event: {
@@ -38,6 +39,7 @@ export function Modal({
   className = "",
   children,
   animateExit = false,
+  unstyled = false,
 }: ModalProps) {
   const ref = useModalDialog(open, animateExit);
   const backdropPointerDown = useRef(false);
@@ -48,7 +50,7 @@ export function Modal({
       id={id}
       aria-label={label}
       aria-modal="true"
-      className={`site-modal ${className}`}
+      className={unstyled ? className : `site-modal ${className}`}
       onKeyDown={(event) => {
         if (event.key === "Escape" && !event.nativeEvent.isComposing) {
           event.preventDefault();

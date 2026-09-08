@@ -7,6 +7,8 @@ import { errorMessage, useDemoQuery } from "@/lib/demo/client";
 import { createOrder } from "@/lib/demo/commands";
 import { listProducts } from "@/lib/demo/queries";
 import type { Order, OrderInput } from "@/lib/admin/types";
+import { adminStyles } from "../styles";
+import { orderStyles } from "./styles";
 import { AdminIcon, Alert, Button, Field, PageHeading } from "../ui";
 import { OrderTotals } from "./shared";
 import {
@@ -15,7 +17,6 @@ import {
   OrderLineEditor,
   type DraftOrderLine,
 } from "./OrderLineEditor";
-import "./orders.css";
 
 const costFields = [
   {
@@ -174,28 +175,31 @@ export function OrderForm() {
   }
 
   return (
-    <div className="admin-stack">
-      <Link className="order-back-link" href="/admin/orders">
+    <div className={adminStyles.stack}>
+      <Link className={orderStyles.backLink} href="/admin/orders">
         ← Back to orders
       </Link>
       <PageHeading
         title="Create an order"
         description="Add catalog products, made-to-order pieces, or a little of both."
       />
-      <form onSubmit={submit} className="order-detail-grid">
-        <fieldset className="order-form-fieldset admin-stack" disabled={busy}>
-          <section className="admin-card">
-            <div className="admin-card-header">
+      <form onSubmit={submit} className={orderStyles.detailGrid}>
+        <fieldset
+          className={`${adminStyles.stack} m-0 min-w-0 border-0 p-0`}
+          disabled={busy}
+        >
+          <section className={adminStyles.card}>
+            <div className={adminStyles.cardHeader}>
               <div>
                 <h2>Customer details</h2>
                 <p>Who are we preparing this order for?</p>
               </div>
               <AdminIcon name="orders" />
             </div>
-            <div className="admin-form-grid">
+            <div className={adminStyles.formGrid}>
               <Field label="Customer name">
                 <input
-                  className="admin-input"
+                  className={adminStyles.input}
                   name="customerName"
                   autoComplete="name"
                   required
@@ -205,7 +209,7 @@ export function OrderForm() {
               </Field>
               <Field label="Phone number">
                 <input
-                  className="admin-input"
+                  className={adminStyles.input}
                   name="customerPhone"
                   type="tel"
                   autoComplete="tel"
@@ -214,10 +218,10 @@ export function OrderForm() {
                   placeholder="017XXXXXXXX"
                 />
               </Field>
-              <div className="admin-form-full">
+              <div className={adminStyles.formFull}>
                 <Field label="Email address (optional)">
                   <input
-                    className="admin-input"
+                    className={adminStyles.input}
                     name="customerEmail"
                     type="email"
                     autoComplete="email"
@@ -226,10 +230,10 @@ export function OrderForm() {
                   />
                 </Field>
               </div>
-              <div className="admin-form-full">
+              <div className={adminStyles.formFull}>
                 <Field label="Delivery address">
                   <textarea
-                    className="admin-textarea"
+                    className={adminStyles.textarea}
                     name="address"
                     autoComplete="street-address"
                     required
@@ -240,8 +244,8 @@ export function OrderForm() {
               </div>
             </div>
           </section>
-          <section className="admin-card">
-            <div className="admin-card-header">
+          <section className={adminStyles.card}>
+            <div className={adminStyles.cardHeader}>
               <div>
                 <h2>Order items</h2>
                 <p>
@@ -249,12 +253,12 @@ export function OrderForm() {
                   order.
                 </p>
               </div>
-              <span className="admin-badge">
+              <span className={adminStyles.badge}>
                 {lines.length} {lines.length === 1 ? "item" : "items"}
               </span>
             </div>
             {lines.some((line) => line.kind === "catalog") && (
-              <div className="order-product-search">
+              <div className="mb-[22px]">
                 <Field
                   label="Find a catalog product"
                   hint={
@@ -264,7 +268,7 @@ export function OrderForm() {
                   }
                 >
                   <input
-                    className="admin-input"
+                    className={adminStyles.input}
                     type="search"
                     value={search}
                     onChange={(event) => setSearch(event.target.value)}
@@ -273,16 +277,18 @@ export function OrderForm() {
                   />
                 </Field>
                 {productError && (
-                  <Alert>
-                    {productError}{" "}
-                    <Button variant="secondary" onClick={reload}>
-                      Retry
-                    </Button>
-                  </Alert>
+                  <div className="mt-3">
+                    <Alert>
+                      {productError}{" "}
+                      <Button variant="secondary" onClick={reload}>
+                        Retry
+                      </Button>
+                    </Alert>
+                  </div>
                 )}
               </div>
             )}
-            <div className="admin-stack">
+            <div className={adminStyles.stack}>
               {lines.map((line, index) => (
                 <OrderLineEditor
                   key={line.id}
@@ -300,7 +306,9 @@ export function OrderForm() {
                 />
               ))}
             </div>
-            <div className="admin-actions order-add-actions">
+            <div
+              className={`${adminStyles.actions} mt-5 max-[641px]:[&>button]:flex-1`}
+            >
               <Button
                 variant="secondary"
                 onClick={() => addLine("catalog")}
@@ -319,20 +327,22 @@ export function OrderForm() {
               </Button>
             </div>
             {stockProblem && (
-              <Alert>
-                {stockProblem.title} has only {stockProblem.stock} units
-                available across all matching lines.
-              </Alert>
+              <div className="mt-[18px]">
+                <Alert>
+                  {stockProblem.title} has only {stockProblem.stock} units
+                  available across all matching lines.
+                </Alert>
+              </div>
             )}
           </section>
-          <section className="admin-card">
-            <div className="admin-card-header">
+          <section className={adminStyles.card}>
+            <div className={adminStyles.cardHeader}>
               <h2>Payment &amp; delivery</h2>
             </div>
-            <div className="admin-form-grid">
+            <div className={adminStyles.formGrid}>
               <Field label="Payment method">
                 <select
-                  className="admin-select"
+                  className={adminStyles.select}
                   name="paymentMethod"
                   defaultValue="cod"
                 >
@@ -344,7 +354,7 @@ export function OrderForm() {
               </Field>
               <Field label="Payment status">
                 <select
-                  className="admin-select"
+                  className={adminStyles.select}
                   name="paymentStatus"
                   defaultValue="unpaid"
                 >
@@ -355,7 +365,7 @@ export function OrderForm() {
               {costFields.map((field) => (
                 <Field key={field.name} label={field.label} hint={field.hint}>
                   <input
-                    className="admin-input"
+                    className={adminStyles.input}
                     type="number"
                     min="0"
                     max={field.name === "discount" ? subtotal : 10000000}
@@ -372,10 +382,10 @@ export function OrderForm() {
                   />
                 </Field>
               ))}
-              <div className="admin-form-full">
+              <div className={adminStyles.formFull}>
                 <Field label="Order notes (optional)">
                   <textarea
-                    className="admin-textarea"
+                    className={adminStyles.textarea}
                     name="notes"
                     maxLength={5000}
                     placeholder="Delivery instructions or anything else to remember…"
@@ -385,27 +395,36 @@ export function OrderForm() {
             </div>
           </section>
         </fieldset>
-        <aside className="order-sidebar">
-          <section className="admin-card order-sticky-summary">
-            <div className="admin-card-header">
+        <aside className="min-w-0">
+          <section
+            className={`${adminStyles.card} sticky top-[22px] max-[1001px]:static`}
+          >
+            <div className={adminStyles.cardHeader}>
               <h2>Order summary</h2>
               <AdminIcon name="orders" size={18} />
             </div>
             <OrderTotals order={summary} />
-            <p className="order-footnote">
+            <p className={orderStyles.footnote}>
               The order starts as pending. You can update its stage after
               creation.
             </p>
-            {error && <Alert>{error}</Alert>}
+            {error && (
+              <div className="mt-[18px]">
+                <Alert>{error}</Alert>
+              </div>
+            )}
             <Button
-              className="order-create-button"
+              className="mt-[22px] w-full justify-between! max-[641px]:min-h-12!"
               type="submit"
               disabled={busy || Boolean(stockProblem)}
             >
               {busy ? "Creating order…" : "Create order"}
               <AdminIcon name="arrow" size={16} />
             </Button>
-            <Link className="order-cancel-link" href="/admin/orders">
+            <Link
+              className="mx-auto mt-3.5 block w-fit text-[11px] text-admin-muted"
+              href="/admin/orders"
+            >
               Cancel
             </Link>
           </section>

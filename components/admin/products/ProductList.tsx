@@ -20,8 +20,8 @@ import {
   Pagination,
   StatusBadge,
 } from "../ui";
+import { adminStyles } from "../styles";
 import { RestockDialog } from "./RestockDialog";
-import "./products.css";
 
 const money = new Intl.NumberFormat("en-BD", {
   style: "currency",
@@ -130,7 +130,7 @@ export function ProductList() {
             </Button>
             <Link
               href="/admin/products/new"
-              className="admin-button admin-button-primary"
+              className={adminStyles.buttonPrimary}
             >
               <AdminIcon name="plus" size={17} />
               Add product
@@ -138,7 +138,7 @@ export function ProductList() {
           </>
         }
       />
-      <div className="admin-stack">
+      <div className={adminStyles.stack}>
         {notice && <Alert tone="success">{notice}</Alert>}
         {(actionError || error) && (
           <Alert>
@@ -148,13 +148,16 @@ export function ProductList() {
             </Button>
           </Alert>
         )}
-        <div className="admin-card">
-          <div className="admin-toolbar">
-            <form className="admin-product-search" onSubmit={searchProducts}>
+        <div className={adminStyles.card}>
+          <div className={adminStyles.toolbar}>
+            <form
+              className="relative flex min-w-[min(100%,260px)] max-w-[410px] flex-1 items-center gap-2 max-[641px]:w-full max-[641px]:max-w-none [&>svg]:pointer-events-none [&>svg]:absolute [&>svg]:left-[13px] [&>svg]:text-[#a1a5ae]"
+              onSubmit={searchProducts}
+            >
               <AdminIcon name="search" size={17} />
               <input
                 key={query}
-                className="admin-input"
+                className={`${adminStyles.input} max-w-none! pl-[38px]! max-[641px]:text-sm!`}
                 name="query"
                 type="search"
                 defaultValue={query}
@@ -166,9 +169,11 @@ export function ProductList() {
                 Search
               </Button>
             </form>
-            <div className="admin-actions admin-product-filters">
+            <div
+              className={`${adminStyles.actions} max-[641px]:w-full max-[641px]:justify-between`}
+            >
               <select
-                className="admin-select"
+                className={`${adminStyles.select} w-auto! min-w-[140px] text-[11px]! max-[641px]:min-w-0 max-[641px]:flex-1`}
                 aria-label="Filter by stock"
                 value={stock}
                 onChange={(event) => filter("stock", event.target.value)}
@@ -177,7 +182,7 @@ export function ProductList() {
                 <option value="low">Low stock</option>
                 <option value="out">Out of stock</option>
               </select>
-              <label className="admin-checkbox-label">
+              <label className="inline-flex items-center gap-2 whitespace-nowrap text-[10px] text-[#777b85]">
                 <input
                   type="checkbox"
                   checked={includeInactive}
@@ -189,7 +194,7 @@ export function ProductList() {
               </label>
             </div>
           </div>
-          <div className="admin-card-header">
+          <div className={adminStyles.cardHeader}>
             <h2>
               {stock === "low"
                 ? "Low stock products"
@@ -198,25 +203,27 @@ export function ProductList() {
                   : "Your collection"}
             </h2>
             {data && (
-              <span className="admin-muted">
+              <span className={adminStyles.muted}>
                 {data.total} product{data.total === 1 ? "" : "s"}
               </span>
             )}
           </div>
           {loading ? (
             <div
-              className="admin-stack"
+              className={adminStyles.stack}
               role="status"
               aria-label="Loading products"
             >
               {[1, 2, 3].map((item) => (
-                <div className="admin-skeleton" key={item} />
+                <div className={`${adminStyles.skeleton} h-16`} key={item} />
               ))}
             </div>
           ) : data?.items.length ? (
             <>
-              <div className="admin-table-wrap">
-                <table className="admin-table admin-products-table">
+              <div className={adminStyles.tableWrap}>
+                <table
+                  className={`${adminStyles.table} [&_td:nth-child(2)>strong]:whitespace-nowrap [&_td:nth-child(2)>strong]:font-medium [&_td:last-child]:whitespace-nowrap max-[641px]:[&_tbody_tr]:p-[15px]! max-[641px]:[&_td:first-child]:col-span-full max-[641px]:[&_td:first-child]:border-b! max-[641px]:[&_td:first-child]:border-[#f1f2f5]! max-[641px]:[&_td:first-child]:pb-3! max-[641px]:[&_td:first-child]:before:hidden! max-[641px]:[&_td:last-child]:border-t! max-[641px]:[&_td:last-child]:border-[#f1f2f5]! max-[641px]:[&_td:last-child]:pt-2.5! max-[641px]:[&_td:last-child]:before:hidden!`}
+                >
                   <thead>
                     <tr>
                       <th>Product</th>
@@ -231,10 +238,10 @@ export function ProductList() {
                       <tr key={product.id}>
                         <td data-label="Product">
                           <Link
-                            className="admin-product-cell"
+                            className="flex min-w-[180px] max-w-[320px] items-center gap-3 max-[641px]:min-w-0 max-[641px]:max-w-none [&>span:last-child]:min-w-0 [&_strong]:block [&_strong]:text-[11px] [&_strong]:leading-[1.7] [&_strong]:font-medium max-[641px]:[&_strong]:text-xs"
                             href={`/admin/products/${product.id}`}
                           >
-                            <span className="admin-product-thumbnail">
+                            <span className="relative flex h-14 w-[46px] shrink-0 basis-[46px] items-center justify-center overflow-hidden rounded-[7px] border border-[#eceef1] bg-[#f7f7f8] text-[#b1a78f] max-[641px]:h-[58px] max-[641px]:w-12 max-[641px]:basis-12 [&_img]:object-contain">
                               {product.images[0] ? (
                                 <Image
                                   src={product.images[0]}
@@ -263,7 +270,7 @@ export function ProductList() {
                           <span
                             className={
                               product.stock <= product.lowStockThreshold
-                                ? "admin-stock-low"
+                                ? "font-medium text-[#c29445]"
                                 : ""
                             }
                           >
@@ -283,9 +290,11 @@ export function ProductList() {
                           />
                         </td>
                         <td data-label="Actions">
-                          <div className="admin-actions">
+                          <div
+                            className={`${adminStyles.actions} flex-nowrap! gap-[7px]! max-[1201px]:flex-wrap! max-[641px]:flex-nowrap! max-[641px]:[&>a]:flex-1 max-[641px]:[&>button:not([title])]:flex-1`}
+                          >
                             <Link
-                              className="admin-button admin-button-secondary"
+                              className={adminStyles.buttonSecondary}
                               href={`/admin/products/${product.id}`}
                               aria-label={`Edit ${product.title}`}
                             >
@@ -302,7 +311,7 @@ export function ProductList() {
                             </Button>
                             {product.active && (
                               <button
-                                className="admin-icon-button admin-product-delete"
+                                className={`${adminStyles.iconButton} h-[34px]! w-8! basis-8! p-0! text-[#ba8e8a]! hover:bg-[#fff0ee]! hover:text-[#b95650]! max-[641px]:h-10! max-[641px]:w-10! max-[641px]:basis-10!`}
                                 aria-label={`Delete ${product.title}`}
                                 title="Delete product"
                                 onClick={() => setDeleting(product)}
@@ -347,7 +356,7 @@ export function ProductList() {
                     </Button>
                   ) : (
                     <Link
-                      className="admin-button admin-button-primary"
+                      className={adminStyles.buttonPrimary}
                       href="/admin/products/new"
                     >
                       Add product
@@ -358,7 +367,7 @@ export function ProductList() {
             )
           )}
         </div>
-        <p className="admin-product-stock-note">
+        <p className="flex items-start gap-2 px-[3px] text-[10px] text-[#a0a3ac] [&_svg]:shrink-0">
           <AdminIcon name="products" size={16} />
           Sample inventory is tracked per product across all sizes and colors.
           Try restocking a product to update this demo.

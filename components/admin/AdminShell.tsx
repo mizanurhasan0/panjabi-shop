@@ -10,6 +10,18 @@ import { getDemoStorageWarning, subscribeDemo } from "@/lib/demo/store";
 import { markNotificationsRead } from "@/lib/demo/commands";
 import { defaultShopSettings, demoOwner } from "@/lib/demo/seed";
 import { AdminIcon, Alert, Button, EmptyState, type AdminIconName } from "./ui";
+import { adminStyles } from "./styles";
+
+const captionClassName =
+  "mt-[46px] mb-3 px-[14px] text-[9px] font-medium tracking-[1.7px] text-[#93959c]";
+const avatarClassName =
+  "inline-flex size-9 shrink-0 items-center justify-center rounded-full bg-[#f1ede6] text-[13px] font-semibold text-[#765b35]";
+const storeLinkClassName =
+  "flex items-center gap-[10px] px-3 py-[15px] text-[11px] text-[#70737c] hover:text-admin-ink [&_svg:last-child]:ml-auto";
+const bottomNavItemClassName =
+  "flex min-h-[46px] flex-col items-center justify-center gap-1 rounded-lg border-0 text-[9px]";
+const notificationItemClassName =
+  "flex items-start gap-3 border-b border-[#f1f2f5] px-5 py-[18px] hover:bg-[#fafbfc]";
 
 const navigation: Array<{ href: string; label: string; icon: AdminIconName }> =
   [
@@ -32,18 +44,20 @@ function Navigation({
   onNavigate?: () => void;
 }) {
   return (
-    <nav className="admin-navigation" aria-label="Admin navigation">
+    <nav className="grid gap-[6px]" aria-label="Admin navigation">
       {navigation.map(({ href, label, icon }) => (
         <Link
           key={href}
           href={href}
-          className={`admin-nav-link ${isActive(pathname, href) ? "is-active" : ""}`}
+          className={`flex min-h-12 items-center gap-[13px] rounded-[9px] px-[14px] py-3 transition-colors duration-160 ${isActive(pathname, href) ? "bg-admin-accent-soft font-medium text-[#6c4813]" : "text-[#73767f] hover:bg-admin-bg hover:text-admin-ink"}`}
           aria-current={isActive(pathname, href) ? "page" : undefined}
           onClick={onNavigate}
         >
           <AdminIcon name={icon} />
           <span>{label}</span>
-          {isActive(pathname, href) && <span className="admin-nav-dot" />}
+          {isActive(pathname, href) && (
+            <span className="ml-auto size-[5px] rounded-full bg-[#d99b32]" />
+          )}
         </Link>
       ))}
     </nav>
@@ -96,7 +110,8 @@ export function AdminShell({ children }: { children: ReactNode }) {
   const brand = (
     <Link
       href="/admin"
-      className="admin-brand"
+      className="flex min-w-0 items-center gap-[11px]"
+      aria-label={`${shopName} dashboard`}
       onClick={() => setMenuOpen(false)}
     >
       {logo ? (
@@ -106,45 +121,48 @@ export function AdminShell({ children }: { children: ReactNode }) {
           width={43}
           height={43}
           unoptimized
-          className="admin-brand-logo"
+          className="size-[43px]! rounded-lg object-contain"
         />
       ) : (
-        <span className="admin-brand-mark">
+        <span className="inline-flex size-[43px] shrink-0 items-center justify-center rounded-xl bg-admin-accent text-[#272727]">
           <AdminIcon name="store" size={23} />
         </span>
       )}
-      <span>
-        <strong>{shopName}</strong>
-        <small>SHOP MANAGER</small>
-      </span>
     </Link>
   );
 
   return (
-    <div className="admin-shell">
-      <a className="admin-skip-link" href="#admin-main">
+    <div className="min-h-dvh">
+      <a
+        className="fixed top-2 left-2 z-100 -translate-y-[150%] rounded-lg bg-[#232323] px-4 py-[10px] text-white focus:translate-y-0"
+        href="#admin-main"
+      >
         Skip to content
       </a>
-      <aside className="admin-sidebar">
-        {brand}
-        <p className="admin-nav-caption">WORKSPACE</p>
+      <aside className="fixed inset-y-0 left-0 z-40 flex w-60 flex-col border-r border-admin-line bg-admin-surface px-[18px] pt-8 pb-[18px] max-[1201px]:w-[215px] max-[1201px]:px-[14px] max-[901px]:hidden print:hidden">
+        <div className="px-[11px]">{brand}</div>
+        <p className={captionClassName}>WORKSPACE</p>
         <Navigation pathname={pathname} />
-        <div className="admin-sidebar-bottom">
-          <Link href="/" className="admin-store-link">
+        <div className="mt-auto pt-8">
+          <Link href="/" className={storeLinkClassName}>
             <AdminIcon name="store" size={18} />
             <span>Visit your storefront</span>
             <AdminIcon name="arrow" size={16} />
           </Link>
-          <div className="admin-user">
-            <span className="admin-avatar">
+          <div className="mt-[10px] flex items-center gap-[10px] border-t border-admin-line px-[2px] pt-5">
+            <span className={avatarClassName}>
               {user.name.slice(0, 1).toUpperCase()}
             </span>
-            <span>
-              <strong>{user.name}</strong>
-              <small>Demo workspace</small>
+            <span className="min-w-0 flex-1">
+              <strong className="block truncate text-xs font-medium">
+                {user.name}
+              </strong>
+              <small className="block text-[10px] text-admin-muted">
+                Demo workspace
+              </small>
             </span>
             <button
-              className="admin-icon-button"
+              className={adminStyles.iconButton}
               aria-label="Leave demo"
               title="Leave demo"
               disabled={signingOut}
@@ -155,69 +173,79 @@ export function AdminShell({ children }: { children: ReactNode }) {
           </div>
         </div>
       </aside>
-      <div className="admin-workspace">
-        <header className="admin-topbar">
-          <div className="admin-topbar-leading">
+      <div className="ml-60 min-w-0 max-[1201px]:ml-[215px] max-[901px]:ml-0 print:ml-0">
+        <header className="flex h-[78px] items-center justify-between gap-4 border-b border-admin-line bg-white/96 px-9 min-[1600px]:px-12 max-[1201px]:px-6 max-[901px]:sticky max-[901px]:top-0 max-[901px]:z-30 max-[901px]:h-[66px] max-[641px]:gap-[10px] max-[641px]:px-[14px] print:hidden">
+          <div className="flex min-w-0 items-center gap-[18px] max-[901px]:gap-[10px]">
             <button
-              className="admin-icon-button admin-mobile-menu"
+              className={`${adminStyles.iconButton} min-[901px]:hidden`}
               aria-label="Open navigation"
               aria-expanded={menuOpen}
               onClick={() => setMenuOpen(true)}
             >
               <AdminIcon name="menu" />
             </button>
-            <div className="admin-breadcrumb">
+            <div className="flex items-center gap-[13px] text-[11px] text-[#93959d] max-[641px]:hidden">
               <span>Workspace</span>
               <AdminIcon name="chevron" size={13} />
-              <strong>{activePage}</strong>
+              <strong className="font-medium text-[#4c4f57]">
+                {activePage}
+              </strong>
             </div>
-            <span className="admin-mobile-brand">
-              {shopName}
-              <small className="admin-demo-caption">Demo workspace</small>
-            </span>
+            <div className="hidden max-[641px]:block">{brand}</div>
           </div>
-          <div className="admin-topbar-actions">
-            <span className="admin-owner-label">
-              <span /> Demo workspace
+          <div className="flex min-w-0 items-center gap-[18px] max-[641px]:gap-[10px]">
+            <span className="mr-2 flex items-center gap-[7px] text-[10px] text-admin-muted max-[901px]:hidden">
+              <span className="size-[6px] rounded-full bg-[#62a489]" /> Demo
+              workspace
             </span>
             <button
-              className="admin-icon-button admin-notification-trigger"
+              className={`${adminStyles.iconButton} relative border border-admin-line`}
               aria-label={`Notifications${unread ? `, ${unread} unread` : ""}`}
               aria-expanded={notificationsOpen}
               onClick={() => setNotificationsOpen(true)}
             >
               <AdminIcon name="bell" />
               {unread > 0 && (
-                <span className="admin-notification-count">
+                <span className="absolute -top-[6px] -right-[6px] min-w-[17px] rounded-[10px] border-2 border-white bg-[#e77d54] px-1 py-px text-[8px] leading-3 font-semibold text-white">
                   {unread > 99 ? "99+" : unread}
                 </span>
               )}
             </button>
             <span
-              className="admin-avatar admin-header-avatar"
+              className={`${avatarClassName} max-[641px]:size-[31px] max-[641px]:text-[11px]`}
               title={user.name}
             >
               {user.name.slice(0, 1).toUpperCase()}
             </span>
           </div>
         </header>
-        <main id="admin-main" className="admin-main" tabIndex={-1}>
+        <main
+          id="admin-main"
+          className="mx-auto min-h-[calc(100dvh-78px)] max-w-[1670px] px-9 pt-[34px] pb-5 focus:outline-none min-[1600px]:px-12 min-[1600px]:pt-10 min-[1600px]:pb-6 max-[1201px]:px-6 max-[1201px]:pt-7 max-[901px]:min-h-[calc(100dvh-66px)] max-[901px]:pb-[90px] max-[641px]:px-4 max-[641px]:pt-6 max-[641px]:pb-[92px] print:p-0"
+          tabIndex={-1}
+        >
           {storageWarning && <Alert tone="info">{storageWarning}</Alert>}
-          <div key={pathname} className="admin-page-enter">
+          <div
+            key={pathname}
+            className="min-h-[calc(100dvh-204px)] animate-admin-enter"
+          >
             {children}
           </div>
-          <footer className="admin-workspace-footer">
+          <footer className="mt-[30px] flex justify-between gap-[14px] border-t border-admin-line pt-[17px] text-[9px] text-[#a1a4ad] max-[641px]:mt-[25px] max-[641px]:text-[8px] max-[641px]:[&>span:last-child]:hidden print:hidden">
             <span>{shopName} · Shop manager</span>
             <span>Sample data · Browser workspace</span>
           </footer>
         </main>
       </div>
-      <nav className="admin-bottom-nav" aria-label="Quick navigation">
+      <nav
+        className="fixed inset-x-0 bottom-0 z-35 hidden grid-cols-4 border-t border-admin-line bg-white px-3 pt-[7px] pb-[max(7px,env(safe-area-inset-bottom))] shadow-[0_-3px_14px_#1f293703] max-[901px]:grid print:hidden"
+        aria-label="Quick navigation"
+      >
         {navigation.slice(0, 3).map((item) => (
           <Link
             key={item.href}
             href={item.href}
-            className={isActive(pathname, item.href) ? "is-active" : ""}
+            className={`${bottomNavItemClassName} ${isActive(pathname, item.href) ? "bg-[#fff8ed] text-[#a4782c]" : "bg-transparent text-[#9295a0]"}`}
             aria-current={isActive(pathname, item.href) ? "page" : undefined}
           >
             <AdminIcon name={item.icon} />
@@ -225,12 +253,12 @@ export function AdminShell({ children }: { children: ReactNode }) {
           </Link>
         ))}
         <button
-          className={
+          className={`${bottomNavItemClassName} ${
             pathname.startsWith("/admin/settings") ||
             pathname.startsWith("/admin/backups")
-              ? "is-active"
-              : ""
-          }
+              ? "bg-[#fff8ed] text-[#a4782c]"
+              : "bg-transparent text-[#9295a0]"
+          }`}
           onClick={() => setMenuOpen(true)}
           aria-label="More navigation"
         >
@@ -243,23 +271,24 @@ export function AdminShell({ children }: { children: ReactNode }) {
         label="Admin navigation"
         open={menuOpen}
         onClose={() => setMenuOpen(false)}
-        className="admin-mobile-drawer"
+        className={`${adminStyles.modal} fixed inset-y-0 left-0 m-0 h-dvh max-h-dvh w-[min(320px,calc(100vw-42px))] -translate-x-full translate-y-0! rounded-r-2xl border-0! px-4! py-6! open:flex open:flex-col data-[state=open]:translate-x-0`}
         animateExit
+        unstyled
       >
-        <div className="admin-drawer-heading">
+        <div className="flex items-center justify-between gap-2">
           {brand}
           <button
-            className="admin-icon-button"
+            className={adminStyles.iconButton}
             onClick={() => setMenuOpen(false)}
             aria-label="Close navigation"
           >
             <AdminIcon name="close" />
           </button>
         </div>
-        <p className="admin-nav-caption">WORKSPACE</p>
+        <p className={captionClassName}>WORKSPACE</p>
         <Navigation pathname={pathname} onNavigate={() => setMenuOpen(false)} />
-        <div className="admin-drawer-footer">
-          <Link href="/" className="admin-store-link">
+        <div className="mt-auto grid gap-3 pt-[30px]">
+          <Link href="/" className={storeLinkClassName}>
             <AdminIcon name="store" />
             Visit storefront
             <AdminIcon name="arrow" size={16} />
@@ -275,20 +304,21 @@ export function AdminShell({ children }: { children: ReactNode }) {
         label="Order notifications"
         open={notificationsOpen}
         onClose={() => setNotificationsOpen(false)}
-        className="admin-notification-dialog"
+        className={`${adminStyles.modal} fixed top-[68px] right-8 bottom-auto left-auto m-0 max-h-[min(650px,calc(100dvh-110px))] w-[min(430px,calc(100vw-32px))] rounded-[14px] max-[641px]:top-[74px] max-[641px]:right-3 max-[641px]:w-[calc(100vw-24px)]`}
         animateExit
+        unstyled
       >
-        <div className="admin-notification-header">
+        <div className="flex items-center justify-between border-b border-admin-line px-5 pt-5 pb-4">
           <div>
-            <h2>Notifications</h2>
-            <p>
+            <h2 className="text-base font-semibold">Notifications</h2>
+            <p className="mt-[3px] text-[10px] text-admin-muted">
               {unread
                 ? `${unread} unread update${unread === 1 ? "" : "s"}`
                 : "Your latest order updates"}
             </p>
           </div>
           <button
-            className="admin-icon-button"
+            className={adminStyles.iconButton}
             onClick={() => setNotificationsOpen(false)}
             aria-label="Close notifications"
           >
@@ -296,28 +326,37 @@ export function AdminShell({ children }: { children: ReactNode }) {
           </button>
         </div>
         {(notificationActionError || notificationError) && (
-          <Alert>{notificationActionError || notificationError}</Alert>
+          <div className="m-[14px]">
+            <Alert>{notificationActionError || notificationError}</Alert>
+          </div>
         )}
         {unread > 0 && (
           <button
-            className="admin-text-button admin-mark-read"
+            className={`${adminStyles.textButton} mx-5 my-[10px]`}
             onClick={markAllRead}
           >
             Mark all as read
           </button>
         )}
-        <div className="admin-notification-list">
+        <div className="max-h-[min(490px,calc(100dvh-235px))] overflow-y-auto overscroll-contain">
           {notifications.length > 0 ? (
             notifications.map((notification) => {
               const content = (
                 <>
-                  <span className="admin-notification-icon">
+                  <span className="flex size-[34px] shrink-0 items-center justify-center rounded-[10px] bg-[#f7f0e4] text-[#b28c4d]">
                     <AdminIcon name="orders" size={18} />
                   </span>
-                  <span className="admin-notification-copy">
-                    <strong>{notification.title}</strong>
-                    <span>{notification.message}</span>
-                    <time dateTime={notification.createdAt}>
+                  <span className="grid min-w-0 gap-1">
+                    <strong className="text-[11px] font-medium">
+                      {notification.title}
+                    </strong>
+                    <span className="text-[10px] wrap-anywhere text-admin-muted">
+                      {notification.message}
+                    </span>
+                    <time
+                      className="mt-1 text-[9px] text-[#a0a4ad]"
+                      dateTime={notification.createdAt}
+                    >
                       {new Date(notification.createdAt).toLocaleString(
                         "en-BD",
                         {
@@ -331,7 +370,10 @@ export function AdminShell({ children }: { children: ReactNode }) {
                     </time>
                   </span>
                   {!notification.read && (
-                    <span className="admin-unread-dot" aria-label="Unread" />
+                    <span
+                      className="mt-[7px] ml-auto size-[6px] shrink-0 rounded-full bg-[#d7a249]"
+                      aria-label="Unread"
+                    />
                   )}
                 </>
               );
@@ -339,7 +381,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
                 <Link
                   key={notification.id}
                   href={`/admin/orders/${notification.orderId}`}
-                  className={`admin-notification-item ${notification.read ? "" : "is-unread"}`}
+                  className={`${notificationItemClassName} ${notification.read ? "" : "bg-[#fffdf8]"}`}
                   onClick={() => setNotificationsOpen(false)}
                 >
                   {content}
@@ -347,7 +389,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
               ) : (
                 <div
                   key={notification.id}
-                  className={`admin-notification-item ${notification.read ? "" : "is-unread"}`}
+                  className={`${notificationItemClassName} ${notification.read ? "" : "bg-[#fffdf8]"}`}
                 >
                   {content}
                 </div>
@@ -360,12 +402,12 @@ export function AdminShell({ children }: { children: ReactNode }) {
             />
           ) : (
             <div
-              className="admin-stack admin-notification-loading"
+              className={`${adminStyles.stack} p-5`}
               role="status"
               aria-label="Loading notifications"
             >
-              <div className="admin-skeleton" />
-              <div className="admin-skeleton" />
+              <div className={`${adminStyles.skeleton} h-16`} />
+              <div className={`${adminStyles.skeleton} h-16`} />
             </div>
           )}
         </div>

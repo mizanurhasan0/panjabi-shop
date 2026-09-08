@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import "@/components/admin/admin.css";
+import { adminStyles } from "@/components/admin/styles";
 
 export const metadata: Metadata = {
   title: { default: "Shop manager", template: "%s · Shop manager" },
@@ -11,5 +11,5 @@ export default function AdminLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <div className="admin-root">{children}</div>;
+  return <div className={adminStyles.root}>{children}</div>;
 }
