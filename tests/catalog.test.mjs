@@ -1,19 +1,19 @@
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import test from "node:test";
+import {
+  collectionProductMap,
+  getProductByHandle,
+  getProductsByCollection,
+  products,
+  searchProducts,
+} from "../lib/data/products.ts";
 
 const snapshot = JSON.parse(
   fs.readFileSync(
     new URL("../lib/data/panjabishop-catalog.json", import.meta.url),
     "utf8",
   ),
-);
-const generated = fs.readFileSync(
-  new URL("../lib/data/products.ts", import.meta.url),
-  "utf8",
-);
-const products = JSON.parse(
-  generated.match(/export const products: Product\[\] = ([\s\S]*?);\n/)[1],
 );
 const featured = JSON.parse(
   fs.readFileSync(
@@ -60,4 +60,54 @@ test("all card/gallery images and featured search products belong to the new cat
   }
   for (const item of featured.featuredProducts)
     assert.ok(products.some((product) => product.handle === item.handle));
+});
+
+test("product lookup resolves source handles and rejects unknown handles", () => {
+  for (const product of products) {
+    assert.equal(getProductByHandle(product.handle), product);
+  }
+  assert.equal(getProductByHandle("missing-product"), undefined);
+  assert.equal(getProductByHandle("toString"), undefined);
+});
+
+test("collection queries preserve exact membership and catalog order", () => {
+  for (const [handle, members] of Object.entries(collectionProductMap)) {
+    assert.deepEqual(
+      getProductsByCollection(handle),
+      products.filter((product) => members.includes(product.handle)),
+    );
+    for (const member of members) assert.ok(getProductByHandle(member), member);
+  }
+  assert.deepEqual(getProductsByCollection("unknown-collection"), []);
+  assert.deepEqual(getProductsByCollection("toString"), []);
+  assert.deepEqual(getProductsByCollection(""), []);
+});
+
+test("sorting or clearing a collection result cannot mutate subsequent queries", () => {
+  const original = getProductsByCollection("men");
+  assert.ok(original.length > 1);
+  const mutableResult = getProductsByCollection("men");
+  mutableResult.reverse();
+  assert.deepEqual(getProductsByCollection("men"), original);
+  mutableResult.length = 0;
+  assert.deepEqual(getProductsByCollection("men"), original);
+});
+
+test("search matches title, type and tags, ignoring case and surrounding spaces", () => {
+  const queries = ["WHITE", " premium panjabi ", "waistcoat", "no-such-product"];
+  for (const query of queries) {
+    const needle = query.trim().toLowerCase();
+    assert.deepEqual(
+      searchProducts(query),
+      products.filter((product) =>
+        [product.title, product.productType, ...product.tags].some((value) =>
+          value.toLowerCase().includes(needle),
+        ),
+      ),
+    );
+  }
+  assert.deepEqual(searchProducts(" \n "), products.slice(0, 12));
+  const emptyQueryResults = searchProducts("");
+  emptyQueryResults.length = 0;
+  assert.deepEqual(searchProducts(""), products.slice(0, 12));
 });

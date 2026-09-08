@@ -22,8 +22,10 @@ export default function SearchPageContent() {
       <form action="/search" method="GET" className="mx-auto mb-8 max-w-[500px]">
         <div className="flex gap-2">
           <input
+            key={query}
             type="search"
             name="q"
+            aria-label="Search products"
             defaultValue={query}
             placeholder="Search products..."
             className="flex-1 border border-ylw-border px-4 py-3 text-[14px] outline-none focus:border-ylw-text"

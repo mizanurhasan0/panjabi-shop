@@ -4,12 +4,12 @@ import {
   createContext,
   useCallback,
   useContext,
-  useEffect,
   useMemo,
-  useState,
 } from "react";
 import type { Product } from "@/lib/types";
 import { getProductByHandle } from "@/lib/data/products";
+import { parseStoredHandles } from "./storage";
+import { usePersistedState } from "./use-persisted-state";
 
 interface WishlistContextValue {
   handles: string[];
@@ -21,50 +21,24 @@ interface WishlistContextValue {
 
 const WishlistContext = createContext<WishlistContextValue | null>(null);
 const STORAGE_KEY = "ylw-wishlist";
+const parseWishlist = (stored: string | null) =>
+  parseStoredHandles(stored, (handle) => Boolean(getProductByHandle(handle)));
 
 export function WishlistProvider({ children }: { children: React.ReactNode }) {
-  const [handles, setHandles] = useState<string[]>([]);
-  const [hydrated, setHydrated] = useState(false);
-
-  useEffect(() => {
-    const timer = window.setTimeout(() => {
-      try {
-        const stored = localStorage.getItem(STORAGE_KEY);
-        if (stored) {
-          const parsed: unknown = JSON.parse(stored);
-          if (Array.isArray(parsed)) {
-            setHandles([
-              ...new Set(
-                parsed.filter(
-                  (handle): handle is string =>
-                    typeof handle === "string" &&
-                    Boolean(getProductByHandle(handle)),
-                ),
-              ),
-            ]);
-          }
-        }
-      } catch {
-        /* ignore */
-      }
-      setHydrated(true);
-    }, 0);
-    return () => window.clearTimeout(timer);
-  }, []);
-
-  useEffect(() => {
-    if (hydrated) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(handles));
-    }
-  }, [handles, hydrated]);
+  const [handles, setHandles] = usePersistedState<string[]>(
+    STORAGE_KEY,
+    [],
+    parseWishlist,
+  );
 
   const toggle = useCallback((handle: string) => {
+    if (!getProductByHandle(handle)) return;
     setHandles((prev) =>
       prev.includes(handle)
         ? prev.filter((h) => h !== handle)
         : [...prev, handle],
     );
-  }, []);
+  }, [setHandles]);
 
   const isWishlisted = useCallback(
     (handle: string) => handles.includes(handle),

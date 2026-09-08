@@ -49,8 +49,11 @@ export function MobileDrawer({ open, onClose }: MobileDrawerProps) {
           </Link>
         </div>
         <nav
+          aria-label="Mobile navigation"
           onClick={(event) => {
-            if ((event.target as HTMLElement).closest("a")) onClose();
+            if (event.target instanceof Element && event.target.closest("a")) {
+              onClose();
+            }
           }}
         >
           {mainNav.map((item) => (

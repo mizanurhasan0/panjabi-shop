@@ -68,40 +68,6 @@ img {
   display: block;
 }
 
-@keyframes animateMenuOpen {
-  0% {
-    opacity: 0;
-    transform: translateY(-1.5rem);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes marquee {
-  0% {
-    transform: translateZ(0);
-    visibility: visible;
-  }
-  100% {
-    transform: translate3d(-100%, 0, 0);
-  }
-}
-
-@keyframes fadeInUp {
-  0% {
-    opacity: 0;
-    transform: translateY(30px);
-    pointer-events: none;
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-    pointer-events: auto;
-  }
-}
-
 @keyframes appear-down {
   0% {
     opacity: 0;
@@ -113,43 +79,8 @@ img {
   }
 }
 
-@keyframes dot-shadow {
-  0%,
-  100% {
-    box-shadow: 0 0 0 0 rgba(50, 50, 50, 0.3);
-  }
-  50% {
-    box-shadow: 0 0 0 4px rgba(50, 50, 50, 0.3);
-  }
-}
-
-@keyframes slideUp {
-  0%,
-  50% {
-    transform: translateY(100%);
-    opacity: 0;
-  }
-  60%,
-  100% {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
-.animate-menu-open {
-  animation: animateMenuOpen 0.3s ease forwards;
-}
-
-.animate-fade-in-up {
-  animation: fadeInUp 0.5s ease forwards;
-}
-
 .animate-appear-down {
   animation: appear-down 0.3s ease forwards;
-}
-
-.marquee-track {
-  animation: marquee 20s linear infinite;
 }
 
 .section-heading {
@@ -157,20 +88,20 @@ img {
   align-items: center;
   justify-content: center;
   gap: 16px;
-  font-size: 16px;
   font-weight: 400;
   letter-spacing: 0.8px;
   text-transform: uppercase;
   color: var(--ylw-text);
+  font-size: 12px;
 }
 
 .section-heading::before,
 .section-heading::after {
   content: "";
   flex: 1;
-  height: 1px;
-  background: var(--ylw-border);
-  max-width: 200px;
+  background: #232323;
+  height: 2px;
+  max-width: none;
 }
 
 .container-ylw {
@@ -272,7 +203,8 @@ img {
   cursor: pointer;
 }
 
-.product-card:hover .product-card-add-btn {
+.product-card:hover .product-card-add-btn,
+.product-card:focus-within .product-card-add-btn {
   transform: translateY(0);
   opacity: 1;
 }
@@ -295,19 +227,15 @@ img {
 
 .category-tile-label {
   position: absolute;
-  bottom: 0;
   left: 0;
   right: 0;
-  padding: 16px;
   text-align: center;
   color: #fff;
-  font-size: 15px;
   letter-spacing: 0.75px;
-  background: linear-gradient(
-    180deg,
-    rgba(0, 0, 0, 0) 0%,
-    rgba(0, 0, 0, 0.55) 100%
-  );
+  background: none;
+  font-size: 12px;
+  bottom: 14px;
+  padding: 8px;
 }
 
 .slider-dot {
@@ -416,27 +344,6 @@ img {
   text-transform: uppercase;
 }
 
-.badge-sale {
-  background: var(--ylw-sale);
-  color: #fff;
-  padding: 2px 8px;
-  font-size: 11px;
-}
-
-.cart-badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 23px;
-  height: 23px;
-  padding: 0 4px;
-  border-radius: 50%;
-  background: #ffe5e8;
-  color: var(--ylw-text-topbar);
-  font-size: 12px;
-  font-weight: 400;
-}
-
 .header-nav-link {
   display: flex;
   align-items: center;
@@ -452,29 +359,6 @@ img {
 
 .header-nav-link:hover {
   opacity: 0.8;
-}
-
-.filter-bar {
-  background: var(--ylw-black);
-  color: #fff;
-  padding: 8px 20px;
-}
-
-.filter-dropdown {
-  position: relative;
-}
-
-.filter-dropdown-menu {
-  position: absolute;
-  top: calc(100% + 4px);
-  left: 0;
-  min-width: 200px;
-  background: #fff;
-  color: var(--ylw-text);
-  border: 1px solid var(--ylw-border);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  z-index: 20;
-  animation: appear-down 0.2s ease;
 }
 
 .footer-heading {
@@ -822,21 +706,6 @@ button {
   padding-top: 16px;
   padding-bottom: 30px;
 }
-.section-heading {
-  font-size: 12px;
-}
-.section-heading::before,
-.section-heading::after {
-  background: #232323;
-  height: 2px;
-  max-width: none;
-}
-.category-tile-label {
-  background: none;
-  font-size: 12px;
-  bottom: 14px;
-  padding: 8px;
-}
 
 @media (max-width: 1023px) {
   .container-ylw {
@@ -845,13 +714,6 @@ button {
   }
   .home-hero {
     margin: 0;
-  }
-  .cart-badge {
-    background: #232323;
-    color: white;
-    min-width: 20px;
-    height: 20px;
-    font-size: 10px;
   }
   .cart-panel {
     width: min(350px, calc(100% - 40px));

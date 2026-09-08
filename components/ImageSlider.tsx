@@ -89,7 +89,7 @@ export function ImageSlider({
                 i === current ? "opacity-100" : "opacity-0"
               }`}
               sizes="100vw"
-              priority={i === 0}
+              preload={i === 0}
             />
           );
 

@@ -103,7 +103,6 @@ function SearchContent({
           </button>
           <input
             data-autofocus
-            autoFocus
             type="search"
             name="q"
             aria-label="Search products"

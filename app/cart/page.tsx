@@ -1,20 +1,22 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { useState } from "react";
 import { useCart } from "@/lib/store/cart";
 import { products } from "@/lib/data/products";
 import { formatPrice } from "@/lib/utils/products";
-import { ProductCard } from "@/components/ProductCard";
-import { IconMinus, IconPlus } from "@/components/icons";
+import { ProductSection } from "@/components/ProductSection";
+import { CartProductImage } from "@/components/cart/CartProductImage";
+import { CheckoutPreview } from "@/components/cart/CheckoutPreview";
+import { QuantityControl } from "@/components/cart/QuantityControl";
+
+const recommendations = products.slice(0, 8);
 
 export default function CartPage() {
   const [checkoutRequested, setCheckoutRequested] = useState(false);
   const { getLineItems, updateQuantity, removeItem, subtotal, count } =
     useCart();
   const lineItems = getLineItems();
-  const recommendations = products.slice(0, 8);
 
   return (
     <div className="container-ylw pb-16">
@@ -36,18 +38,7 @@ export default function CartPage() {
           <div className="divide-y divide-ylw-border border-y border-ylw-border">
             {lineItems.map(({ item, product, variant, lineTotal }) => (
               <div key={item.variantId} className="flex gap-4 py-6">
-                <Link
-                  href={`/products/${product.handle}`}
-                  className="relative h-28 w-20 shrink-0 overflow-hidden bg-[#f6f6f6]"
-                >
-                  <Image
-                    src={product.images[0]}
-                    alt={product.title}
-                    fill
-                    sizes="80px"
-                    className="object-cover"
-                  />
-                </Link>
+                <CartProductImage product={product} layout="page" />
                 <div className="flex flex-1 flex-col justify-between">
                   <div>
                     <Link
@@ -62,31 +53,14 @@ export default function CartPage() {
                     </p>
                   </div>
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center border border-ylw-border">
-                      <button
-                        type="button"
-                        onClick={() =>
-                          updateQuantity(item.variantId, item.quantity - 1)
-                        }
-                        className="px-2 py-1"
-                        aria-label={`Decrease quantity of ${product.title}, ${variant.title}`}
-                      >
-                        <IconMinus className="h-3 w-3" />
-                      </button>
-                      <span className="px-3 text-[12px]" aria-live="polite">
-                        {item.quantity}
-                      </span>
-                      <button
-                        type="button"
-                        onClick={() =>
-                          updateQuantity(item.variantId, item.quantity + 1)
-                        }
-                        className="px-2 py-1"
-                        aria-label={`Increase quantity of ${product.title}, ${variant.title}`}
-                      >
-                        <IconPlus className="h-3 w-3" />
-                      </button>
-                    </div>
+                    <QuantityControl
+                      quantity={item.quantity}
+                      label={`${product.title}, ${variant.title}`}
+                      layout="page"
+                      onChange={(quantity) =>
+                        updateQuantity(item.variantId, quantity)
+                      }
+                    />
                     <p className="text-[14px] font-medium">
                       {formatPrice(lineTotal)}
                     </p>
@@ -113,35 +87,19 @@ export default function CartPage() {
             </span>
           </div>
 
-          <p className="mt-4 text-[13px] text-ylw-text-secondary">
-            Taxes to be included at checkout. Delivery is FREE nationwide.
-          </p>
-          <button
-            type="button"
-            onClick={() => setCheckoutRequested(true)}
-            className="btn-primary mt-6 w-full"
-          >
-            Checkout
-          </button>
-          {checkoutRequested && (
-            <p
-              role="status"
-              className="mt-3 text-[13px] text-ylw-text-secondary"
-            >
-              Checkout is not available on this preview. Your cart is saved.
-            </p>
-          )}
+          <CheckoutPreview
+            layout="page"
+            requested={checkoutRequested}
+            onRequest={() => setCheckoutRequested(true)}
+          />
         </div>
       )}
 
-      <section className="mt-16">
-        <h3 className="section-heading mb-8">You may also like</h3>
-        <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-          {recommendations.map((p) => (
-            <ProductCard key={p.handle} product={p} />
-          ))}
-        </div>
-      </section>
+      <ProductSection
+        title="You may also like"
+        products={recommendations}
+        showEmpty
+      />
     </div>
   );
 }

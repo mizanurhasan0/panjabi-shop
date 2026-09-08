@@ -2,168 +2,32 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { createHash } from "node:crypto";
+import { buildCatalog } from "./lib/build-catalog.mjs";
+import { deduplicateProductImages } from "./lib/catalog-images.mjs";
 import { downloadImages } from "./lib/download-images.mjs";
 
 const root = fileURLToPath(new URL("../", import.meta.url));
 const dataPath = path.join(root, "lib/data");
-const snapshot = JSON.parse(
-  await fs.readFile(path.join(dataPath, "panjabishop-catalog.json"), "utf8"),
-);
 const manifestFile = path.join(dataPath, "panjabishop-images.json");
-const previous = JSON.parse(await fs.readFile(manifestFile, "utf8"));
-const existingImages = new Map(
-  previous.products
-    .flatMap((product) => product.images)
-    .map((image) => [image.url, image]),
-);
-const categoryNames = {
-  "premium-panjabi": "Premium Panjabi",
-  "signature-panjabi": "Signature Panjabi",
-  "printed-panjabi": "Printed Panjabi",
-  "luxury-panjabi": "Luxury Panjabi",
-  "sequence-panjabi": "Sequence Panjabi",
-  waistcoat: "Waistcoat",
-  "premium-trousers": "Trousers",
-  watches: "Watch",
-};
-const formatPrice = (price) =>
-  `Tk ${price.toLocaleString("en-BD", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-const escapeHtml = (text) =>
-  text
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;");
-const seenHandles = new Set();
-const seenVariants = new Set();
-const manifest = {
-  source: snapshot.source,
-  banners: previous.banners,
-  categories: previous.categories ?? [],
-  products: [],
-};
-const collectionMap = Object.fromEntries(
-  ["fall-2026", "men", "men-s-panjabi", ...Object.keys(categoryNames)].map(
-    (handle) => [handle, []],
+const [snapshot, previous] = await Promise.all(
+  [path.join(dataPath, "panjabishop-catalog.json"), manifestFile].map(async (file) =>
+    JSON.parse(await fs.readFile(file, "utf8")),
   ),
 );
+const { catalog, manifest } = buildCatalog(snapshot, previous);
 
-const products = snapshot.products.map((raw) => {
-  const handle = `ps-${raw.handle}`;
-  if (seenHandles.has(handle)) throw new Error(`Duplicate product ${handle}`);
-  seenHandles.add(handle);
-  const categories = raw.categoryHandles.filter((category) =>
-    Object.hasOwn(categoryNames, category),
-  );
-  if (!categories.length || !raw.images.length || !Number.isFinite(raw.price))
-    throw new Error(`Incomplete product ${handle}`);
-  const images = [...new Set(raw.images)].map(
-    (url) =>
-      existingImages.get(url) ?? {
-        file: `/images/panjabishop/products/${raw.handle}-${createHash("sha256").update(url).digest("hex").slice(0, 10)}.webp`,
-        url,
-      },
-  );
-  manifest.products.push({ handle, sourcePage: raw.sourceUrl, images });
-  const color = raw.color?.trim() || "";
-  const title = [raw.title.trim(), color].filter(Boolean).join(" — ");
-  const variants = raw.variants.map((variant) => {
-    const id = `ps-${variant.id}`;
-    if (seenVariants.has(id)) throw new Error(`Duplicate variant ${id}`);
-    seenVariants.add(id);
-    return {
-      id,
-      title: [color, variant.size].filter(Boolean).join(" / "),
-      sku: `${raw.code}${variant.size ? `-${variant.size}` : ""}`,
-      price: variant.price,
-      compareAtPrice: raw.compareAtPrice ?? null,
-      color,
-      size: variant.size ?? "",
-      available: variant.available,
-    };
-  });
-  const description = `${title}. Product code: ${raw.code}.`;
-  for (const category of [
-    "fall-2026",
-    "men",
-    ...categories,
-    ...(categories.some((category) => category.endsWith("panjabi"))
-      ? ["men-s-panjabi"]
-      : []),
-  ])
-    collectionMap[category].push(handle);
-  return {
-    id: `ps-${raw.id}`,
-    handle,
-    title,
-    vendor: "Panjabi Shop",
-    productType: categoryNames[categories[0]],
-    description,
-    descriptionHtml: `<p>${escapeHtml(description)}</p>`,
-    tags: [
-      ...categories.map((category) => categoryNames[category]),
-      color,
-    ].filter(Boolean),
-    collectionHandle: categories[0],
-    price: raw.price,
-    priceMax: Math.max(raw.price, ...variants.map((variant) => variant.price)),
-    priceFormatted: formatPrice(raw.price),
-    compareAtPrice: raw.compareAtPrice ?? null,
-    images: images.map((image) => image.file),
-    colors: color ? [color] : [],
-    sizes: [
-      ...new Set(variants.map((variant) => variant.size).filter(Boolean)),
-    ],
-    variants,
-    available: variants.some((variant) => variant.available),
-    isNew: false,
-    createdAt: raw.createdAt,
-  };
-});
 await downloadImages(root, [
   ...manifest.banners,
   ...manifest.categories,
   ...manifest.products.flatMap((product) => product.images),
 ]);
-// Some source galleries publish the same photo under multiple URLs.
-for (let index = 0; index < manifest.products.length; index++) {
-  const seenPhotos = new Set();
-  const unique = [];
-  for (const image of manifest.products[index].images) {
-    const bytes = await fs.readFile(path.join(root, "public", image.file));
-    const hash = createHash("sha256").update(bytes).digest("hex");
-    if (seenPhotos.has(hash)) continue;
-    seenPhotos.add(hash);
-    unique.push(image);
-  }
-  manifest.products[index].images = unique;
-  products[index].images = unique.map((image) => image.file);
-}
-const output = `// Auto-generated by scripts/fetch-panjabishop-catalog.mjs from the recorded source snapshot.
-import type { Product } from "@/lib/types";
+await deduplicateProductImages(root, catalog, manifest);
 
-export const products: Product[] = ${JSON.stringify(products, null, 2)};
-
-export const collectionProductMap: Record<string, string[]> = ${JSON.stringify(collectionMap, null, 2)};
-
-export function getProductByHandle(handle: string): Product | undefined {
-  return products.find((product) => product.handle === handle);
-}
-
-export function getProductsByCollection(handle: string): Product[] {
-  const members = new Set(collectionProductMap[handle] ?? []);
-  return products.filter((product) => members.has(product.handle));
-}
-
-export function searchProducts(query: string): Product[] {
-  const needle = query.trim().toLowerCase();
-  if (!needle) return products.slice(0, 12);
-  return products.filter((product) => [product.title, product.productType, ...product.tags].some((value) => value.toLowerCase().includes(needle)));
-}
-`;
 await fs.writeFile(manifestFile, `${JSON.stringify(manifest, null, 2)}\n`);
-await fs.writeFile(path.join(dataPath, "products.ts"), output);
+await fs.writeFile(
+  path.join(dataPath, "catalog.generated.json"),
+  `${JSON.stringify(catalog, null, 2)}\n`,
+);
 console.log(
-  `Updated all product surfaces: ${products.length} Panjabi Shop products, ${manifest.products.reduce((count, product) => count + product.images.length, 0)} product photos.`,
+  `Updated all product surfaces: ${catalog.products.length} Panjabi Shop products, ${manifest.products.reduce((count, product) => count + product.images.length, 0)} product photos.`,
 );

@@ -1,11 +1,12 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCart } from "@/lib/store/cart";
 import type { Product } from "@/lib/types";
-import { formatPrice, getDefaultVariant } from "@/lib/utils/products";
+import { getDefaultVariant } from "@/lib/utils/products";
+import { ProductCardImages } from "@/components/product-card/ProductCardImages";
+import { ProductCardPrice } from "@/components/product-card/ProductCardPrice";
 import styles from "./CollectionProductCard.module.css";
 
 export function CollectionProductCard({ product }: { product: Product }) {
@@ -29,22 +30,12 @@ export function CollectionProductCard({ product }: { product: Product }) {
           className={styles.imageLink}
           aria-label={product.title}
         >
-          <Image
-            src={product.images[0]}
-            alt={product.title}
-            fill
+          <ProductCardImages
+            product={product}
             sizes="(max-width: 991px) 50vw, 25vw"
-            className={styles.primaryImage}
+            primaryClassName={styles.primaryImage}
+            secondaryClassName={styles.secondaryImage}
           />
-          {product.images[1] && (
-            <Image
-              src={product.images[1]}
-              alt=""
-              fill
-              sizes="(max-width: 991px) 50vw, 25vw"
-              className={styles.secondaryImage}
-            />
-          )}
         </Link>
         {!product.available && <span className={styles.soldOut}>Sold Out</span>}
         <button
@@ -61,12 +52,7 @@ export function CollectionProductCard({ product }: { product: Product }) {
         <h2 className={styles.title}>
           <Link href={href}>{product.title}</Link>
         </h2>
-        <p className={styles.price}>
-          {product.priceFormatted}
-          {product.compareAtPrice && (
-            <del>{formatPrice(product.compareAtPrice)}</del>
-          )}
-        </p>
+        <ProductCardPrice product={product} className={styles.price} />
       </div>
     </article>
   );

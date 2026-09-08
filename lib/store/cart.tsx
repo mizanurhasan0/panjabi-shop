@@ -4,12 +4,12 @@ import {
   createContext,
   useCallback,
   useContext,
-  useEffect,
   useMemo,
   useState,
 } from "react";
 import type { CartItem, Product, ProductVariant } from "@/lib/types";
 import { getProductByHandle } from "@/lib/data/products";
+import { usePersistedState } from "./use-persisted-state";
 
 interface CartContextValue {
   isOpen: boolean;
@@ -39,6 +39,8 @@ interface CartContextValue {
 const CartContext = createContext<CartContextValue | null>(null);
 const STORAGE_KEY = "ylw-cart";
 const NOTE_STORAGE_KEY = "ylw-cart-note";
+const parseStoredNote = (stored: string | null) => stored ?? "";
+const serializeNote = (note: string) => note;
 
 /** Treat persisted cart data as untrusted and keep one line per variant. */
 function parseStoredCart(stored: string | null): CartItem[] {
@@ -82,61 +84,17 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
   const openCart = useCallback(() => setIsOpen(true), []);
   const closeCart = useCallback(() => setIsOpen(false), []);
-  const [items, setItems] = useState<CartItem[]>([]);
-  const [note, setNote] = useState("");
-  const [hydrated, setHydrated] = useState(false);
-
-  useEffect(() => {
-    const timer = window.setTimeout(() => {
-      try {
-        setItems(parseStoredCart(localStorage.getItem(STORAGE_KEY)));
-        setNote(localStorage.getItem(NOTE_STORAGE_KEY) ?? "");
-      } catch {
-        /* ignore */
-      }
-      setHydrated(true);
-    }, 0);
-    return () => window.clearTimeout(timer);
-  }, []);
-
-  useEffect(() => {
-    const syncCart = (event: StorageEvent) => {
-      if (event.storageArea !== localStorage) return;
-      if (event.key === NOTE_STORAGE_KEY || event.key === null)
-        setNote(event.newValue ?? "");
-      if (event.key !== STORAGE_KEY && event.key !== null) return;
-      const next = parseStoredCart(event.newValue);
-      setItems((previous) =>
-        JSON.stringify(previous) === JSON.stringify(next) ? previous : next,
-      );
-    };
-    window.addEventListener("storage", syncCart);
-    return () => window.removeEventListener("storage", syncCart);
-  }, []);
-
-  useEffect(() => {
-    if (hydrated) {
-      try {
-        const serialized = JSON.stringify(items);
-        if (localStorage.getItem(STORAGE_KEY) !== serialized) {
-          localStorage.setItem(STORAGE_KEY, serialized);
-        }
-      } catch {
-        /* Cart remains usable when storage is unavailable. */
-      }
-    }
-  }, [items, hydrated]);
-
-  useEffect(() => {
-    if (!hydrated) return;
-    try {
-      if (localStorage.getItem(NOTE_STORAGE_KEY) !== note) {
-        localStorage.setItem(NOTE_STORAGE_KEY, note);
-      }
-    } catch {
-      /* Notes remain editable when storage is unavailable. */
-    }
-  }, [note, hydrated]);
+  const [items, setItems] = usePersistedState<CartItem[]>(
+    STORAGE_KEY,
+    [],
+    parseStoredCart,
+  );
+  const [note, setNote] = usePersistedState(
+    NOTE_STORAGE_KEY,
+    "",
+    parseStoredNote,
+    serializeNote,
+  );
 
   const addItem = useCallback(
     (product: Product, variant: ProductVariant, quantity = 1) => {
@@ -165,12 +123,12 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         ];
       });
     },
-    [],
+    [setItems],
   );
 
   const removeItem = useCallback((variantId: string) => {
     setItems((prev) => prev.filter((i) => i.variantId !== variantId));
-  }, []);
+  }, [setItems]);
 
   const updateQuantity = useCallback((variantId: string, quantity: number) => {
     if (!Number.isSafeInteger(quantity)) return;
@@ -181,12 +139,12 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     setItems((prev) =>
       prev.map((i) => (i.variantId === variantId ? { ...i, quantity } : i)),
     );
-  }, []);
+  }, [setItems]);
 
   const clearCart = useCallback(() => {
     setItems([]);
     setNote("");
-  }, []);
+  }, [setItems, setNote]);
 
   const getLineItems = useCallback(() => {
     return items
@@ -228,6 +186,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     closeCart,
     items,
     note,
+    setNote,
     addItem,
     removeItem,
     updateQuantity,

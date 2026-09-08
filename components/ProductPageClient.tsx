@@ -1,34 +1,26 @@
 "use client";
 
 import { useEffect } from "react";
-import { notFound } from "next/navigation";
-import { getProductByHandle, products } from "@/lib/data/products";
+import { getProductByHandle } from "@/lib/data/products";
 import { useRecentlyViewed } from "@/lib/store/recently-viewed";
 import { Breadcrumb } from "@/components/Breadcrumb";
-import { ProductCard } from "@/components/ProductCard";
+import type { Product } from "@/lib/types";
+import { ProductSection } from "./ProductSection";
 import { ProductDetails } from "@/components/ProductDetails";
 import { ProductGallery } from "@/components/ProductGallery";
 
 interface ProductPageClientProps {
-  handle: string;
+  product: Product;
+  related: Product[];
 }
 
-export function ProductPageClient({ handle }: ProductPageClientProps) {
-  const product = getProductByHandle(handle);
+export function ProductPageClient({ product, related }: ProductPageClientProps) {
+  const { handle } = product;
   const { handles: viewedHandles, addViewed } = useRecentlyViewed();
 
   useEffect(() => {
-    if (product) addViewed(handle);
-  }, [product, handle, addViewed]);
-
-  if (!product) notFound();
-
-  const related = products
-    .filter(
-      (p) =>
-        p.handle !== handle && p.collectionHandle === product.collectionHandle,
-    )
-    .slice(0, 8);
+    addViewed(handle);
+  }, [handle, addViewed]);
 
   const recentlyViewedHandles = viewedHandles.filter((h) => h !== handle);
   const recentlyViewed = recentlyViewedHandles
@@ -47,25 +39,12 @@ export function ProductPageClient({ handle }: ProductPageClientProps) {
         <ProductDetails product={product} />
       </div>
 
-      {related.length > 0 && (
-        <section className="mt-16">
-          <h3 className="section-heading mb-8">Related Products</h3>
-          <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-            {related.map((p) => (
-              <ProductCard key={p.handle} product={p} />
-            ))}
-          </div>
-        </section>
-      )}
-
-      <section className="mt-16">
-        <h3 className="section-heading mb-8">Recently Viewed Products</h3>
-        <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-          {recentlyViewed.map((p) => (
-            <ProductCard key={p.handle} product={p} />
-          ))}
-        </div>
-      </section>
+      <ProductSection title="Related Products" products={related} />
+      <ProductSection
+        title="Recently Viewed Products"
+        products={recentlyViewed}
+        showEmpty
+      />
     </div>
   );
 }

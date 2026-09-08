@@ -1,5 +1,6 @@
 import { ProductPageClient } from "@/components/ProductPageClient";
-import { getProductByHandle } from "@/lib/data/products";
+import { notFound } from "next/navigation";
+import { getProductByHandle, products } from "@/lib/data/products";
 
 export async function generateMetadata({
   params,
@@ -15,5 +16,16 @@ export default async function ProductPage({
   params,
 }: PageProps<"/products/[handle]">) {
   const { handle } = await params;
-  return <ProductPageClient handle={handle} />;
+  const product = getProductByHandle(handle);
+  if (!product) notFound();
+
+  const related = products
+    .filter(
+      (candidate) =>
+        candidate.handle !== handle &&
+        candidate.collectionHandle === product.collectionHandle,
+    )
+    .slice(0, 8);
+
+  return <ProductPageClient key={handle} product={product} related={related} />;
 }

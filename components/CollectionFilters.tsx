@@ -1,17 +1,17 @@
 "use client";
 
-import {
-  useEffect,
-  useId,
-  useMemo,
-  useRef,
-  useState,
-  type ReactNode,
-} from "react";
+import { useMemo, useState } from "react";
 import type { Product, SortOption } from "@/lib/types";
 import { formatPrice, sortOptions } from "@/lib/utils/products";
-import { IconChevronDown, IconClose, IconSearch } from "./icons";
+import { IconChevronDown, IconClose } from "./icons";
 import { Modal } from "./Modal";
+import {
+  ActiveFilters,
+  type ActiveFilter,
+} from "./collection-filters/ActiveFilters";
+import { FilterDropdown } from "./collection-filters/FilterDropdown";
+import { OptionList } from "./collection-filters/OptionList";
+import { PriceFilter } from "./collection-filters/PriceFilter";
 import styles from "./CollectionFilters.module.css";
 
 interface CollectionFiltersProps {
@@ -54,11 +54,6 @@ export function CollectionFilters(props: CollectionFiltersProps) {
       max: prices.length ? Math.max(...prices) : 0,
     };
   }, [products]);
-  const hasFilters =
-    selectedSizes.length > 0 ||
-    selectedProductTypes.length > 0 ||
-    minPrice !== null ||
-    maxPrice !== null;
   const clearAll = () => {
     props.onSizesChange([]);
     props.onProductTypesChange?.([]);
@@ -72,7 +67,7 @@ export function CollectionFilters(props: CollectionFiltersProps) {
         <OptionList
           counts={typeCounts}
           selected={selectedProductTypes}
-          onChange={props.onProductTypesChange ?? (() => {})}
+          onChange={props.onProductTypesChange}
         />
       ),
     },
@@ -100,55 +95,36 @@ export function CollectionFilters(props: CollectionFiltersProps) {
       ),
     },
   ];
-  const activeFilters = hasFilters && (
-    <div className={styles.activeFilters} aria-label="Selected filters">
-      <button type="button" onClick={clearAll} className={styles.clearAll}>
-        Clear all
-      </button>
-      {selectedProductTypes.map((type) => (
-        <button
-          type="button"
-          key={type}
-          onClick={() =>
-            props.onProductTypesChange?.(
-              selectedProductTypes.filter((value) => value !== type),
-            )
-          }
-          aria-label={`Remove product type ${type}`}
-        >
-          {type}
-          <IconClose />
-        </button>
-      ))}
-      {selectedSizes.map((size) => (
-        <button
-          type="button"
-          key={size}
-          onClick={() =>
-            props.onSizesChange(selectedSizes.filter((value) => value !== size))
-          }
-          aria-label={`Remove size ${size}`}
-        >
-          {size}
-          <IconClose />
-        </button>
-      ))}
-      {(minPrice !== null || maxPrice !== null) && (
-        <button
-          type="button"
-          onClick={() => {
-            props.onMinPriceChange(null);
-            props.onMaxPriceChange(null);
-          }}
-          aria-label="Remove price filter"
-        >
-          {formatPrice(minPrice ?? priceBounds.min)} –{" "}
-          {formatPrice(maxPrice ?? priceBounds.max)}
-          <IconClose />
-        </button>
-      )}
-    </div>
-  );
+  const filterChips: ActiveFilter[] = [
+    ...selectedProductTypes.map((type) => ({
+      id: `type-${type}`,
+      label: type,
+      removeLabel: `Remove product type ${type}`,
+      onRemove: () =>
+        props.onProductTypesChange?.(
+          selectedProductTypes.filter((value) => value !== type),
+        ),
+    })),
+    ...selectedSizes.map((size) => ({
+      id: `size-${size}`,
+      label: size,
+      removeLabel: `Remove size ${size}`,
+      onRemove: () =>
+        props.onSizesChange(selectedSizes.filter((value) => value !== size)),
+    })),
+  ];
+  if (minPrice !== null || maxPrice !== null) {
+    filterChips.push({
+      id: "price",
+      label: `${formatPrice(minPrice ?? priceBounds.min)} – ${formatPrice(maxPrice ?? priceBounds.max)}`,
+      removeLabel: "Remove price filter",
+      onRemove: () => {
+        props.onMinPriceChange(null);
+        props.onMaxPriceChange(null);
+      },
+    });
+  }
+  const activeFilters = <ActiveFilters filters={filterChips} onClear={clearAll} />;
 
   return (
     <section
@@ -158,9 +134,9 @@ export function CollectionFilters(props: CollectionFiltersProps) {
       <div className={styles.toolbar}>
         <div className={styles.desktopFilters}>
           {groups.map(({ label, content }) => (
-            <Dropdown key={label} label={label}>
+            <FilterDropdown key={label} label={label}>
               {content}
-            </Dropdown>
+            </FilterDropdown>
           ))}
         </div>
         <button
@@ -180,7 +156,7 @@ export function CollectionFilters(props: CollectionFiltersProps) {
           </svg>
           Filter By
         </button>
-        <Dropdown
+        <FilterDropdown
           label={
             <>
               <span className={styles.sortPrefix}>Sort By: </span>
@@ -210,7 +186,7 @@ export function CollectionFilters(props: CollectionFiltersProps) {
               ))}
             </div>
           )}
-        </Dropdown>
+        </FilterDropdown>
       </div>
       {activeFilters}
       <Modal
@@ -250,208 +226,5 @@ export function CollectionFilters(props: CollectionFiltersProps) {
         </div>
       </Modal>
     </section>
-  );
-}
-
-function OptionList({
-  counts,
-  selected,
-  onChange,
-  searchable = false,
-}: {
-  counts: Record<string, number>;
-  selected: string[];
-  onChange: (values: string[]) => void;
-  searchable?: boolean;
-}) {
-  const [query, setQuery] = useState("");
-  const values = Object.keys(counts)
-    .sort()
-    .filter((value) =>
-      value.toLowerCase().includes(query.trim().toLowerCase()),
-    );
-  return (
-    <div className={styles.optionList}>
-      {searchable && (
-        <label className={styles.optionSearch}>
-          <IconSearch />
-          <input
-            type="search"
-            placeholder="Search options"
-            aria-label="Search size options"
-            value={query}
-            onChange={(event) => setQuery(event.target.value)}
-          />
-        </label>
-      )}
-      <div className={styles.options}>
-        {values.map((value) => (
-          <label key={value} className={styles.option}>
-            <input
-              type="checkbox"
-              checked={selected.includes(value)}
-              onChange={(event) =>
-                onChange(
-                  event.target.checked
-                    ? [...selected, value]
-                    : selected.filter((item) => item !== value),
-                )
-              }
-            />
-            <span>
-              {value}
-              <span className={styles.count}>({counts[value]})</span>
-            </span>
-          </label>
-        ))}
-        {values.length === 0 && (
-          <p className={styles.noOptions}>No matching options</p>
-        )}
-      </div>
-    </div>
-  );
-}
-
-function PriceFilter({
-  min,
-  max,
-  bounds,
-  onMinChange,
-  onMaxChange,
-}: {
-  min: number | null;
-  max: number | null;
-  bounds: { min: number; max: number };
-  onMinChange: (value: number | null) => void;
-  onMaxChange: (value: number | null) => void;
-}) {
-  const lower = min ?? bounds.min;
-  const upper = max ?? bounds.max;
-  const clamp = (value: number) =>
-    Math.max(bounds.min, Math.min(bounds.max, value));
-  return (
-    <div className={styles.priceFilter}>
-      <div className={styles.priceInputs}>
-        <input
-          aria-label="Minimum price"
-          type="number"
-          min={bounds.min}
-          max={upper}
-          value={lower}
-          onChange={(event) =>
-            onMinChange(
-              event.target.value === "" ? null : Number(event.target.value),
-            )
-          }
-          onBlur={() =>
-            onMinChange(min === null ? null : Math.min(clamp(lower), upper))
-          }
-        />
-        <span aria-hidden="true">-</span>
-        <input
-          aria-label="Maximum price"
-          type="number"
-          min={lower}
-          max={bounds.max}
-          value={upper}
-          onChange={(event) =>
-            onMaxChange(
-              event.target.value === "" ? null : Number(event.target.value),
-            )
-          }
-          onBlur={() =>
-            onMaxChange(max === null ? null : Math.max(clamp(upper), lower))
-          }
-        />
-      </div>
-      <div className={styles.rangeInputs}>
-        <input
-          aria-label="Minimum price slider"
-          type="range"
-          min={bounds.min}
-          max={bounds.max}
-          value={clamp(lower)}
-          onChange={(event) =>
-            onMinChange(Math.min(Number(event.target.value), upper))
-          }
-        />
-        <input
-          aria-label="Maximum price slider"
-          type="range"
-          min={bounds.min}
-          max={bounds.max}
-          value={clamp(upper)}
-          onChange={(event) =>
-            onMaxChange(Math.max(Number(event.target.value), lower))
-          }
-        />
-      </div>
-      <div className={styles.priceLabels}>
-        <span>{formatPrice(lower)}</span>
-        <span>{formatPrice(upper)}</span>
-      </div>
-    </div>
-  );
-}
-
-function Dropdown({
-  label,
-  children,
-  sort = false,
-}: {
-  label: ReactNode;
-  children: ReactNode | ((close: () => void) => ReactNode);
-  sort?: boolean;
-}) {
-  const [open, setOpen] = useState(false);
-  const root = useRef<HTMLDivElement>(null);
-  const trigger = useRef<HTMLButtonElement>(null);
-  const id = useId();
-  useEffect(() => {
-    if (!open) return;
-    const dismiss = (event: PointerEvent) => {
-      if (!root.current?.contains(event.target as Node)) setOpen(false);
-    };
-    document.addEventListener("pointerdown", dismiss);
-    return () => document.removeEventListener("pointerdown", dismiss);
-  }, [open]);
-  return (
-    <div
-      ref={root}
-      className={`${styles.dropdown} ${sort ? styles.sortDropdown : ""}`}
-      onBlur={(event) => {
-        if (!event.currentTarget.contains(event.relatedTarget)) setOpen(false);
-      }}
-      onKeyDown={(event) => {
-        if (event.key === "Escape") {
-          event.stopPropagation();
-          setOpen(false);
-          trigger.current?.focus();
-        }
-      }}
-    >
-      <button
-        ref={trigger}
-        id={`${id}-trigger`}
-        type="button"
-        className={styles.dropdownTrigger}
-        aria-expanded={open}
-        aria-controls={id}
-        onClick={() => setOpen(!open)}
-      >
-        {label}
-        <IconChevronDown />
-      </button>
-      {open && (
-        <div id={id} className={styles.dropdownContent}>
-          {typeof children === "function"
-            ? children(() => {
-                setOpen(false);
-                document.getElementById(`${id}-trigger`)?.focus();
-              })
-            : children}
-        </div>
-      )}
-    </div>
   );
 }
