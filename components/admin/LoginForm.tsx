@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useDemoQuery } from "@/lib/demo/client";
 import { defaultShopSettings } from "@/lib/demo/seed";
+import { AdminBrand } from "./AdminBrand";
 import { AdminIcon, Button } from "./ui";
 import { adminStyles } from "./styles";
 
@@ -12,6 +13,7 @@ export function LoginForm() {
   const router = useRouter();
   const { data: settings } = useDemoQuery((state) => state.settings);
   const shopName = settings?.name ?? defaultShopSettings.name;
+  const logo = settings?.logo ?? defaultShopSettings.logo;
   const [opening, setOpening] = useState(false);
 
   function openDemo() {
@@ -22,15 +24,9 @@ export function LoginForm() {
   return (
     <div className="grid min-h-dvh grid-cols-2 bg-white max-[641px]:grid-cols-1">
       <section className="relative flex flex-col overflow-hidden bg-[#27282a] px-[54px] py-[46px] text-white max-[1201px]:p-9 max-[901px]:p-[30px] max-[641px]:hidden">
-        <Link
-          href="/"
-          className="relative z-1 inline-flex w-fit items-center gap-[13px] text-[25px] font-medium tracking-[-0.8px]"
-        >
-          <span className="inline-flex size-[43px] shrink-0 items-center justify-center rounded-xl bg-admin-accent text-[#272727]">
-            <AdminIcon name="store" size={26} />
-          </span>
-          {shopName}
-        </Link>
+        <div className="relative z-1 w-fit rounded-xl bg-white px-4 py-2 shadow-sm">
+          <AdminBrand name={shopName} logo={logo} href="/" />
+        </div>
         <div className="relative z-1 my-auto py-[70px]">
           <span className="text-[9px] tracking-[2.4px] text-[#e6b76c]">
             YOUR BUSINESS, SIMPLIFIED
@@ -79,9 +75,9 @@ export function LoginForm() {
           <span aria-hidden="true">←</span> Back to shop
         </Link>
         <div className="m-auto w-full max-w-[360px] py-[54px] max-[641px]:max-w-[390px] max-[641px]:py-[46px]">
-          <span className="mb-[22px] flex size-[55px] items-center justify-center rounded-[15px] border border-[#f5e9d3] bg-admin-accent-soft text-[#b58b44]">
-            <AdminIcon name="dashboard" size={26} />
-          </span>
+          <div className="mb-[22px]">
+            <AdminBrand name={shopName} logo={logo} href="/" />
+          </div>
           <p className={adminStyles.eyebrow}>DEMO WORKSPACE</p>
           <h2 className="mt-2 text-[29px] leading-[1.3] font-semibold tracking-[-1px] max-[901px]:text-[25px] max-[641px]:text-[30px]">
             Meet your shop dashboard

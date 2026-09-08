@@ -8,11 +8,13 @@ import { AdminIcon } from "./ui";
 export function AdminBrand({
   name,
   logo,
+  href = "/admin",
   compact = false,
   onNavigate,
 }: {
   name: string;
   logo?: string;
+  href?: "/" | "/admin";
   compact?: boolean;
   onNavigate?: () => void;
 }) {
@@ -20,8 +22,8 @@ export function AdminBrand({
 
   return (
     <Link
-      href="/admin"
-      aria-label={`${name} dashboard`}
+      href={href}
+      aria-label={`${name} ${href === "/" ? "home" : "dashboard"}`}
       onClick={onNavigate}
       className={`inline-flex max-w-full shrink-0 items-center rounded-md focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-admin-accent ${compact ? "h-11 w-32" : "h-12 w-44"}`}
     >
