@@ -11,7 +11,6 @@ import { getDemoSnapshot } from "@/lib/demo/store";
 import type { AdminProduct } from "@/lib/admin/types";
 import { getCollectionTitle } from "@/lib/data/collections";
 import {
-  AdminActionBar,
   AdminIcon,
   Alert,
   Button,
@@ -23,6 +22,7 @@ import {
 } from "../ui";
 import { adminStyles } from "../styles";
 import { RestockDialog } from "./RestockDialog";
+import { ProductToolbar } from "./ProductToolbar";
 
 const money = new Intl.NumberFormat("en-BD", {
   style: "currency",
@@ -131,86 +131,18 @@ export function ProductList() {
           </Alert>
         )}
         <div className={adminStyles.card}>
-          <AdminActionBar
-            label="Product actions"
-            actions={
-              <>
-                <Button
-                  variant="secondary"
-                  onClick={downloadProducts}
-                  disabled={exporting || loading}
-                >
-                  <AdminIcon name="download" size={17} />
-                  {exporting ? "Preparing Excel…" : "Export Excel"}
-                </Button>
-                <Link
-                  href="/admin/products/new"
-                  className={adminStyles.buttonPrimary}
-                >
-                  <AdminIcon name="plus" size={17} />
-                  Add product
-                </Link>
-              </>
-            }
-          >
-            <form
-              className="relative flex w-full min-w-0 max-w-[410px] items-center gap-2 max-[641px]:max-w-none [&>svg]:pointer-events-none [&>svg]:absolute [&>svg]:left-[13px] [&>svg]:text-[#a1a5ae]"
-              onSubmit={searchProducts}
-            >
-              <AdminIcon name="search" size={17} />
-              <input
-                key={query}
-                className={`${adminStyles.input} max-w-none! pl-[38px]!`}
-                name="query"
-                type="search"
-                defaultValue={query}
-                maxLength={200}
-                placeholder="Search products…"
-                aria-label="Search products"
-              />
-              <Button variant="secondary" type="submit">
-                Search
-              </Button>
-            </form>
-          </AdminActionBar>
-          <div className="my-4 flex flex-wrap items-center justify-between gap-x-4 gap-y-2.5">
-            <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
-              <h2>
-                {stock === "low"
-                  ? "Low stock products"
-                  : stock === "out"
-                    ? "Out of stock products"
-                    : "Your collection"}
-              </h2>
-              {data && (
-                <span className="text-[11px] text-admin-muted">
-                  {data.total} product{data.total === 1 ? "" : "s"}
-                </span>
-              )}
-            </div>
-            <div className="flex flex-wrap items-center gap-x-3 gap-y-2 max-[641px]:w-full">
-              <select
-                className={`${adminStyles.select} w-auto! min-w-[140px] min-[641px]:text-[11px]! max-[641px]:min-w-0 max-[641px]:flex-1 max-[641px]:basis-[150px]`}
-                aria-label="Filter by stock"
-                value={stock}
-                onChange={(event) => filter("stock", event.target.value)}
-              >
-                <option value="">All stock levels</option>
-                <option value="low">Low stock</option>
-                <option value="out">Out of stock</option>
-              </select>
-              <label className="inline-flex min-h-11 items-center gap-2 whitespace-nowrap text-[11px] text-admin-muted">
-                <input
-                  type="checkbox"
-                  checked={includeInactive}
-                  onChange={(event) =>
-                    filter("includeInactive", String(event.target.checked))
-                  }
-                />
-                Include archived
-              </label>
-            </div>
-          </div>
+          <ProductToolbar
+            query={query}
+            stock={stock}
+            includeInactive={includeInactive}
+            total={data?.total}
+            loading={loading}
+            exporting={exporting}
+            onSearch={searchProducts}
+            onFilter={filter}
+            onReset={() => router.replace(pathname, { scroll: false })}
+            onExport={downloadProducts}
+          />
           {loading ? (
             <div
               className={adminStyles.stack}
