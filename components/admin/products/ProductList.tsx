@@ -21,6 +21,7 @@ import {
   StatusBadge,
 } from "../ui";
 import { adminStyles } from "../styles";
+import { AdminTableViewport } from "../AdminTableViewport";
 import { RestockDialog } from "./RestockDialog";
 import { ProductToolbar } from "./ProductToolbar";
 
@@ -120,7 +121,7 @@ export function ProductList() {
         title="Products"
         description="Keep your collection fresh and your stock in check."
       />
-      <div className={adminStyles.stack}>
+      <div className={adminStyles.listPage}>
         {notice && <Alert tone="success">{notice}</Alert>}
         {(actionError || error) && (
           <Alert>
@@ -130,7 +131,9 @@ export function ProductList() {
             </Button>
           </Alert>
         )}
-        <div className={adminStyles.card}>
+        <div
+          className={`${adminStyles.card} ${adminStyles.listCard} max-[641px]:p-3!`}
+        >
           <ProductToolbar
             query={query}
             stock={stock}
@@ -144,18 +147,24 @@ export function ProductList() {
             onExport={downloadProducts}
           />
           {loading ? (
-            <div
-              className={adminStyles.stack}
-              role="status"
-              aria-label="Loading products"
-            >
-              {[1, 2, 3].map((item) => (
-                <div className={`${adminStyles.skeleton} h-16`} key={item} />
-              ))}
-            </div>
+            <AdminTableViewport label="Loading products" fill>
+              <div
+                className={adminStyles.stack}
+                role="status"
+                aria-label="Loading products"
+              >
+                {[1, 2, 3].map((item) => (
+                  <div className={`${adminStyles.skeleton} h-16`} key={item} />
+                ))}
+              </div>
+            </AdminTableViewport>
           ) : data?.items.length ? (
             <>
-              <div className={adminStyles.tableWrap}>
+              <AdminTableViewport
+                label="Products table"
+                key={params.toString()}
+                fill
+              >
                 <table
                   className={`${adminStyles.table} [&_td:nth-child(2)>strong]:whitespace-nowrap [&_td:nth-child(2)>strong]:font-medium [&_td:last-child]:whitespace-nowrap max-[641px]:[&_tbody_tr]:p-[15px]! max-[641px]:[&_td:first-child]:col-span-full max-[641px]:[&_td:first-child]:border-b! max-[641px]:[&_td:first-child]:border-[#f1f2f5]! max-[641px]:[&_td:first-child]:pb-3! max-[641px]:[&_td:first-child]:before:hidden! max-[641px]:[&_td:last-child]:border-t! max-[641px]:[&_td:last-child]:border-[#f1f2f5]! max-[641px]:[&_td:last-child]:pt-2.5! max-[641px]:[&_td:last-child]:before:hidden!`}
                 >
@@ -260,7 +269,7 @@ export function ProductList() {
                     ))}
                   </tbody>
                 </table>
-              </div>
+              </AdminTableViewport>
               <Pagination
                 page={data.page}
                 total={data.total}
@@ -270,39 +279,41 @@ export function ProductList() {
             </>
           ) : (
             !error && (
-              <EmptyState
-                title={
-                  query || stock
-                    ? "No matching products"
-                    : "Your collection starts here"
-                }
-                description={
-                  query || stock
-                    ? "Try a different search or stock filter."
-                    : "Add your first product, upload a photo, and set its stock."
-                }
-                action={
-                  query || stock ? (
-                    <Button
-                      variant="secondary"
-                      onClick={() => router.replace(pathname)}
-                    >
-                      Clear filters
-                    </Button>
-                  ) : (
-                    <Link
-                      className={adminStyles.buttonPrimary}
-                      href="/admin/products/new"
-                    >
-                      Add product
-                    </Link>
-                  )
-                }
-              />
+              <AdminTableViewport label="Products results" fill>
+                <EmptyState
+                  title={
+                    query || stock
+                      ? "No matching products"
+                      : "Your collection starts here"
+                  }
+                  description={
+                    query || stock
+                      ? "Try a different search or stock filter."
+                      : "Add your first product, upload a photo, and set its stock."
+                  }
+                  action={
+                    query || stock ? (
+                      <Button
+                        variant="secondary"
+                        onClick={() => router.replace(pathname)}
+                      >
+                        Clear filters
+                      </Button>
+                    ) : (
+                      <Link
+                        className={adminStyles.buttonPrimary}
+                        href="/admin/products/new"
+                      >
+                        Add product
+                      </Link>
+                    )
+                  }
+                />
+              </AdminTableViewport>
             )
           )}
         </div>
-        <p className="flex items-start gap-2 px-[3px] text-[10px] text-[#a0a3ac] [&_svg]:shrink-0">
+        <p className="flex items-start gap-2 px-[3px] text-[10px] text-[#a0a3ac] max-[641px]:hidden [&_svg]:shrink-0">
           <AdminIcon name="products" size={16} />
           Sample inventory is tracked per product across all sizes and colors.
           Try restocking a product to update this demo.

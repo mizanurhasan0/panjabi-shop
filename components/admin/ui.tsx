@@ -52,6 +52,7 @@ export type AdminIconName =
   | "plus"
   | "download"
   | "search"
+  | "filter"
   | "logout"
   | "store"
   | "check"
@@ -113,6 +114,7 @@ const iconPaths: Record<AdminIconName, ReactNode> = {
       <path d="m16 16 5 5" />
     </>
   ),
+  filter: <path d="M4 5h16M7 12h10M10 19h4" />,
   logout: (
     <>
       <path d="M9 4H4v16h5M10 12h11m-5-5 5 5-5 5" />
@@ -415,17 +417,17 @@ export function Pagination({
   if (total === 0) return null;
   return (
     <nav
-      className="flex items-center justify-between gap-4 pt-5 text-[10px] text-[#8d9099] max-[641px]:flex-wrap max-[641px]:gap-3 max-[641px]:pt-[18px] [&_button]:min-h-[34px] [&_button]:px-3 [&_button]:py-2 [&_button]:text-[10px] max-[641px]:[&_button]:min-h-10"
+      className="flex shrink-0 items-center justify-between gap-2 pt-3 text-[10px] text-[#8d9099] [&_button]:min-h-[34px] [&_button]:px-3 [&_button]:py-2 [&_button]:text-[10px] max-[641px]:[&_button]:min-h-10 max-[401px]:[&_button]:px-2"
       aria-label="Table pagination"
     >
-      <p>
+      <p className="shrink-0 tabular-nums" aria-live="polite">
         <strong className="font-medium text-[#666a75]">
           {Math.min((page - 1) * pageSize + 1, total)}–
           {Math.min(page * pageSize, total)}
         </strong>{" "}
         of {total}
       </p>
-      <div className={`${adminStyles.actions} max-[641px]:ml-auto`}>
+      <div className="ml-auto flex items-center gap-2">
         <Button
           variant="secondary"
           disabled={page <= 1}

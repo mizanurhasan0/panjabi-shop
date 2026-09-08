@@ -66,6 +66,8 @@ function Navigation({
 
 export function AdminShell({ children }: { children: ReactNode }) {
   const pathname = usePathname();
+  const isListPage =
+    pathname === "/admin/orders" || pathname === "/admin/products";
   const router = useRouter();
   const user = demoOwner;
   const { data: settings } = useDemoQuery((state) => state.settings);
@@ -116,14 +118,20 @@ export function AdminShell({ children }: { children: ReactNode }) {
   );
 
   return (
-    <div className="min-h-dvh">
+    <div
+      className={
+        isListPage
+          ? "h-dvh overflow-hidden print:h-auto print:overflow-visible"
+          : "min-h-dvh"
+      }
+    >
       <a
         className="fixed top-2 left-2 z-100 -translate-y-[150%] rounded-lg bg-[#232323] px-4 py-[10px] text-white focus:translate-y-0"
         href="#admin-main"
       >
         Skip to content
       </a>
-      <aside className="fixed inset-y-0 left-0 z-40 flex w-60 flex-col border-r border-admin-line bg-admin-surface px-[18px] pt-4 pb-[18px] max-[1201px]:w-[215px] max-[1201px]:px-[14px] max-[901px]:hidden print:hidden">
+      <aside className="fixed inset-y-0 left-[var(--modal-inset-left,0px)] z-40 flex w-60 flex-col border-r border-admin-line bg-admin-surface px-[18px] pt-4 pb-[18px] max-[1201px]:w-[215px] max-[1201px]:px-[14px] max-[901px]:hidden print:hidden">
         <div className="px-[11px]">{brand}</div>
         <p className={captionClassName}>WORKSPACE</p>
         <Navigation pathname={pathname} />
@@ -157,8 +165,10 @@ export function AdminShell({ children }: { children: ReactNode }) {
           </div>
         </div>
       </aside>
-      <div className="ml-60 min-w-0 max-[1201px]:ml-[215px] max-[901px]:ml-0 print:ml-0">
-        <header className="flex h-[78px] items-center justify-between gap-4 border-b border-admin-line bg-white/96 px-9 min-[1600px]:px-12 max-[1201px]:px-6 max-[901px]:sticky max-[901px]:top-0 max-[901px]:z-30 max-[901px]:h-[66px] max-[641px]:gap-[10px] max-[641px]:px-[14px] print:hidden">
+      <div
+        className={`ml-60 min-w-0 max-[1201px]:ml-[215px] max-[901px]:ml-0 print:ml-0 ${isListPage ? "flex h-full min-h-0 flex-col print:h-auto" : ""}`}
+      >
+        <header className="flex h-[78px] shrink-0 items-center justify-between gap-4 border-b border-admin-line bg-white/96 px-9 min-[1600px]:px-12 max-[1201px]:px-6 max-[901px]:sticky max-[901px]:top-0 max-[901px]:z-30 max-[901px]:h-[66px] max-[641px]:gap-[10px] max-[641px]:px-[14px] print:hidden">
           <div className="flex min-w-0 items-center gap-[18px] max-[901px]:gap-[10px]">
             <button
               className={`${adminStyles.iconButton} min-[901px]:hidden`}
@@ -212,24 +222,26 @@ export function AdminShell({ children }: { children: ReactNode }) {
         </header>
         <main
           id="admin-main"
-          className="mx-auto min-h-[calc(100dvh-78px)] max-w-[1670px] px-9 pt-6 pb-5 focus:outline-none min-[1600px]:px-12 min-[1600px]:pt-8 min-[1600px]:pb-6 max-[1201px]:px-6 max-[1201px]:pt-6 max-[901px]:min-h-[calc(100dvh-66px)] max-[901px]:pb-[90px] max-[641px]:px-4 max-[641px]:pt-5 max-[641px]:pb-[92px] print:p-0"
+          className={`mx-auto w-full max-w-[1670px] px-9 pt-6 pb-5 focus:outline-none min-[1600px]:px-12 max-[1201px]:px-6 max-[641px]:px-4 print:p-0 ${isListPage ? "flex min-h-0 flex-1 flex-col gap-3 overflow-hidden max-[901px]:pb-[calc(76px+env(safe-area-inset-bottom))] max-[641px]:px-3 max-[641px]:pt-3 print:overflow-visible" : "min-h-[calc(100dvh-78px)] min-[1600px]:pt-8 min-[1600px]:pb-6 max-[901px]:min-h-[calc(100dvh-66px)] max-[901px]:pb-[90px] max-[641px]:pt-5 max-[641px]:pb-[92px]"}`}
           tabIndex={-1}
         >
           {storageWarning && <Alert tone="info">{storageWarning}</Alert>}
           <div
             key={pathname}
-            className="min-h-[calc(100dvh-204px)] animate-admin-enter"
+            className={`animate-admin-enter ${isListPage ? "flex min-h-0 flex-1 flex-col" : "min-h-[calc(100dvh-204px)]"}`}
           >
             {children}
           </div>
-          <footer className="mt-[30px] flex justify-between gap-[14px] border-t border-admin-line pt-[17px] text-[9px] text-[#a1a4ad] max-[641px]:mt-[25px] max-[641px]:text-[8px] max-[641px]:[&>span:last-child]:hidden print:hidden">
-            <span>{shopName} · Shop manager</span>
-            <span>Sample data · Browser workspace</span>
-          </footer>
+          {!isListPage && (
+            <footer className="mt-[30px] flex justify-between gap-[14px] border-t border-admin-line pt-[17px] text-[9px] text-[#a1a4ad] max-[641px]:mt-[25px] max-[641px]:text-[8px] max-[641px]:[&>span:last-child]:hidden print:hidden">
+              <span>{shopName} · Shop manager</span>
+              <span>Sample data · Browser workspace</span>
+            </footer>
+          )}
         </main>
       </div>
       <nav
-        className="fixed inset-x-0 bottom-0 z-35 hidden grid-cols-4 border-t border-admin-line bg-white px-3 pt-[7px] pb-[max(7px,env(safe-area-inset-bottom))] shadow-[0_-3px_14px_#1f293703] max-[901px]:grid print:hidden"
+        className="fixed right-[var(--modal-inset-right,0px)] bottom-0 left-[var(--modal-inset-left,0px)] z-35 hidden grid-cols-4 border-t border-admin-line bg-white px-3 pt-[7px] pb-[max(7px,env(safe-area-inset-bottom))] shadow-[0_-3px_14px_#1f293703] max-[901px]:grid print:hidden"
         aria-label="Quick navigation"
       >
         {navigation.slice(0, 3).map((item) => (
@@ -295,11 +307,11 @@ export function AdminShell({ children }: { children: ReactNode }) {
         label="Order notifications"
         open={notificationsOpen}
         onClose={() => setNotificationsOpen(false)}
-        className={`${adminStyles.modal} fixed top-[68px] right-8 bottom-auto left-auto m-0 max-h-[min(650px,calc(100dvh-110px))] w-[min(430px,calc(100vw-32px))] rounded-[14px] max-[641px]:top-[74px] max-[641px]:right-3 max-[641px]:w-[calc(100vw-24px)]`}
+        className={`${adminStyles.modal} fixed top-[68px] right-[calc(2rem+var(--modal-inset-right,0px))] bottom-auto left-auto m-0 max-h-[min(650px,calc(100dvh-110px))] w-[430px] max-w-[calc(100vw-24px-var(--modal-inset-left,0px)-var(--modal-inset-right,0px))]! flex-col overflow-hidden! rounded-[14px] open:flex max-[641px]:top-[74px] max-[641px]:right-[calc(12px+var(--modal-inset-right,0px))] max-[641px]:w-full`}
         animateExit
         unstyled
       >
-        <div className="flex items-center justify-between border-b border-admin-line px-5 pt-5 pb-4">
+        <div className="flex shrink-0 items-center justify-between border-b border-admin-line px-5 pt-5 pb-4">
           <div>
             <h2 className="text-base font-semibold">Notifications</h2>
             <p className="mt-[3px] text-[10px] text-admin-muted">
@@ -323,13 +335,13 @@ export function AdminShell({ children }: { children: ReactNode }) {
         )}
         {unread > 0 && (
           <button
-            className={`${adminStyles.textButton} mx-5 my-[10px]`}
+            className={`${adminStyles.textButton} mx-5 my-[10px] shrink-0 self-start`}
             onClick={markAllRead}
           >
             Mark all as read
           </button>
         )}
-        <div className="max-h-[min(490px,calc(100dvh-235px))] overflow-y-auto overscroll-contain">
+        <div className="min-h-0 max-h-[min(490px,calc(100dvh-235px))] flex-1 overflow-y-auto overscroll-contain [scrollbar-width:thin] [scrollbar-color:#c8cbd2_transparent]">
           {notifications.length > 0 ? (
             notifications.map((notification) => {
               const content = (

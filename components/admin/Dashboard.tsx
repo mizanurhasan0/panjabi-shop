@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { AdminTableViewport } from "./AdminTableViewport";
 import { adminStyles } from "./styles";
 import { useDemoQuery, errorMessage } from "@/lib/demo/client";
 import { getDashboardStats } from "@/lib/demo/queries";
@@ -242,7 +243,7 @@ export function Dashboard() {
               <summary className="cursor-pointer text-xs text-[#766744]">
                 View chart data
               </summary>
-              <div className={adminStyles.tableWrap}>
+              <AdminTableViewport label="Sales report table">
                 <table className={adminStyles.table}>
                   <thead>
                     <tr>
@@ -263,7 +264,7 @@ export function Dashboard() {
                     ))}
                   </tbody>
                 </table>
-              </div>
+              </AdminTableViewport>
             </details>
           </section>
           <section className={adminStyles.card}>
@@ -274,7 +275,7 @@ export function Dashboard() {
               </Link>
             </div>
             {data.recentOrders.length ? (
-              <div className={adminStyles.tableWrap}>
+              <AdminTableViewport label="Recent orders table">
                 <table className={adminStyles.table}>
                   <thead>
                     <tr>
@@ -304,7 +305,7 @@ export function Dashboard() {
                     ))}
                   </tbody>
                 </table>
-              </div>
+              </AdminTableViewport>
             ) : (
               <EmptyState
                 title="No orders yet"

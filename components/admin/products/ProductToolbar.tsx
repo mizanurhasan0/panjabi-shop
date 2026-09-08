@@ -4,6 +4,7 @@ import Link from "next/link";
 import type { FormEventHandler } from "react";
 import { AdminActionBar, AdminIcon, Button } from "../ui";
 import { adminStyles } from "../styles";
+import { AdminTableFilters } from "../AdminTableFilters";
 
 type FilterKey = "query" | "stock" | "includeInactive";
 
@@ -48,7 +49,7 @@ export function ProductToolbar({
   ];
 
   return (
-    <div className="mb-4 grid min-w-0 gap-4">
+    <div className="mb-4 grid min-w-0 shrink-0 gap-4 max-[641px]:gap-3">
       <AdminActionBar
         label="Product actions"
         actions={
@@ -97,13 +98,13 @@ export function ProductToolbar({
       <div
         role="group"
         aria-label="Product filters"
-        className="flex min-w-0 flex-wrap items-center gap-2.5 rounded-xl border border-admin-line bg-admin-bg/70 p-2.5 max-[641px]:grid max-[641px]:grid-cols-2 max-[641px]:gap-2"
+        className="relative flex min-w-0 flex-wrap items-center gap-2.5 rounded-xl border border-admin-line bg-admin-bg/70 p-2.5 max-[641px]:gap-2"
       >
         <form
           role="search"
           aria-label="Search collection"
           onSubmit={onSearch}
-          className="flex min-w-[200px] flex-1 items-center gap-2 rounded-lg border border-[#dfe1e7] bg-white pl-3 transition-[border-color,box-shadow] duration-160 focus-within:border-[#caa260] focus-within:shadow-[0_0_0_3px_#ffbb491a] max-[901px]:basis-full max-[641px]:col-span-full max-[641px]:min-w-0 motion-reduce:transition-none"
+          className="flex min-w-[200px] flex-1 items-center gap-2 rounded-lg border border-[#dfe1e7] bg-white pl-3 transition-[border-color,box-shadow] duration-160 focus-within:border-[#caa260] focus-within:shadow-[0_0_0_3px_#ffbb491a] max-[901px]:basis-full max-[641px]:basis-0! max-[641px]:min-w-0 motion-reduce:transition-none"
         >
           <AdminIcon
             name="search"
@@ -122,33 +123,53 @@ export function ProductToolbar({
           />
           <button
             type="submit"
+            aria-label="Search products"
             className="min-h-11 shrink-0 self-stretch rounded-r-lg border-l border-admin-line px-3 text-[11px] font-medium text-[#626873] transition-colors duration-160 hover:bg-admin-accent-soft hover:text-[#8b682f] motion-reduce:transition-none"
           >
-            Search
+            <span className="max-[401px]:sr-only">Search</span>
+            <AdminIcon
+              name="search"
+              size={16}
+              className="hidden max-[401px]:block"
+            />
           </button>
         </form>
-        <select
-          aria-label="Filter by stock"
-          value={stock}
-          onChange={(event) => onFilter("stock", event.target.value)}
-          className={`${adminStyles.select} w-auto! min-w-[160px] text-[12px] max-[641px]:w-full! max-[641px]:min-w-0`}
+        <AdminTableFilters
+          label="Product filters"
+          activeCount={Number(Boolean(stock)) + Number(includeInactive)}
+          compact
+          className="max-[641px]:static"
         >
-          <option value="">All stock</option>
-          <option value="low">Low stock</option>
-          <option value="out">Out of stock</option>
-        </select>
-        <label className="flex min-h-11 cursor-pointer items-center justify-center gap-2 rounded-lg border border-[#dfe1e7] bg-white px-3 text-[11px] text-[#626873] transition-colors duration-160 hover:border-[#caa260] has-checked:border-[#dbc393] has-checked:bg-admin-accent-soft has-checked:text-[#8b682f] motion-reduce:transition-none">
-          <input
-            type="checkbox"
-            aria-label="Include archived"
-            checked={includeInactive}
-            onChange={(event) =>
-              onFilter("includeInactive", event.target.checked ? "true" : "")
-            }
-            className="shrink-0"
-          />
-          <span>Include archived</span>
-        </label>
+          {() => (
+            <div className="flex items-center gap-2.5 max-[641px]:grid">
+              <select
+                aria-label="Filter by stock"
+                value={stock}
+                onChange={(event) => onFilter("stock", event.target.value)}
+                className={`${adminStyles.select} w-auto! min-w-[160px] text-[12px] max-[641px]:w-full! max-[641px]:min-w-0`}
+              >
+                <option value="">All stock</option>
+                <option value="low">Low stock</option>
+                <option value="out">Out of stock</option>
+              </select>
+              <label className="flex min-h-11 cursor-pointer items-center justify-center gap-2 rounded-lg border border-[#dfe1e7] bg-white px-3 text-[11px] text-[#626873] transition-colors duration-160 hover:border-[#caa260] has-checked:border-[#dbc393] has-checked:bg-admin-accent-soft has-checked:text-[#8b682f] motion-reduce:transition-none">
+                <input
+                  type="checkbox"
+                  aria-label="Include archived"
+                  checked={includeInactive}
+                  onChange={(event) =>
+                    onFilter(
+                      "includeInactive",
+                      event.target.checked ? "true" : "",
+                    )
+                  }
+                  className="shrink-0"
+                />
+                <span>Include archived</span>
+              </label>
+            </div>
+          )}
+        </AdminTableFilters>
       </div>
 
       {activeFilters.length > 0 && (
@@ -164,7 +185,7 @@ export function ProductToolbar({
               onClick={() => onFilter(key, "")}
               aria-label={`Remove ${label}`}
               title={label}
-              className="inline-flex min-h-9 max-w-full items-center gap-2 rounded-lg border border-[#f0dfba] bg-admin-accent-soft px-2.5 text-[11px] text-[#866228] transition-colors duration-160 hover:bg-[#f9ebcf] max-[641px]:min-h-11 motion-reduce:transition-none"
+              className={`inline-flex min-h-9 max-w-full items-center gap-2 rounded-lg border border-[#f0dfba] bg-admin-accent-soft px-2.5 text-[11px] text-[#866228] transition-colors duration-160 hover:bg-[#f9ebcf] max-[641px]:min-h-11 motion-reduce:transition-none ${key !== "query" ? "max-[641px]:hidden" : "max-[641px]:max-w-[calc(100%-90px)]"}`}
             >
               <span className="truncate">{label}</span>
               <AdminIcon name="close" size={13} className="shrink-0" />

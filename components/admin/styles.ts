@@ -11,6 +11,8 @@ const modal =
 export const adminStyles = {
   root: "min-h-dvh bg-admin-bg text-[13px] leading-[1.6] text-admin-ink max-[641px]:text-[12px] print:bg-white [&_button:disabled]:cursor-not-allowed [&_input[type=checkbox]]:size-4 [&_input[type=checkbox]]:accent-[#28292b] [&_:focus-visible]:outline-[3px]! [&_:focus-visible]:outline-[#c78b25]! [&_:focus-visible]:outline-offset-[3px] motion-reduce:[&_*]:animate-none! motion-reduce:[&_*]:transition-none! motion-reduce:[&_*]:scroll-auto!",
   stack: "grid gap-4",
+  listPage: "flex min-h-0 flex-1 flex-col gap-3 [&>p]:shrink-0",
+  listCard: "flex min-h-0 flex-1 flex-col [&>form]:shrink-0",
   grid3: `${grid} grid-cols-3 max-[641px]:grid-cols-1`,
   grid4:
     "grid min-w-0 grid-cols-4 gap-5 max-[1201px]:grid-cols-2 max-[641px]:gap-3",
@@ -35,9 +37,9 @@ export const adminStyles = {
   select: `${input} min-h-11 pr-[30px]`,
   textarea: `${input} min-h-[110px] resize-y`,
   tableWrap:
-    "max-w-full overflow-x-auto rounded-[10px] border border-admin-line max-[641px]:overflow-visible max-[641px]:rounded-none max-[641px]:border-0",
+    "min-h-0 max-w-full overflow-auto overscroll-contain rounded-[10px] border border-admin-line bg-white [scrollbar-gutter:stable] [scrollbar-width:thin] [scrollbar-color:#c8cbd2_transparent] scroll-pt-11 focus-visible:outline-offset-[-3px]! max-[641px]:rounded-none max-[641px]:border-0 max-[641px]:scroll-pt-2",
   table: [
-    "w-full border-collapse text-left text-[11px]",
+    "w-full border-separate border-spacing-0 text-left text-[11px] [&_thead_th]:sticky [&_thead_th]:top-0 [&_thead_th]:z-10 print:[&_thead_th]:static",
     "[&_th]:border-b [&_th]:border-admin-line [&_th]:bg-[#fafbfc] [&_th]:px-4 [&_th]:py-[13px] [&_th]:text-[9px] [&_th]:font-medium [&_th]:tracking-[0.6px] [&_th]:whitespace-nowrap [&_th]:text-[#9396a0] [&_th]:uppercase",
     "[&_td]:border-b [&_td]:border-[#f0f1f4] [&_td]:p-4 [&_td]:align-middle [&_tbody_tr:last-child_td]:border-b-0 [&_tbody_tr]:transition-colors [&_tbody_tr]:duration-140 [&_tbody_tr:hover]:bg-[#fdfcfa]",
     "[&_td_a]:font-medium [&_td_a:not(.inline-flex):hover]:text-[#9b6c24] [&_td_small]:mt-[3px] [&_td_small]:block [&_td_small]:text-[10px] [&_td_small]:text-admin-muted",

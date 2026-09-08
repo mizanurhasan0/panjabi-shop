@@ -3,19 +3,80 @@
 import { useCallback, useEffect, useRef } from "react";
 
 const scrollLocks = new Set<symbol>();
-let originalBodyOverflow = "";
+let restoreScrollStyles: (() => void) | null = null;
+
+function preserveStyles(style: CSSStyleDeclaration, properties: string[]) {
+  const saved = properties.map((property) => ({
+    property,
+    value: style.getPropertyValue(property),
+    priority: style.getPropertyPriority(property),
+  }));
+  return () => {
+    saved.forEach(({ property, value, priority }) => {
+      if (value) style.setProperty(property, value, priority);
+      else style.removeProperty(property);
+    });
+  };
+}
 
 function lockBodyScroll() {
   const token = Symbol("modal");
   if (scrollLocks.size === 0) {
-    originalBodyOverflow = document.body.style.overflow;
+    const root = document.documentElement;
+    const before = root.getBoundingClientRect();
+    const computed = getComputedStyle(root);
+    const paddingLeft = parseFloat(computed.paddingLeft) || 0;
+    const paddingRight = parseFloat(computed.paddingRight) || 0;
+    const restoreRoot = preserveStyles(root.style, [
+      "overflow-x",
+      "overflow-y",
+      "scrollbar-gutter",
+      "padding-left",
+      "padding-right",
+      "--modal-inset-left",
+      "--modal-inset-right",
+    ]);
+    const restoreBody = preserveStyles(document.body.style, [
+      "overflow-x",
+      "overflow-y",
+    ]);
+
+    root.style.setProperty("overflow", "hidden", "important");
+    root.style.setProperty("scrollbar-gutter", "auto", "important");
+    document.body.style.setProperty("overflow", "hidden", "important");
+
+    // Padding preserves the content width while keeping the viewport available
+    // to the backdrop. A native reserved gutter cannot be covered by a backdrop.
+    const after = root.getBoundingClientRect();
+    const left = Math.max(0, before.left - after.left);
+    const right = Math.max(0, after.right - before.right);
+    if (left) {
+      root.style.setProperty(
+        "padding-left",
+        `${paddingLeft + left}px`,
+        "important",
+      );
+    }
+    if (right) {
+      root.style.setProperty(
+        "padding-right",
+        `${paddingRight + right}px`,
+        "important",
+      );
+    }
+    root.style.setProperty("--modal-inset-left", `${left}px`);
+    root.style.setProperty("--modal-inset-right", `${right}px`);
+    restoreScrollStyles = () => {
+      restoreRoot();
+      restoreBody();
+    };
   }
   scrollLocks.add(token);
-  document.body.style.overflow = "hidden";
 
   return () => {
     if (scrollLocks.delete(token) && scrollLocks.size === 0) {
-      document.body.style.overflow = originalBodyOverflow;
+      restoreScrollStyles?.();
+      restoreScrollStyles = null;
     }
   };
 }
@@ -44,11 +105,16 @@ export function useModalDialog(open: boolean, animateExit: boolean) {
         const previousFocus = document.activeElement;
         dialog.dataset.state = "closed";
         dialog.showModal();
-        dialog.querySelector<HTMLElement>("[data-autofocus]")?.focus();
+        dialog
+          .querySelector<HTMLElement>("[data-autofocus]")
+          ?.focus({ preventScroll: true });
         const unlockScroll = lockBodyScroll();
         releaseSession.current = () => {
           unlockScroll();
-          if (previousFocus instanceof HTMLElement && previousFocus.isConnected) {
+          if (
+            previousFocus instanceof HTMLElement &&
+            previousFocus.isConnected
+          ) {
             previousFocus.focus({ preventScroll: true });
           }
         };
@@ -72,11 +138,11 @@ export function useModalDialog(open: boolean, animateExit: boolean) {
     if (animations.length === 0) {
       finishClose();
     } else {
-      Promise.allSettled(animations.map((animation) => animation.finished)).then(
-        () => {
-          if (!cancelled) finishClose();
-        },
-      );
+      Promise.allSettled(
+        animations.map((animation) => animation.finished),
+      ).then(() => {
+        if (!cancelled) finishClose();
+      });
     }
     return () => {
       cancelled = true;

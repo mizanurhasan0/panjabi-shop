@@ -1,4 +1,5 @@
 "use client";
+import { AdminTableViewport } from "./AdminTableViewport";
 import { adminStyles } from "./styles";
 import { useEffect, useRef, useState } from "react";
 import { errorMessage, useDemoQuery } from "@/lib/demo/client";
@@ -114,7 +115,7 @@ export function BackupManager() {
             description="Create your first snapshot before making major changes."
           />
         ) : (
-          <div className={adminStyles.tableWrap}>
+          <AdminTableViewport label="Saved backups table">
             <table className={adminStyles.table}>
               <thead>
                 <tr>
@@ -179,7 +180,7 @@ export function BackupManager() {
                 ))}
               </tbody>
             </table>
-          </div>
+          </AdminTableViewport>
         )}
       </section>
       <section className={adminStyles.card}>

@@ -13,6 +13,7 @@ import {
   type ShopSettings,
 } from "@/lib/admin/types";
 import { formatPrice } from "@/lib/utils/products";
+import { AdminTableViewport } from "../AdminTableViewport";
 import { adminStyles } from "../styles";
 import { orderStyles } from "./styles";
 import {
@@ -165,7 +166,7 @@ function OrderDetailContent({
                 {order.items.length} line items
               </span>
             </div>
-            <div className={adminStyles.tableWrap}>
+            <AdminTableViewport label="Order items table">
               <table className={adminStyles.table}>
                 <thead>
                   <tr>
@@ -205,7 +206,7 @@ function OrderDetailContent({
                   ))}
                 </tbody>
               </table>
-            </div>
+            </AdminTableViewport>
             <p className={orderStyles.footnote}>
               Product prices and unit costs are saved when the order is created.
             </p>
