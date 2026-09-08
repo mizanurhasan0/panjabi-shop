@@ -5,7 +5,7 @@ import Image from "next/image";
 import { mainNav } from "@/lib/data/navigation";
 import { IconClose } from "./icons";
 import { Modal } from "./Modal";
-import { brand } from "@/lib/data/brand";
+import { useCatalog } from "@/lib/store/catalog";
 import { MobileNavItem } from "./MegaMenu";
 
 interface MobileDrawerProps {
@@ -14,6 +14,7 @@ interface MobileDrawerProps {
 }
 
 export function MobileDrawer({ open, onClose }: MobileDrawerProps) {
+  const { settings } = useCatalog();
   return (
     <Modal
       id="mobile-menu"
@@ -25,10 +26,10 @@ export function MobileDrawer({ open, onClose }: MobileDrawerProps) {
       <div className="flex items-center justify-between border-b border-ylw-border p-4">
         <Link href="/" onClick={onClose}>
           <Image
-            src={brand.logo}
-            alt={brand.name}
-            width={brand.logoWidth}
-            height={brand.logoHeight}
+            src={settings.logo}
+            alt={settings.name}
+            width={280}
+            height={72}
             className="h-8 w-auto"
           />
         </Link>

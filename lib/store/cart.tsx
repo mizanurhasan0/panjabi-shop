@@ -8,7 +8,7 @@ import {
   useState,
 } from "react";
 import type { CartItem, Product, ProductVariant } from "@/lib/types";
-import { getProductByHandle } from "@/lib/data/products";
+import { useCatalog } from "./catalog";
 import { usePersistedState } from "./use-persisted-state";
 
 interface CartContextValue {
@@ -43,7 +43,7 @@ const parseStoredNote = (stored: string | null) => stored ?? "";
 const serializeNote = (note: string) => note;
 
 /** Treat persisted cart data as untrusted and keep one line per variant. */
-function parseStoredCart(stored: string | null): CartItem[] {
+function parseStoredCart(stored: string | null, getProductByHandle: (handle: string) => Product | undefined): CartItem[] {
   if (!stored) return [];
   try {
     const parsed: unknown = JSON.parse(stored);
@@ -81,13 +81,15 @@ function parseStoredCart(stored: string | null): CartItem[] {
 }
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
+  const { getProductByHandle } = useCatalog();
+  const parseCart = useCallback((stored: string | null) => parseStoredCart(stored, getProductByHandle), [getProductByHandle]);
   const [isOpen, setIsOpen] = useState(false);
   const openCart = useCallback(() => setIsOpen(true), []);
   const closeCart = useCallback(() => setIsOpen(false), []);
   const [items, setItems] = usePersistedState<CartItem[]>(
     STORAGE_KEY,
     [],
-    parseStoredCart,
+    parseCart,
   );
   const [note, setNote] = usePersistedState(
     NOTE_STORAGE_KEY,
@@ -161,7 +163,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         };
       })
       .filter((x): x is NonNullable<typeof x> => Boolean(x));
-  }, [items]);
+  }, [items, getProductByHandle]);
 
   const value = useMemo(() => {
     const lineItems = getLineItems();

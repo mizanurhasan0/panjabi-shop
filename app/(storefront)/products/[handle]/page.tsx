@@ -1,12 +1,13 @@
 import { ProductPageClient } from "@/components/ProductPageClient";
 import { notFound } from "next/navigation";
-import { getProductByHandle, products } from "@/lib/data/products";
+import { getPublicShop } from "@/lib/admin/public-shop";
 
 export async function generateMetadata({
   params,
 }: PageProps<"/products/[handle]">) {
   const { handle } = await params;
-  const product = getProductByHandle(handle);
+  const { products } = getPublicShop();
+  const product = products.find(product => product.handle === handle);
   return {
     title: product ? `${product.title} | YELLOW` : "Product | YELLOW",
   };
@@ -16,7 +17,8 @@ export default async function ProductPage({
   params,
 }: PageProps<"/products/[handle]">) {
   const { handle } = await params;
-  const product = getProductByHandle(handle);
+  const { products } = getPublicShop();
+  const product = products.find(product => product.handle === handle);
   if (!product) notFound();
 
   const related = products

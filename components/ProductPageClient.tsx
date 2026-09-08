@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { getProductByHandle } from "@/lib/data/products";
+import { useCatalog } from "@/lib/store/catalog";
 import { useRecentlyViewed } from "@/lib/store/recently-viewed";
 import { Breadcrumb } from "@/components/Breadcrumb";
 import type { Product } from "@/lib/types";
@@ -15,6 +15,7 @@ interface ProductPageClientProps {
 }
 
 export function ProductPageClient({ product, related }: ProductPageClientProps) {
+  const { getProductByHandle } = useCatalog();
   const { handle } = product;
   const { handles: viewedHandles, addViewed } = useRecentlyViewed();
 

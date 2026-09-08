@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { getCollectionTitle } from "@/lib/data/collections";
-import { getProductsByCollection } from "@/lib/data/product-queries";
+import { useCatalog } from "@/lib/store/catalog";
 import type { Product, SortOption } from "@/lib/types";
 import {
   filterProducts,
@@ -18,7 +18,8 @@ interface CollectionPageClientProps {
 }
 
 export function CollectionPageClient({ handle }: CollectionPageClientProps) {
-  const allProducts = useMemo(() => getProductsByCollection(handle), [handle]);
+  const { getProductsByCollection } = useCatalog();
+  const allProducts = useMemo(() => getProductsByCollection(handle), [handle, getProductsByCollection]);
   const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
   const [selectedProductTypes, setSelectedProductTypes] = useState<string[]>(
     [],

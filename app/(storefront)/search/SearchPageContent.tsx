@@ -3,15 +3,16 @@
 import { useMemo } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { searchProducts } from "@/lib/data/products";
+import { useCatalog } from "@/lib/store/catalog";
 import { trendingTags } from "@/lib/data/navigation";
 import { ProductCard } from "@/components/ProductCard";
 
 export default function SearchPageContent() {
+  const { searchProducts } = useCatalog();
   const searchParams = useSearchParams();
   const query = searchParams.get("q") || "";
 
-  const results = useMemo(() => searchProducts(query), [query]);
+  const results = useMemo(() => searchProducts(query), [query, searchProducts]);
 
   return (
     <div className="container-ylw pb-16">

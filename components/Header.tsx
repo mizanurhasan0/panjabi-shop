@@ -12,9 +12,10 @@ import { MegaMenu } from "./MegaMenu";
 import { MobileDrawer } from "./MobileDrawer";
 import { SearchDrawer } from "./SearchDrawer";
 import styles from "./Header.module.css";
-import { brand } from "@/lib/data/brand";
+import { useCatalog } from "@/lib/store/catalog";
 
 export function Header() {
+  const { settings } = useCatalog();
   const { count, openCart, isOpen: cartOpen } = useCart();
   const { count: wishCount } = useWishlist();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -43,13 +44,13 @@ export function Header() {
           <Link
             href="/"
             className={styles.brand}
-            aria-label={`${brand.name} home`}
+            aria-label={`${settings.name} home`}
           >
             <Image
-              src={brand.logo}
-              alt={brand.name}
-              width={brand.logoWidth}
-              height={brand.logoHeight}
+              src={settings.logo}
+              alt={settings.name}
+              width={280}
+              height={72}
               preload
               className={styles.logo}
             />

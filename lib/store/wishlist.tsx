@@ -7,7 +7,7 @@ import {
   useMemo,
 } from "react";
 import type { Product } from "@/lib/types";
-import { getProductByHandle } from "@/lib/data/products";
+import { useCatalog } from "./catalog";
 import { parseStoredHandles } from "./storage";
 import { usePersistedState } from "./use-persisted-state";
 
@@ -21,10 +21,10 @@ interface WishlistContextValue {
 
 const WishlistContext = createContext<WishlistContextValue | null>(null);
 const STORAGE_KEY = "ylw-wishlist";
-const parseWishlist = (stored: string | null) =>
-  parseStoredHandles(stored, (handle) => Boolean(getProductByHandle(handle)));
 
 export function WishlistProvider({ children }: { children: React.ReactNode }) {
+  const { getProductByHandle } = useCatalog();
+  const parseWishlist = useCallback((stored: string | null) => parseStoredHandles(stored, (handle) => Boolean(getProductByHandle(handle))), [getProductByHandle]);
   const [handles, setHandles] = usePersistedState<string[]>(
     STORAGE_KEY,
     [],
@@ -38,7 +38,7 @@ export function WishlistProvider({ children }: { children: React.ReactNode }) {
         ? prev.filter((h) => h !== handle)
         : [...prev, handle],
     );
-  }, [setHandles]);
+  }, [setHandles, getProductByHandle]);
 
   const isWishlisted = useCallback(
     (handle: string) => handles.includes(handle),
@@ -50,7 +50,7 @@ export function WishlistProvider({ children }: { children: React.ReactNode }) {
       handles
         .map((h) => getProductByHandle(h))
         .filter((p): p is Product => Boolean(p)),
-    [handles],
+    [handles, getProductByHandle],
   );
 
   const value = useMemo(

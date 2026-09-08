@@ -1,19 +1,18 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
 import { useCart } from "@/lib/store/cart";
-import { products } from "@/lib/data/products";
+import { useCatalog } from "@/lib/store/catalog";
 import { formatPrice } from "@/lib/utils/products";
 import { ProductSection } from "@/components/ProductSection";
 import { CartProductImage } from "@/components/cart/CartProductImage";
 import { CheckoutPreview } from "@/components/cart/CheckoutPreview";
 import { QuantityControl } from "@/components/cart/QuantityControl";
 
-const recommendations = products.slice(0, 8);
 
 export default function CartPage() {
-  const [checkoutRequested, setCheckoutRequested] = useState(false);
+  const { products } = useCatalog();
+  const recommendations = products.slice(0, 8);
   const { getLineItems, updateQuantity, removeItem, subtotal, count } =
     useCart();
   const lineItems = getLineItems();
@@ -89,8 +88,7 @@ export default function CartPage() {
 
           <CheckoutPreview
             layout="page"
-            requested={checkoutRequested}
-            onRequest={() => setCheckoutRequested(true)}
+
           />
         </div>
       )}

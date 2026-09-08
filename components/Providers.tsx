@@ -1,16 +1,17 @@
 "use client";
 
+import { CatalogProvider, type PublicShop } from "@/lib/store/catalog";
 import { CartDrawer } from "./CartDrawer";
 import { CartProvider } from "@/lib/store/cart";
 import { WishlistProvider } from "@/lib/store/wishlist";
 
-export function Providers({ children }: { children: React.ReactNode }) {
+export function Providers({ children, shop }: { children: React.ReactNode; shop: PublicShop }) {
   return (
-    <CartProvider>
+    <CatalogProvider initial={shop}><CartProvider>
       <WishlistProvider>
         {children}
         <CartDrawer />
       </WishlistProvider>
-    </CartProvider>
+    </CartProvider></CatalogProvider>
   );
 }

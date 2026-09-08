@@ -14,10 +14,11 @@ import { ImageSlider } from "@/components/ImageSlider";
 import styles from "./HomePage.module.css";
 import { BrandCarousel } from "./BrandCarousel";
 import { CollectionProductCard } from "./CollectionProductCard";
-import { products } from "@/lib/data/products";
+import { getPublicShop } from "@/lib/admin/public-shop";
 import { sortProducts } from "@/lib/utils/products";
 
 export function HomePage() {
+  const { products } = getPublicShop();
   const newArrivals = sortProducts(products, "date-desc").slice(0, 8);
 
   return (

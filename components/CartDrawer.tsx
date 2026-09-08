@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
 import { useCart } from "@/lib/store/cart";
 import { formatPrice } from "@/lib/utils/products";
 import { IconClose } from "./icons";
@@ -12,7 +11,6 @@ import { CheckoutPreview } from "./cart/CheckoutPreview";
 import { QuantityControl } from "./cart/QuantityControl";
 
 export function CartDrawer() {
-  const [checkoutRequested, setCheckoutRequested] = useState(false);
   const {
     isOpen,
     closeCart,
@@ -111,8 +109,7 @@ export function CartDrawer() {
               </div>
               <CheckoutPreview
                 layout="drawer"
-                requested={checkoutRequested}
-                onRequest={() => setCheckoutRequested(true)}
+                onRequest={closeCart}
               />
               <Link
                 href="/cart"

@@ -4,10 +4,10 @@ import { useMemo, useState, useSyncExternalStore } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { searchProducts } from "@/lib/data/products";
+import { useCatalog } from "@/lib/store/catalog";
+import searchConfig from "@/lib/data/search-config.json";
 import {
   featuredSearchBadges,
-  featuredSearchProducts,
   mobileTrendingTerms,
   popularSearchTerms,
 } from "@/lib/data/search";
@@ -65,6 +65,7 @@ function SearchContent({
   initialQuery = "",
   onQueryChange,
 }: SearchQueryProps & { onClose: () => void }) {
+  const { searchProducts, getProductByHandle } = useCatalog();
   const [query, setQuery] = useState(initialQuery);
   const isMobile = useSyncExternalStore(
     subscribeToViewport,
@@ -74,8 +75,8 @@ function SearchContent({
   const router = useRouter();
   const term = query.trim();
   const results = useMemo(
-    () => (term ? searchProducts(term) : featuredSearchProducts),
-    [term],
+    () => (term ? searchProducts(term) : searchConfig.featuredProducts.flatMap(({handle}) => { const product = getProductByHandle(handle); return product ? [product] : []; })),
+    [term, searchProducts, getProductByHandle],
   );
   const searchHref = `/search?q=${encodeURIComponent(term)}`;
 
