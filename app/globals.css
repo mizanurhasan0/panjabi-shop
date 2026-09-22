@@ -103,11 +103,11 @@ img {
 @keyframes appear-down {
   0% {
     opacity: 0;
-    margin-top: -1rem;
+    transform: translateY(-0.5rem);
   }
   100% {
     opacity: 1;
-    margin-top: 0;
+    transform: translateY(0);
   }
 }
 
